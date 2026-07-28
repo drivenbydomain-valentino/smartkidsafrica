@@ -1,0 +1,82 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card my-5 shadow" style="background-color: lightblue;">
+
+                <form method="POST" action="{% url 'student_login' %}" class="card-body p-lg-5">
+                    {% csrf_token %}
+
+                    <!-- Logo -->
+                    <div class="text-center">
+                        <img src="{% static 'image/logo.png' %}"
+                             class="img-fluid img-thumbnail rounded-circle my-3"
+                             width="120"
+                             alt="Logo">
+                    </div>
+
+                    <!-- Title -->
+                    <div class="text-center mb-4">
+                        <h3>Student Login</h3>
+                    </div>
+
+                    <!-- Messages -->
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    {% if success %}
+                        <div class="alert alert-success text-center">
+                            {{ success }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               placeholder="Username"
+                               required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <input type="password"
+                               name="password"
+                               class="form-control"
+                               placeholder="Password"
+                               required>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+                    </div>
+
+                    <!-- Register Link -->
+                    <div class="text-center mt-3">
+                        <p>
+                            Don't have an account?
+                            <a href="{% url 'studentregister' %}">Register</a>
+                        </p>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

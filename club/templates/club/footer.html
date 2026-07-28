@@ -1,0 +1,47 @@
+{% load static %}
+<footer class="bg-light py-3 border-top">
+  <div class="container d-md-flex justify-content-between align-items-center text-center text-md-start">
+    
+    <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-3 mb-md-0">
+      <a href="{% url 'home' %}" class="me-3">
+        <img src="{% static 'image/logo.png' %}" 
+             alt="SmartKids Africa Logo"
+             width="40"
+             height="40"
+             class="d-inline-block align-text-top">
+      </a>
+      <span class="small text-muted">&copy; 2026 SmartKids Africa. All rights reserved.</span>
+    </div>
+    <ul class="nav justify-content-center justify-content-md-end small">
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li> 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'books' %}">Bookshelf</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url 'careers' %}" id="careersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Careers</a>
+          <ul class="dropdown-menu" aria-labelledby="careersDropdown">
+            <li><a class="dropdown-item" href="{% url 'digitalentrepreneurship' %}">Digital Entrepreneurs</a></li>
+          </ul>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="{% url 'characterbuilding' %}">Character Building</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url 'financeliteracy' %}" id="financeliteracyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Finance Literacy</a>
+          <ul class="dropdown-menu" aria-labelledby="financeliteracyDropdown">
+            <li><a class="dropdown-item" href="{% url 'investment' %}">Investment</a></li>
+            <li><a class="dropdown-item" href="{% url 'savings' %}">Savings</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+        </li>
+    </ul>
+
+  </div>
+</footer>

@@ -1,0 +1,69 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card my-5 shadow" style="background-color: lightblue;">
+
+                <form class="card-body p-lg-5" method="POST" action="{% url 'school_login' %}">
+                    {% csrf_token %}
+
+                    <div class="text-center">
+                        <img src="{% static 'image/logo.png' %}"
+                             class="img-fluid img-thumbnail rounded-circle my-3"
+                             width="120">
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <h3>School Login</h3>
+                    </div>
+
+                    {% if success %}
+                        <div class="alert alert-success text-center">
+                            {{ success }}
+                        </div>
+                    {% endif %}
+
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <!-- ONLY REQUIRED FIELDS -->
+                    <div class="mb-3">
+                        <input type="text" name="school_name" class="form-control"
+                               placeholder="School Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" name="password" class="form-control"
+                               placeholder="Password" required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">
+                            Login
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p>
+                            Not registered?
+                            <a href="{% url 'schoolregister' %}">Create account</a>
+                        </p>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

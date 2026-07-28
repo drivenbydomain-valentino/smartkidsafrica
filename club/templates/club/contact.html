@@ -1,0 +1,63 @@
+{% extends 'club/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+body{
+    background:#f4f6fb;
+}
+
+/* ===== HEADER SECTION ===== */
+.about-header{
+    background:linear-gradient(90deg,#ff4da6,#4da6ff);
+    color:white;
+    border-radius:12px;
+    padding:15px 25px;
+    margin-bottom:25px;
+}
+
+/* ===== CARD STYLE ===== */
+.about-card{
+    background:white;
+    border-radius:14px;
+    padding:30px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+</style>
+
+<div class="container mt-5" style="max-width:900px;">
+
+    <!-- PAGE HEADER -->
+    <div class="about-header text-center shadow-sm">
+        <h3 class="mb-0">Contact Smartkids Investment Club</h3>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="about-card">
+        <h4 class="mb-4 text-center">Get in Touch</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Your full name" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" placeholder="Your email address" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" name="message" rows="6" placeholder="Your message here..." required></textarea>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-lg px-5">Send Message</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

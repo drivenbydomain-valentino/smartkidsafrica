@@ -1,0 +1,117 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card my-5 shadow" style="background-color: lightblue;">
+
+                <form class="card-body p-lg-5" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="text-center">
+                        <img src="{% static 'image/logo.png' %}"
+                             class="img-fluid img-thumbnail rounded-circle my-3"
+                             width="120">
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <h3>Register School</h3>
+                    </div>
+
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <input type="text" name="school_name" class="form-control" placeholder="School Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" name="director_name" class="form-control" placeholder="Director Name">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="file" name="avatar" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" name="whatsapp_number" class="form-control" placeholder="WhatsApp Number">
+                    </div>
+
+                    <div class="mb-3">
+                        <textarea name="address" class="form-control" placeholder="Address"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" name="nearest_bus_stop" class="form-control" placeholder="Nearest Bus Stop">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" name="country" class="form-control" placeholder="Country" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <input type="text" name="lga" class="form-control" placeholder="LGA">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <input type="text" name="state" class="form-control" placeholder="State">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="number" name="num_students" class="form-control" placeholder="Number of Students" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="small text-muted">School Type</label><br>
+
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" name="school_type" value="Nursery" class="form-check-input">
+                            <label class="form-check-label">Nursery</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" name="school_type" value="Primary" class="form-check-input">
+                            <label class="form-check-label">Primary</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" name="school_type" value="Secondary" class="form-check-input">
+                            <label class="form-check-label">Secondary</label>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">
+                            Create School Account
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p>
+                            Already registered?
+                            <a href="{% url 'school_login' %}">Login</a>
+                        </p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

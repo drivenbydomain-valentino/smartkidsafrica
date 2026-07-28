@@ -1,0 +1,209 @@
+{% extends 'club/base.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row g-4">
+
+        <!-- USERS PANEL -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">Members</h6>
+                </div>
+
+                <div class="card-body p-2" style="max-height: 500px; overflow-y:auto;">
+                    {% for user in users %}
+                        <div onclick="startChat('{{ user.username }}')" 
+                             class="p-2 rounded mb-1 user-item">
+                            {{ user.username }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- CHAT SECTION -->
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 h-100 d-flex flex-column">
+
+                <!-- HEADER -->
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">Chat</h6>
+                </div>
+
+                <!-- MESSAGES -->
+                <div id="chat-box" class="flex-grow-1 p-3 bg-light"
+                     style="overflow-y:auto; height:400px;">
+                </div>
+
+                <!-- INPUT -->
+                <div class="card-footer bg-white">
+                    <form onsubmit="sendMessage(event)" class="d-flex gap-2">
+                        <input type="text" id="msg-input" name="message"
+                            class="form-control" 
+                            placeholder="Type message..." autocomplete="off">
+                        <button class="btn btn-primary">Send</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    #chat-box {
+    display: flex;
+    flex-direction: column;
+}
+</style>
+
+<style>
+/* USER LIST HOVER */
+.user-item {
+    cursor: pointer;
+    transition: 0.2s;
+}
+.user-item:hover {
+    background-color: #f1f5ff;
+}
+
+/* CHAT BUBBLES */
+.message {
+    margin-bottom: 10px;
+    max-width: 75%;
+}
+
+.message.self {
+    margin-left: auto;
+    text-align: right;
+}
+
+.message .bubble {
+    padding: 10px 14px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.message.self .bubble {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.message.other .bubble {
+    background-color: #e9ecef;
+}
+</style>
+
+<script>
+let currentConvo = null;
+let lastMessageCount = -1;
+
+const CURRENT_USER = "{{ request.user.username|escapejs }}";
+
+function getCSRF(){
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+}
+
+// START CHAT
+function startChat(username){
+    fetch(`/chat/start/${username}/`)
+    .then(res => res.json())
+    .then(data => {
+        currentConvo = data.conversation_id;
+        lastMessageCount = -1;
+
+        document.getElementById("chat-box").innerHTML = "Loading...";
+        loadMessages();
+    });
+}
+
+// LOAD MESSAGES
+function loadMessages(){
+    if (!currentConvo) return;
+
+    fetch(`/chat/${currentConvo}/messages/`)
+    .then(res => res.json())
+    .then(data => {
+
+        const box = document.getElementById("chat-box");
+
+        if (data.length === lastMessageCount) return;
+        lastMessageCount = data.length;
+
+        box.innerHTML = "";
+
+        data.forEach(msg => {
+            const isSelf = msg.sender === CURRENT_USER;
+
+            box.innerHTML += `
+                <div class="message ${isSelf ? 'self' : 'other'}">
+                    <div class="bubble">
+                        <strong>${escapeHTML(msg.sender)}</strong><br>
+                        ${escapeHTML(msg.text)}
+                    </div>
+                </div>
+            `;
+        });
+
+        box.scrollTop = box.scrollHeight;
+    });
+}
+
+// SEND MESSAGE
+function sendMessage(e){
+    e.preventDefault();
+
+    if (!currentConvo) {
+        alert("Select a user first");
+        return;
+    }
+
+    let input = document.getElementById("msg-input");
+    let text = input.value.trim();
+
+    if (!text) return;
+
+    fetch(`/chat/${currentConvo}/send/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCSRF(),
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: text })
+    })
+    .then(res => {
+    if (!res.ok) throw new Error("Send failed");
+    return res.json();
+})
+.then(() => {
+    input.value = "";
+    loadMessages();
+})
+.catch(err => {
+    console.error(err);
+    alert("Message failed to send");
+});
+}
+
+// ESCAPE
+function escapeHTML(str){
+    return str.replace(/[&<>"']/g, tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[tag]));
+}
+
+// AUTO REFRESH
+setInterval(() => {
+    if (currentConvo) loadMessages();
+}, 2000);
+</script>
+{% endblock %}

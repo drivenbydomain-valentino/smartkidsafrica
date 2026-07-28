@@ -1,0 +1,24 @@
+{% extends 'club/base.html' %}
+{% block content %}
+
+<div class="container mt-5" style="max-width:700px;">
+    <h4>Search Results for "{{ query }}"</h4>
+
+    {% if users %}
+        <ul class="list-group mt-3">
+            {% for user in users %}
+                <li class="list-group-item d-flex justify-content-between">
+                    {{ user.username }}
+                    <a href="{% url 'view_profile' user.username %}" 
+   class="btn btn-sm btn-primary">
+   View Profile
+</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="mt-3 text-muted">No users found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

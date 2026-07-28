@@ -1,0 +1,226 @@
+$themes: (
+  light: (
+    textColor: #000,
+    bg: white,
+    logo: darkblue,
+    bgSoft: #f6f3f3,
+    textColorSoft: #555,
+    border: lightgray,
+  ),
+  dark: (
+    textColor: whitesmoke,
+    bg: #222,
+    logo: white,
+    bgSoft: #333,
+    textColorSoft: lightgray,
+    border: #444,
+  ),
+);
+
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (max-width: 960px) {
+    @content;
+  }
+}
+
+.custom-container {
+            max-width: 1450px;
+        }
+        .card:hover{
+            transform: scale(1.01);
+            transition: 0.2s ease;
+        }
+.partners-slider {
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+}
+
+.partners-track {
+    display: flex;
+    width: calc(250px * 10);
+    animation: scroll 25s linear infinite;
+}
+
+.partners-track img {
+    background-color: transparent;
+    width: 260px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 25px;
+    filter: grayscale(100%);
+    transition: 0.3s ease;
+}
+
+.partners-track img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+/* Animation */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}  
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* MAIN GRID LAYOUT */
+.feed-layout {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+/* STICKY SIDEBAR CONTAINERS */
+.sticky-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 30px;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    /* Hide scrollbars but preserve scrolling capacity if content overflows */
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+}
+.sticky-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+/* SIDEBAR WIDGETS */
+.sidebar-widget {
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e3e6f0;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.widget-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #4e73df;
+    margin-bottom: 15px;
+}
+
+.widget-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #e3e6f0;
+}
+
+/* HEADER */
+.feed-header {
+    background: #ffffff;
+    border: 1px solid #e3e6f0;
+    color: #333;
+    border-radius: 10px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* SEARCH */
+.search-form {
+    display: flex;
+    gap: 5px;
+}
+.search-form input {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-size: 0.9rem;
+}
+.search-form button {
+    border: 1px solid #ced4da;
+    background: #f8f9fa;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+.search-form button:hover {
+    background: #e9ecef;
+}
+
+/* POSTS */
+.post-card {
+    border: 1px solid #e3e6f0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.post-card .card-header-author {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+/* LIKE & ACTIONS */
+.heart.liked {
+    color: #e74a3b;
+    font-weight: bold;
+}
+
+.card-footer {
+    background-color: #f8f9fa !important;
+    border-top: 1px solid #e3e6f0;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+    .sticky-sidebar {
+        position: static;
+        max-height: none;
+    }
+    .sidebar-widget {
+        margin-top: 20px;
+    }
+}

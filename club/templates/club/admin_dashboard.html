@@ -1,0 +1,134 @@
+{% extends 'club/admin_panel.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #4f46e5, #ec4899);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    .info-card {
+        border: none;
+        border-radius: 15px;
+        transition: all 0.25s ease-in-out;
+        overflow: hidden;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(79, 70, 229, 0.2);
+    }
+
+    .card-accent {
+        height: 5px;
+        background: linear-gradient(90deg, #4f46e5, #ec4899);
+    }
+
+    .label-text {
+        font-size: 0.85rem;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .value-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #111827;
+    }
+</style>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-4">
+        <h2 class="fw-bold mb-1">Admin Dashboard 📊</h2>
+        <p class="mb-0">System Overview</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4">
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Total Number of Students</div>
+                    <div class="value-text">{{ total_users }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Total Number of Posts</div>
+                    <div class="value-text">{{ total_posts }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Total Number of Comments</div>
+                    <div class="value-text">{{ total_comments }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Total Number of Schools</div>
+                    <div class="value-text">{{ total_schools }}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+	<div class="row g-4">
+
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 text-center p-3">
+                    <a href="{% url 'manage_users' %}" class="btn btn-outline-primary mt-2">
+                        View Students
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 text-center p-3">
+                    <a href="{% url 'manage_posts' %}" class="btn btn-outline-primary mt-2">
+                       	View Posts
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 text-center p-3">
+                    <a href="{% url 'manage_schools' %}" class="btn btn-outline-primary mt-2">
+                        View Comments
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 text-center p-3">
+                    <a href="{% url 'manage_schools' %}" class="btn btn-outline-primary mt-2">
+                         View Schools
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+</div>
+
+{% endblock %}

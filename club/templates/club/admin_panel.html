@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styling -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #0d6efd, #ff4da6);
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #0d6efd !important;
+        }
+
+        /* Logo */
+        .logo {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        /* Main container */
+        .main-container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Buttons */
+        .btn-custom {
+            border-radius: 25px;
+            background: linear-gradient(90deg, #0d6efd, #ff4da6);
+            color: white;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            opacity: 0.9;
+        }
+
+        /* Heading */
+        .dashboard-title {
+            color: #0d6efd;
+        }
+    </style>
+</head>
+
+<body>
+{% include 'club/navbar.html' %} 
+<!-- Navbar -->
+<!-- <nav class="navbar navbar-expand-lg shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="{% static 'image/logo.png' %}" class="logo" alt="Logo" width="100" height="110">
+            Admin Panel
+        </a>
+    </div>
+</nav> -->
+
+<!-- Content -->
+<div class="container my-5">
+    <div class="main-container">
+
+        {% block content %}
+
+        <h2 class="fw-bold mb-4 text-center dashboard-title">
+            Admin Dashboard
+        </h2>
+
+        <!-- Navigation Cards -->
+        <div class="row g-4">
+
+            <div class="col-md-3">
+                <div class="card h-100 text-center p-3">
+                    <h5 class="fw-bold">Dashboard</h5>
+                    <a href="{% url 'admin_dashboard' %}" class="btn btn-custom mt-2">
+                        Go
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card h-100 text-center p-3">
+                    <h5 class="fw-bold">Manage Users</h5>
+                    <a href="{% url 'manage_users' %}" class="btn btn-custom mt-2">
+                        Go
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card h-100 text-center p-3">
+                    <h5 class="fw-bold">Manage Posts</h5>
+                    <a href="{% url 'manage_posts' %}" class="btn btn-custom mt-2">
+                        Go
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card h-100 text-center p-3">
+                    <h5 class="fw-bold">Manage Schools</h5>
+                    <a href="{% url 'manage_schools' %}" class="btn btn-custom mt-2">
+                        Go
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Dynamic Content Section -->
+        <div class="mt-5">
+            {% block admin_content %}{% endblock %}
+        </div>
+
+        {% endblock %}
+
+    </div>
+</div>
+{% include 'club/footer.html' %}
+</body>
+</html>

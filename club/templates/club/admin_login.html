@@ -1,0 +1,46 @@
+{% extends 'club/admin_panel.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card my-5 shadow" style="background-color: lightblue;">
+                
+                <form class="card-body p-lg-5" method="post" action="{% url 'admin_login' %}">
+                    {% csrf_token %}
+
+                    <div class="text-center">
+                        <img src="{% static 'image/logo.png' %}"
+                             class="img-fluid img-thumbnail rounded-circle my-3"
+                             width="120"
+                             alt="logo">
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <h3>Admin Login</h3>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-danger text-center py-2 mb-3">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <input type="text" class="form-control mb-3" name="username" placeholder="Username" required>
+                    <input type="password" class="form-control mb-3" name="password" placeholder="Password" required>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success fw-semibold">
+                            Login as Admin
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
