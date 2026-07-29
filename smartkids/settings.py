@@ -20,6 +20,21 @@ SECRET_KEY = 'django-insecure-ym4$awhvr8!si9jfxuya7)g7xk5_fv$r(=ydzmxz_&-2lo=p-&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# 1. Trust Render's reverse proxy header for HTTPS detection
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# 2. Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = not DEBUG
+
+# 3. HTTP Strict Transport Security (HSTS) - forces browsers to use HTTPS
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# 4. Enforce secure cookies (transmitted over HTTPS only)
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 # settings.py
 
 ALLOWED_HOSTS = [
@@ -30,6 +45,11 @@ ALLOWED_HOSTS = [
     '127.0.0.1',            # Local IPv4
     '[::1]',                # Local IPv6
 ]
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8080",
