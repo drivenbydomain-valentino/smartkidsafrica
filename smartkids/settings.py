@@ -1,12 +1,9 @@
 from pathlib import Path
 import os
-
 import dj_database_url
-
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 from smartkids.routing import websocket_urlpatterns
-
 from channels.auth import AuthMiddlewareStack
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -106,9 +103,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'smartkids.wsgi.application'
 
-
-
-
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{os.path.join(BASE_DIR,'db.sqlite3')}",
@@ -130,8 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
 
 LANGUAGE_CODE = 'en-us'
 
