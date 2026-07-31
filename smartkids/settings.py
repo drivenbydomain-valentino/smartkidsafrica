@@ -1,51 +1,39 @@
 from pathlib import Path
 import os
 import dj_database_url
-from channels.routing import ProtocolTypeRouter, URLRouter
-from django.core.asgi import get_asgi_application
-from smartkids.routing import websocket_urlpatterns
-from channels.auth import AuthMiddlewareStack
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','smartkids.settings')
-
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ym4$awhvr8!si9jfxuya7)g7xk5_fv$r(=ydzmxz_&-2lo=p-&'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ym4$awhvr8!si9jfxuya7)g7xk5_fv$r(=ydzmxz_&-2lo=p-&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
+# Security / HTTPS settings for production
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
-# 1. Trust Render's reverse proxy header for HTTPS detection
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# 2. Redirect all HTTP requests to HTTPS
-SECURE_SSL_REDIRECT = not DEBUG
-
-# 3. HTTP Strict Transport Security (HSTS) - forces browsers to use HTTPS
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-
-# 4. Enforce secure cookies (transmitted over HTTPS only)
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
-
-
-# settings.py
 
 ALLOWED_HOSTS = [
     'smartkidsafrica.com',
-    '.smartkidsafrica.com', # Includes subdomains (e.g. www.smartkidsafrica.com)
-    '.onrender.com',         # Includes your Render domain
-    'localhost',            # Local development
-    '127.0.0.1',            # Local IPv4
-    '[::1]',                # Local IPv6
+    '.smartkidsafrica.com',
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
 ]
-
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -55,11 +43,13 @@ if RENDER_EXTERNAL_HOSTNAME:
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8080",
     "http://localhost:8080",
+    "https://*.smartkidsafrica.com",
+    "https://smartkidsafrica.com",
+    "https://*.onrender.com",
 ]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'channels',
     'club.apps.ClubConfig',
@@ -80,7 +70,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'smartkids.urls'
@@ -105,73 +94,52 @@ WSGI_APPLICATION = 'smartkids.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{os.path.join(BASE_DIR,'db.sqlite3')}",
+        default=f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}",
         conn_max_age=600
     )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-
-
+# Static & Media Files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'), 
-]
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+if os.path.exists(STATIC_DIR):
+    STATICFILES_DIRS = [STATIC_DIR]
 
-
-
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-
-
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 ASGI_APPLICATION = 'smartkids.asgi.application'
+
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [REDIS_URL],
         },
     },
 }
 
-
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # Allows up to 10MB in memory
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # Allows up to 10MB data payloads
-
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
 
 LOGIN_URL = 'login'
