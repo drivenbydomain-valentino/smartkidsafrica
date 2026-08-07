@@ -29,7 +29,7 @@ else:
 ALLOWED_HOSTS = [
     'smartkidsafrica.com',
     'www.smartkidsafrica.com',
-    '.onrender.com',
+    'smartkidsafrica.onrender.com',
     'localhost',
     '127.0.0.1',
     '[::1]',
@@ -41,12 +41,13 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8080",
-    "http://localhost:8080",
-    "https://*.smartkidsafrica.com",
-    "https://smartkidsafrica.com",
-    "https://*.onrender.com",
+    'https://smartkidsafrica.com',
+    'https://www.smartkidsafrica.com',
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+    'https://*.onrender.com',
 ]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
@@ -74,6 +75,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
 
 ROOT_URLCONF = 'smartkids.urls'
 
@@ -116,8 +120,7 @@ USE_TZ = True
 
 
 # Static & Media Files
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 if os.path.exists(STATIC_DIR):
