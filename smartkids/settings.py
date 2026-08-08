@@ -39,6 +39,15 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+import tempfile
+
+FILE_UPLOAD_TEMP_DIR = tempfile.gettempdir()
+
+# Default is ~2.5MB (2621440 bytes). Increase if uploading larger images/files:
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
+
+# Increase max request body size if sending large payloads:
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
 
 CSRF_TRUSTED_ORIGINS = [
     'https://smartkidsafrica.com',
