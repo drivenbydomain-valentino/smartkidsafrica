@@ -1,0 +1,303 @@
+{% extends "club/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card my-5 shadow"
+                 style="background-color: lightblue;">
+
+                <form method="POST"
+                      action="{% url 'schoolregister' %}"
+                      enctype="multipart/form-data"
+                      class="card-body p-lg-5">
+
+                    {% csrf_token %}
+
+                    <!-- Logo -->
+                    <div class="text-center mb-3">
+                        <img src="{% static 'image/logo.png' %}"
+                             alt="School Logo"
+                             class="img-fluid img-thumbnail rounded-circle"
+                             width="120"
+                             height="120">
+                    </div>
+
+                    <!-- Heading -->
+                    <div class="text-center mb-4">
+                        <h3>Register School</h3>
+                        <p class="text-muted mb-0">
+                            Create your school account
+                        </p>
+                    </div>
+
+                    <!-- Error message -->
+                    {% if error %}
+                        <div class="alert alert-danger text-center"
+                             role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <!-- School Name -->
+                    <div class="mb-3">
+                        <label for="school_name" class="form-label">
+                            School Name
+                        </label>
+
+                        <input type="text"
+                               id="school_name"
+                               name="school_name"
+                               class="form-control"
+                               placeholder="Enter school name"
+                               value="{{ form_data.school_name|default:'' }}"
+                               autocomplete="organization"
+                               required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            Email Address
+                        </label>
+
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               class="form-control"
+                               placeholder="Enter email address"
+                               value="{{ form_data.email|default:'' }}"
+                               autocomplete="email"
+                               required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            Password
+                        </label>
+
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               class="form-control"
+                               placeholder="Create a password"
+                               minlength="8"
+                               autocomplete="new-password"
+                               required>
+
+                        <div class="form-text">
+                            Password must contain at least 8 characters.
+                        </div>
+                    </div>
+
+                    <!-- Director -->
+                    <div class="mb-3">
+                        <label for="director_name" class="form-label">
+                            Director Name
+                        </label>
+
+                        <input type="text"
+                               id="director_name"
+                               name="director_name"
+                               class="form-control"
+                               placeholder="Director name"
+                               value="{{ form_data.director_name|default:'' }}">
+                    </div>
+
+                    <!-- Avatar -->
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">
+                            School Logo / Avatar
+                        </label>
+
+                        <input type="file"
+                               id="avatar"
+                               name="avatar"
+                               class="form-control"
+                               accept="image/*">
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div class="mb-3">
+                        <label for="whatsapp_number" class="form-label">
+                            WhatsApp Number
+                        </label>
+
+                        <input type="tel"
+                               id="whatsapp_number"
+                               name="whatsapp_number"
+                               class="form-control"
+                               placeholder="WhatsApp number"
+                               value="{{ form_data.whatsapp_number|default:'' }}"
+                               autocomplete="tel">
+                    </div>
+
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label for="address" class="form-label">
+                            School Address
+                        </label>
+
+                        <textarea id="address"
+                                  name="address"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="School address">{{ form_data.address|default:'' }}</textarea>
+                    </div>
+
+                    <!-- Nearest Bus Stop -->
+                    <div class="mb-3">
+                        <label for="nearest_bus_stop" class="form-label">
+                            Nearest Bus Stop
+                        </label>
+
+                        <input type="text"
+                               id="nearest_bus_stop"
+                               name="nearest_bus_stop"
+                               class="form-control"
+                               placeholder="Nearest bus stop"
+                               value="{{ form_data.nearest_bus_stop|default:'' }}">
+                    </div>
+
+                    <!-- Country -->
+                    <div class="mb-3">
+                        <label for="country" class="form-label">
+                            Country
+                        </label>
+
+                        <input type="text"
+                               id="country"
+                               name="country"
+                               class="form-control"
+                               placeholder="Country"
+                               value="{{ form_data.country|default:'' }}"
+                               required>
+                    </div>
+
+                    <!-- LGA and State -->
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label for="lga" class="form-label">
+                                LGA
+                            </label>
+
+                            <input type="text"
+                                   id="lga"
+                                   name="lga"
+                                   class="form-control"
+                                   placeholder="LGA"
+                                   value="{{ form_data.lga|default:'' }}">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="state" class="form-label">
+                                State
+                            </label>
+
+                            <input type="text"
+                                   id="state"
+                                   name="state"
+                                   class="form-control"
+                                   placeholder="State"
+                                   value="{{ form_data.state|default:'' }}">
+                        </div>
+
+                    </div>
+
+                    <!-- Number of Students -->
+                    <div class="mb-3">
+                        <label for="num_students" class="form-label">
+                            Number of Students
+                        </label>
+
+                        <input type="number"
+                               id="num_students"
+                               name="num_students"
+                               class="form-control"
+                               placeholder="Number of students"
+                               min="0"
+                               value="{{ form_data.num_students|default:'' }}"
+                               required>
+                    </div>
+
+                    <!-- School Type -->
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            School Type
+                        </label>
+
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   id="nursery"
+                                   name="school_type"
+                                   value="Nursery"
+                                   class="form-check-input">
+
+                            <label for="nursery"
+                                   class="form-check-label">
+                                Nursery
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   id="primary"
+                                   name="school_type"
+                                   value="Primary"
+                                   class="form-check-input">
+
+                            <label for="primary"
+                                   class="form-check-label">
+                                Primary
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   id="secondary"
+                                   name="school_type"
+                                   value="Secondary"
+                                   class="form-check-input">
+
+                            <label for="secondary"
+                                   class="form-check-label">
+                                Secondary
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-grid">
+                        <button type="submit"
+                                class="btn btn-success btn-lg">
+                            Create School Account
+                        </button>
+                    </div>
+
+                    <!-- Login -->
+                    <div class="text-center mt-4">
+                        <p class="mb-0">
+                            Already registered?
+
+                            <a href="{% url 'school_login' %}">
+                                Login
+                            </a>
+                        </p>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

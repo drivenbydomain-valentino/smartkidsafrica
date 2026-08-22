@@ -1,0 +1,87 @@
+{% extends 'club/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body{
+    background:#f4f6fb;
+}
+    .feed-header{
+    background:linear-gradient(90deg,#ff4da6,#4da6ff);
+    color:white;
+    border-radius:12px;
+    padding:12px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+</style>
+<!-- SAME HOME FEED BACKGROUND -->
+<div style="background-color:#f0f2f5; min-height:100vh; padding-top:20px;">
+
+    <div class="container" style="max-width: 820px;">
+
+        <!-- SAME HEADER / NAV AS HOME -->
+        <div class="feed-header shadow-sm mb-4">
+            <h5 class="mb-0">💬 Social Feed</h5>
+            <div>
+                <a href="{% url 'newpost' %}" class="btn btn-light btn-sm mr-2">➕ New Post</a>
+                <a href="{% url 'mypost' %}" class="btn btn-light btn-sm mr-2">📄 My Posts</a>
+                <a href="{% url 'signout' %}" class="btn btn-light btn-sm mr-2">🚪 Logout</a>
+            </div>
+        </div>
+
+        <!-- FORM (USING SAME FEED CARD STYLE) -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- TITLE -->
+                    <div class="mb-3">
+                        <input type="text"
+                               class="form-control border-0 shadow-sm"
+                               name="title"
+                               placeholder="Post title..."
+                               required>
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div class="mb-3">
+                        <textarea class="form-control border-0 shadow-sm"
+                                  rows="4"
+                                  name="content"
+                                  placeholder="What's on your mind?"></textarea>
+                    </div>
+
+                    <!-- IMAGE -->
+                    <div class="mb-3">
+                        <label class="btn btn-light w-100 shadow-sm">
+                            📷 Upload Image
+                            <input type="file" name="image" accept="image/*" hidden>
+                        </label>
+                    </div>
+
+                    <!-- VIDEO -->
+                    <div class="mb-3">
+                        <label class="btn btn-light w-100 shadow-sm">
+                            🎥 Upload Video
+                            <input type="file" name="video" accept="video/*" hidden>
+                        </label>
+                    </div>
+
+                    <!-- SUBMIT -->
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">
+                        🚀 Publish Post
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

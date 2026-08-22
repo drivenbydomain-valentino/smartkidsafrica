@@ -1,0 +1,97 @@
+{% extends 'club/admin_panel.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #4f46e5, #ec4899);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    .info-card {
+        border: none;
+        border-radius: 15px;
+        transition: all 0.25s ease-in-out;
+        overflow: hidden;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(79, 70, 229, 0.2);
+    }
+
+    .card-accent {
+        height: 5px;
+        background: linear-gradient(90deg, #4f46e5, #ec4899);
+    }
+
+    .table-modern th {
+        background-color: #f9fafb;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #6b7280;
+        letter-spacing: 0.5px;
+    }
+
+    .table-modern td {
+        vertical-align: middle;
+    }
+
+    .school-name {
+        font-weight: 600;
+        color: #111827;
+    }
+</style>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-4">
+        <h2 class="fw-bold mb-1">School Management🏫</h2>
+        <p class="mb-0">Manage all registered schools</p>
+    </div>
+
+    <!-- Schools Table -->
+    <div class="card info-card shadow-sm">
+        <div class="card-accent"></div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-modern align-middle">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>State</th>
+                            <th class="text-end">Students</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for school in schools %}
+                        <tr>
+                            <td class="school-name">{{ school.school_name }}</td>
+                            <td>{{ school.state }}</td>
+                            <td class="text-end">{{ school.num_students }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-4">
+                                No schools available.
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

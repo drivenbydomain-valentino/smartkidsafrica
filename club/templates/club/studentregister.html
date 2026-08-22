@@ -1,0 +1,68 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card my-5 shadow" style="background-color: lightblue;">
+                
+                <form class="card-body p-lg-5"
+                      method="post"
+                      enctype="multipart/form-data"
+                      action="{% url 'studentregister' %}">
+                    
+                    {% csrf_token %}
+
+                    <div class="text-center">
+                        <img src="{% static 'image/logo.png' %}"
+                             class="img-fluid img-thumbnail rounded-circle my-3"
+                             width="120"
+                             alt="logo">
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <h3>Student Registration</h3>
+                    </div>
+
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <input type="text" class="form-control mb-3" name="username" placeholder="Username" required>
+                    <input type="password" class="form-control mb-3" name="password1" placeholder="Password" required>
+                    <input type="password" class="form-control mb-3" name="password2" placeholder="Confirm Password" required>
+
+                    <input type="number" class="form-control mb-3" name="age" placeholder="Age">
+                    <input type="text" class="form-control mb-3" name="user_class" placeholder="Class (e.g. JSS2, SS1)">
+                    <input type="text" class="form-control mb-3" name="school" placeholder="School Name">
+                    <input type="text" class="form-control mb-3" name="parent_name" placeholder="Parent Name">
+                    <input type="tel" class="form-control mb-3" name="parent_phone" placeholder="Parent Phone Number">
+                    <input type="tel" class="form-control mb-3" name="parent_whatsapp" placeholder="Parent WhatsApp Number">
+                    <textarea class="form-control mb-3" name="bio" rows="3" placeholder="Short Bio (optional)"></textarea>
+
+                    <input type="file" class="form-control mb-4" name="avatar">
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">
+                            Register as Student
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p>
+                            Already have an account?
+                            <a href="{% url 'student_login' %}">Login</a>
+                        </p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

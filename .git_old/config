@@ -1,0 +1,15 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[http]
+	postBuffer = 524288000
+	version = HTTP/1.1
+	lowSpeedLimit = 0
+	lowSpeedTime = 999999
+[remote "origin"]
+	url = https://github.com/drivenbydomain-valentino/smartkidsafrica.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

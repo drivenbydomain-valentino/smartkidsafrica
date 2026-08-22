@@ -1,0 +1,337 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Include Famms custom fonts and styling files -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}" />
+
+<style>
+  /* Base Card Box */
+  .product_section .box {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #fff;
+    padding: 0;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    color: inherit;
+  }
+
+  /* Card Hover Elevation */
+  .product_section .box:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
+  }
+
+  /* Image Box Container */
+  .product_section .box .img-box {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+  }
+
+  /* Image fitting and Zoom Animation */
+  .product_section .box .img-box img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+  }
+
+  /* Hover Zoom effect */
+  .product_section .box:hover .img-box img {
+    transform: scale(1.08);
+  }
+
+  /* Card content details */
+  .detail-box {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .book-author {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  .description-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 5px;
+  }
+
+  .btn-detail {
+    background-color: #f7444e;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-detail:hover {
+    background-color: #d32f2f;
+    color: #ffffff;
+  }
+</style>
+
+<!-- Inner Page Header Section -->
+<section class="inner_page_head">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="full d-flex justify-content-between align-items-center px-md-5">
+          <h3>Welcome to the Smartkids Africa Bookshop</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product Grid Section -->
+<section class="product_section layout_padding">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <p class="text-muted mt-2">Get our Smartkids stencil workbooks for private schools students, personal & career development and finance educationals for kids and grown ups.</p>
+    </div>
+
+    {% if books %}
+      <!-- Dynamic Database Books (4 per row on Desktop) -->
+      <div class="row">
+        {% for book in books %}
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="box">
+              <!-- Cover Image Box -->
+              <div class="img-box">
+                {% if book.cover_image %}
+                  <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+                {% else %}
+                  <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=300&q=80" alt="Sample Book Cover">
+                {% endif %}
+              </div>
+
+              <!-- Book Metadata Details -->
+              <div class="detail-box d-flex flex-column align-items-start">
+                <h5 class="text-truncate w-100" title="{{ book.title }}">{{ book.title }}</h5>
+                <div class="book-author">By {{ book.author }}</div>
+                
+                {% if book.description %}
+                  <p class="description-text mb-0">{{ book.description }}</p>
+                {% else %}
+                  <p class="description-text mb-0" style="font-style: italic;">No description available.</p>
+                {% endif %}
+                
+                {% if book.price %}
+                  <h6 class="text-primary font-monospace mt-2 fw-bold">${{ book.price }}</h6>
+                {% endif %}
+
+                <!-- View Detail Button -->
+                <div class="mt-3 w-100">
+                  <a href="{% url 'book_detail' slug=book.slug %}" class="btn-detail text-center w-100">View Detail</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Dynamic Pagination Footer -->
+      {% if books.has_other_pages %}
+        <nav aria-label="Catalog pagination navigation" class="d-flex justify-content-center my-5">
+          <ul class="pagination shadow-sm rounded">
+            {% if books.has_previous %}
+              <li class="page-item">
+                <a class="page-link text-dark" href="?page={{ books.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+
+            {% for i in books.paginator.page_range %}
+              {% if books.number == i %}
+                <li class="page-item active" aria-current="page">
+                  <span class="page-link bg-danger border-danger text-white">{{ i }}</span>
+                </li>
+              {% else %}
+                <li class="page-item"><a class="page-link text-dark" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if books.has_next %}
+              <li class="page-item">
+                <a class="page-link text-dark" href="?page={{ books.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+
+    {% else %}
+      <!-- Static Fallback (All 8 Books) -->
+      <div class="row">
+        
+        <!-- Book 1: Strokes -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/strokes.jpeg' %}" alt="Strokes">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">Strokes</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to strokes skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 1 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 2: Patterns -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/patterns.jpeg' %}" alt="Patterns">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">Patterns</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to patterns skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 2 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 3: 123 to 10 Vol. 1 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/123_10_vol1.jpeg' %}" alt="123 to 10 Vol. 1">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">123 to 10 Vol. 1</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to number skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 3 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 4: 123 to 20 Vol. 2 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/123_20_vol2.jpeg' %}" alt="123 to 20 Vol. 2">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">123 to 20 Vol. 2</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to number skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 4 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 5: abc to m Vol. 1 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="abc to m Vol. 1">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">abc to m Vol. 1</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to letter skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 5 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 6: abc to z Vol. 2 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/abc_z_vol2.jpeg' %}" alt="abc to z Vol. 2">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">abc to z Vol. 2</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to letter skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 6 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 7: Capital ABC to Z -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/CAPITAL_ABC_Z.jpeg' %}" alt="Capital ABC to Z">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">Capital ABC to Z</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to letter skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 7 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 8: Drawing & Colouring -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <div class="box">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/drawing_colouring.jpeg' %}" alt="Drawing & Colouring">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start">
+              <h5 class="text-truncate w-100">Drawing & Colouring</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text mb-0">A foundational workbook to art skills building.</p>
+              <div class="mt-3 w-100">
+                <a href="{% url 'book_detail' 8 %}" class="btn-detail text-center w-100">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}

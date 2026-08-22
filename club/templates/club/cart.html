@@ -1,0 +1,169 @@
+{% extends 'club/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.feed-layout {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+.feed-header {
+    background: #ffffff;
+    border: 1px solid #e3e6f0;
+    color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.cart-card {
+    border: 1px solid #e3e6f0;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.cart-item {
+    border-bottom: 1px solid #f8f9fa;
+    padding: 20px;
+    transition: background 0.2s;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item:hover {
+    background-color: #fafbfc;
+}
+
+.book-cover {
+    width: 75px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e3e6f0;
+}
+
+.qty-input {
+    max-width: 75px;
+    text-align: center;
+}
+
+.checkout-btn {
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 1.05rem;
+    transition: transform 0.15s ease;
+}
+
+.checkout-btn:hover {
+    transform: translateY(-1px);
+}
+</style>
+
+<div class="container-fluid feed-layout">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            
+            <!-- HEADER BAR -->
+            <div class="feed-header">
+                <div>
+                    <h4 class="mb-1 fw-bold text-dark">Shopping Cart</h4>
+                    <p class="text-muted small mb-0">Review your selected items before checking out.</p>
+                </div>
+                <a href="{% url 'book_list' %}" class="btn btn-outline-secondary btn-sm fw-semibold px-3">📚 Continue Browsing</a>
+            </div>
+
+            <!-- CART ITEMS LIST -->
+            <div class="card cart-card">
+                {% if cart_items %}
+                    <div class="card-body p-0">
+                        {% for item in cart_items %}
+                        <div class="cart-item d-flex align-items-center justify-content-between gap-3" id="cart-item-{{ item.id }}">
+                            
+                            <!-- Cover & Item Info -->
+                            <div class="d-flex align-items-center gap-3">
+                                {% if item.book.cover_image.url %}
+                                    <img src="{{ item.book.cover_image.url }}" alt="{{ item.book.title }}" class="book-cover">
+                                {% elif item.book.cover %}
+                                    <img src="{% static item.book.cover %}" alt="{{ item.book.title }}" class="book-cover">
+                                {% elif item.book.cover_image %}
+                                    <img src="{% static item.book.cover_image %}" alt="{{ item.book.title }}" class="book-cover">
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=300&q=80" alt="Default Cover" class="book-cover">
+                                {% endif %}
+                                
+                                <div>
+                                    <h6 class="mb-1 fw-bold text-dark">{{ item.book.title }}</h6>
+                                    <p class="mb-2 text-muted small">By {{ item.book.author }}</p>
+                                    <span class="text-primary fw-bold">${{ item.book.price }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Actions & Subtotal -->
+                            <div class="d-flex align-items-center gap-4">
+                                <form method="POST" action="{% url 'update_cart' item.id %}" class="d-flex align-items-center gap-2">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control form-control-sm qty-input fw-semibold">
+                                    <button type="submit" class="btn btn-light btn-sm border bg-white" title="Update Items">Update</button>
+                                </form>
+                                
+                                <div class="text-end" style="min-width: 95px;">
+                                    <span class="fw-bold text-dark">${{ item.get_total_price }}</span>
+                                    <div class="mt-1">
+                                        <a href="{% url 'remove_from_cart' item.id %}" class="text-danger text-decoration-none small" style="font-size: 0.8rem;">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Total Footer -->
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center py-3 px-4 border-top">
+                        <span class="fw-semibold text-secondary">Items: {{ cart_items|length }}</span>
+                        <h5 class="mb-0 fw-bold">Grand Total: <span class="text-danger font-monospace">${{ cart_total }}</span></h5>
+                    </div>
+                {% else %}
+                    <!-- Empty State -->
+                    <div class="card-body py-5 text-center">
+                        <div class="mb-3 display-6 text-muted">🛒</div>
+                        <h5 class="text-dark fw-bold">Your cart is empty</h5>
+                        <p class="text-muted small mb-4">Explore our library to find books you love.</p>
+                        <a href="{% url 'book_list' %}" class="btn btn-danger btn-sm fw-bold px-4 py-2" style="border-radius: 6px;">Find Books</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Checkout Action -->
+            {% if cart_items %}
+            <div class="d-grid">
+                <a href="#" class="btn btn-danger btn-block fw-bold shadow-sm checkout-btn">
+                    Proceed to Secure Checkout 🚀
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

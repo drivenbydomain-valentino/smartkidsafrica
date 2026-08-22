@@ -1,0 +1,295 @@
+$themes: (
+  light: (
+    textColor: #000,
+    bg: white,
+    logo: darkblue,
+    bgSoft: #f6f3f3,
+    textColorSoft: #555,
+    border: lightgray,
+  ),
+  dark: (
+    textColor: whitesmoke,
+    bg: #222,
+    logo: white,
+    bgSoft: #333,
+    textColorSoft: lightgray,
+    border: #444,
+  ),
+);
+
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (max-width: 960px) {
+    @content;
+  }
+}
+
+.custom-container {
+            max-width: 1450px;
+        }
+        .card:hover{
+            transform: scale(1.01);
+            transition: 0.2s ease;
+        }
+
+/* PARTNERS SLIDER (BLENDS WITH SUNLIGHT YELLOW BODY) */
+/* Adjust 140px to match or exceed your new navbar height */
+.partners-wrapper {
+  margin-top: 150px !important; 
+}
+.partners-slider {
+  overflow: hidden;
+  position: relative;
+  background-color: $sunlight-yellow !important; /* Blends directly with the body */
+  border: 5px solid $deep-blue;
+  border-radius: 25px;
+  box-shadow: 0 8px 0 $hot-pink;
+  padding: 15px 0;
+
+  @include themify($themes) {
+    background-color: themed('bg') !important;
+    border-color: themed('border');
+  }
+}
+
+.partners-track {
+  display: flex;
+  width: calc(250px * 10);
+  animation: scroll 25s linear infinite;
+}
+
+.partners-track img {
+  background-color: transparent; /* Allows yellow background to show through */
+  border-radius: 16px;
+  padding: 8px;
+  width: 320px;   /* Increased from 240px */
+  height: 120px;  /* Increased from 80px */
+  object-fit: contain;
+  margin: 0 15px;
+  filter: grayscale(0%);
+  border: 4px solid transparent; /* Keeps layout stable on hover */
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.partners-track img:hover {
+  background-color: #FFFFFF; /* Pops with a crisp white backing on hover */
+  border-color: $hot-pink;
+  transform: scale(1.1) rotate(3deg);
+  box-shadow: 0 6px 0 $deep-blue;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Animation */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}  
+
+body {
+    background-color: #f4f402;
+    color: #141414;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* MAIN GRID LAYOUT */
+.feed-layout {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+/* STICKY SIDEBAR CONTAINERS */
+.sticky-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 30px;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    /* Hide scrollbars but preserve scrolling capacity if content overflows */
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+}
+.sticky-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+/* SIDEBAR WIDGET SLIDESHOW */
+.widget-slideshow {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 4px solid $sunlight-yellow; // Matches your theme style
+}
+
+.widget-slideshow .slideshow-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  border: none; // Handled by outer container
+}
+
+/* Position stacked images absolute after the first one to prevent collapse */
+.widget-slideshow .slideshow-img:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Active image is visible */
+.widget-slideshow .slideshow-img.active {
+  opacity: 1;
+}
+
+/* SIDEBAR WIDGETS */
+.sidebar-widget {
+    background: #31fa04;
+    border-radius: 10px;
+    border: 1px solid #ef0909;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.widget-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #f10606;
+    margin-bottom: 15px;
+}
+
+.widget-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #0738dc;
+}
+
+/* HEADER */
+.feed-header {
+    background: #87dff3;
+    border: 1px solid #fa0606;
+    color: #fa0606;
+    border-radius: 10px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* SEARCH */
+.search-form {
+    display: flex;
+    gap: 5px;
+}
+.search-form input {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-size: 0.9rem;
+}
+.search-form button {
+    border: 1px solid #45f903;
+    background: #45f903;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+.search-form button:hover {
+    background: #f60475;
+}
+
+/* POSTS */
+.post-card {
+    border: 1px solid #f92904;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    background: #87dff3;
+    overflow: hidden;
+}
+
+.post-card .card-header-author {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+/* LIKE & ACTIONS */
+.heart.liked {
+    color: #e74a3b;
+    font-weight: bold;
+}
+
+.card-footer {
+    background-color: #edf1f5 !important;
+    border-top: 1px solid #e3e6f0;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+    .sticky-sidebar {
+        position: static;
+        max-height: none;
+    }
+    .sidebar-widget {
+        margin-top: 20px;
+    }
+}
+
+/* SECTION HEADING */
+.contributors-section h2, 
+.contributors-section h3, 
+.contributors-title {
+  color: #FF0044 !important;            /* Vibrant tomato/cherry red */
+  text-shadow: 2px 2px 0px #0B1953;     /* Deep blue cartoon shadow for readability */
+  font-weight: 900;
+}

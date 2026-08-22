@@ -1,0 +1,8 @@
+csrfmiddlewaretoken	
+'uaVSUiqOgxwtke7v1xIqoDydVT5QKNz11bqkbwkCo8pKHnX7twPq6DOV90eQGuGP'
+username	
+'Valentino'
+password	
+'smartval1983'
+next	
+'/admin/'

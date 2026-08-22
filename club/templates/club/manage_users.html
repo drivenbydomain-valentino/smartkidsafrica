@@ -1,0 +1,111 @@
+{% extends 'club/admin_panel.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #4f46e5, #ec4899);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    .info-card {
+        border: none;
+        border-radius: 15px;
+        transition: all 0.25s ease-in-out;
+        overflow: hidden;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(79, 70, 229, 0.2);
+    }
+
+    .card-accent {
+        height: 5px;
+        background: linear-gradient(90deg, #4f46e5, #ec4899);
+    }
+
+    .table-modern th {
+        background-color: #f9fafb;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #6b7280;
+        letter-spacing: 0.5px;
+    }
+
+    .table-modern td {
+        vertical-align: middle;
+    }
+
+    .delete-btn {
+        background: linear-gradient(135deg, #ef4444, #ec4899);
+        border: none;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        text-decoration: none;
+    }
+
+    .delete-btn:hover {
+        opacity: 0.9;
+        color: white;
+    }
+</style>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-4">
+        <h2 class="fw-bold mb-1">Student Management 👥</h2>
+        <p class="mb-0">Manage all registered students</p>
+    </div>
+
+    <!-- Users Table Card -->
+    <div class="card info-card shadow-sm">
+        <div class="card-accent"></div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-modern align-middle">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for user in users %}
+                        <tr>
+                            <td class="fw-semibold">{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'delete_user' user.id %}" class="delete-btn">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-4">
+                                No users found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

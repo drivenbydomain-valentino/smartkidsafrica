@@ -1,0 +1,174 @@
+{% extends 'club/admin_panel.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #4f46e5, #ec4899);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    .info-card {
+        border: none;
+        border-radius: 15px;
+        transition: all 0.25s ease-in-out;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(79, 70, 229, 0.2);
+    }
+
+    .card-accent {
+        height: 5px;
+        background: linear-gradient(90deg, #4f46e5, #ec4899);
+    }
+
+    .label-text {
+        font-size: 0.85rem;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .value-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .logout-btn {
+        background: linear-gradient(135deg, #ef4444, #ec4899);
+        border: none;
+    }
+
+    .logout-btn:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="dashboard-header mb-4 d-flex align-items-center gap-3">
+
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" class="rounded-circle" width="80" height="80">
+        {% else %}
+            <img src="{% static 'default-avatar.png' %}" class="rounded-circle" width="80" height="80">
+        {% endif %}
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                 Welcome, {{ profile.school_name|default:"School" }} 👋
+            </h2>
+            <p class="mb-0">School Dashboard</p>
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Director</div>
+                    <div class="value-text">
+                        {{ profile.director_name|default:"Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Email</div>
+                    <div class="value-text">
+                        {{ profile.email|default:"Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">WhatsApp</div>
+                    <div class="value-text">
+                        {{ profile.whatsapp_number|default:"Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Address</div>
+                    <div class="value-text">
+                        {{ profile.address|default:"Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Country</div>
+                    <div class="value-text">
+                        {% comment %} 
+                          Use {{ profile.get_country_display }} instead if you are using choices 
+                          or {{ profile.country.name }} if it's a Foreign Key relation.
+                        {% endcomment %}
+                        {{ profile.country|default:"Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">Total Students</div>
+                    <div class="value-text">
+                        {{ profile.num_students|default:"0" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card info-card shadow-sm h-100">
+                <div class="card-accent"></div>
+                <div class="card-body">
+                    <div class="label-text">School Type</div>
+                    <div class="value-text">
+                        {{ profile.school_type|default:"Not provided" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-5 text-end">
+        <a href="{% url 'school_logout' %}" class="btn logout-btn text-white px-4">
+            Logout
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

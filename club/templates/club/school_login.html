@@ -1,0 +1,106 @@
+{% extends "club/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card my-5 shadow"
+                 style="background-color: lightblue;">
+
+                <form method="POST"
+                      action="{% url 'school_login' %}"
+                      class="card-body p-lg-5">
+
+                    {% csrf_token %}
+
+                    <!-- Logo -->
+                    <div class="text-center mb-3">
+                        <img src="{% static 'image/logo.png' %}"
+                             alt="School Logo"
+                             class="img-fluid img-thumbnail rounded-circle"
+                             width="120"
+                             height="120">
+                    </div>
+
+                    <!-- Heading -->
+                    <div class="text-center mb-4">
+                        <h3>School Login</h3>
+                    </div>
+
+                    <!-- Success message -->
+                    {% if success %}
+                        <div class="alert alert-success text-center"
+                             role="alert">
+                            {{ success }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Error message -->
+                    {% if error %}
+                        <div class="alert alert-danger text-center"
+                             role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <!-- School Name -->
+                    <div class="mb-3">
+                        <label for="school_name" class="form-label">
+                            School Name
+                        </label>
+
+                        <input type="text"
+                               id="school_name"
+                               name="school_name"
+                               class="form-control"
+                               placeholder="Enter school name"
+                               value="{{ school_name|default:'' }}"
+                               autocomplete="username"
+                               required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            Password
+                        </label>
+
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               class="form-control"
+                               placeholder="Enter password"
+                               autocomplete="current-password"
+                               required>
+                    </div>
+
+                    <!-- Login Button -->
+                    <div class="d-grid">
+                        <button type="submit"
+                                class="btn btn-success">
+                            Login
+                        </button>
+                    </div>
+
+                    <!-- Registration -->
+                    <div class="text-center mt-4">
+                        <p class="mb-0">
+                            Not registered?
+                            <a href="{% url 'schoolregister' %}">
+                                Create account
+                            </a>
+                        </p>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
