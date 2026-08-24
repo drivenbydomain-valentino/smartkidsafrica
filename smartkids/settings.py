@@ -1,8 +1,15 @@
 from pathlib import Path
 import os
 import dj_database_url
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True  # Required for Render Postgres in production
+    )
+}
 
-import os
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
