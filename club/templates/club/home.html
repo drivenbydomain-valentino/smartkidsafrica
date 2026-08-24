@@ -59,31 +59,6 @@
             {% for post in posts %}
             <div class="card post-card" data-post="{{ post.id }}">
                 
-                <!-- AUTHOR INFO -->
-            <!-- <div class="card-header-author d-flex align-items-center">
-            <div>
-                <h6 class="mb-0 text-dark small fw-bold">
-                    <a href="{% url 'view_profile' post.author.username %}" class="text-decoration-none text-dark d-inline-flex align-items-center">
-                        {% if post.author.profile.image %}
-                            <img src="{{ post.author.profile.image.url }}" 
-                                alt="{{ post.author.username }}" 
-                                class="rounded-circle me-2" 
-                                style="width: 40px; height: 40px; object-fit: cover;">
-                        {% else %}
-                            <img src="{% static 'image/default_avatar.png' %}" 
-                                alt="Default Avatar" 
-                                class="rounded-circle me-2" 
-                                style="width: 40px; height: 40px; object-fit: cover;">
-                        {% endif %}
-                        
-                        <span class="fw-semibold">{{ post.author.get_full_name|default:post.author.username }}</span>
-                    </a>
-                </h6>
-                <span class="text-muted" style="font-size: 0.75rem;">
-                    {{ post.created_at|date:"F d, Y h:i A" }}
-                </span>
-            </div>
-        </div> -->
         <!-- AUTHOR INFO -->
 <div class="card-header-author d-flex align-items-center">
     <div>

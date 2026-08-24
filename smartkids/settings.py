@@ -2,6 +2,21 @@ from pathlib import Path
 import os
 import dj_database_url
 
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'sywzvlna',
+    'API_KEY': '862548548812594',
+    'API_SECRET': 'lklFKOIkxMjLO_B530_yukmAe70'
+}
+
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -64,6 +79,9 @@ CSRF_COOKIE_SECURE = True
 
 # Application definition
 INSTALLED_APPS = [
+    'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'channels',
     'club.apps.ClubConfig',
     'django.contrib.admin',
@@ -71,8 +89,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
 ]
+
+
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,8 +105,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 ROOT_URLCONF = 'smartkids.urls'
@@ -137,7 +161,6 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 if os.path.exists(STATIC_DIR):
     STATICFILES_DIRS = [STATIC_DIR]
 
-MEDIA_URL = "/media/"
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = BASE_DIR / "media"
 
