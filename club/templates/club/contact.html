@@ -1,63 +1,811 @@
 {% extends 'club/base.html' %}
+
 {% load static %}
+
 {% block content %}
 
 <style>
-body{
-    background:#f4f6fb;
-}
 
-/* ===== HEADER SECTION ===== */
-.about-header{
-    background:linear-gradient(90deg,#ff4da6,#4da6ff);
-    color:white;
-    border-radius:12px;
-    padding:15px 25px;
-    margin-bottom:25px;
-}
+    :root {
 
-/* ===== CARD STYLE ===== */
-.about-card{
-    background:white;
-    border-radius:14px;
-    padding:30px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-}
+        /* =========================================
+           SMARTKIDS PINK + BLUE + YELLOW THEME
+        ========================================== */
+
+        --smart-blue-dark: #123c8c;
+        --smart-blue: #1976d2;
+        --smart-blue-light: #eaf5ff;
+
+        --smart-pink: #e91e63;
+        --smart-pink-dark: #c2185b;
+        --smart-pink-light: #fff0f6;
+
+        --smart-yellow: #ffd21f;
+
+        --smart-bg: #f7fbff;
+        --smart-card: #ffffff;
+        --smart-border: #d8e7f5;
+
+        --smart-text: #172554;
+        --smart-muted: #5c6b82;
+
+        --smart-shadow: rgba(25, 118, 210, 0.10);
+    }
+
+
+    /* =========================================
+       PAGE
+    ========================================== */
+
+    body {
+
+        background:
+            linear-gradient(
+                135deg,
+                #f7fbff 0%,
+                #ffffff 50%,
+                #fff4f8 100%
+            );
+
+        color: var(--smart-text);
+
+        font-family:
+            "Segoe UI",
+            Roboto,
+            Helvetica,
+            Arial,
+            sans-serif;
+    }
+
+
+    /* =========================================
+       CONTACT PAGE CONTAINER
+
+       Reduced top spacing so the Contact
+       header sits closer to Trusted Partners.
+    ========================================== */
+
+    .contact-page-container {
+
+        margin-top: 0.5rem !important;
+
+        margin-bottom: 2rem;
+
+    }
+
+
+    /* =========================================
+       CONTACT PAGE HEADER
+    ========================================== */
+
+    .oracle-contact-hero {
+
+        margin-top: 0 !important;
+
+        margin-bottom: 1rem !important;
+
+        border-bottom: 3px solid var(--smart-pink);
+
+        padding:
+            0.8rem 0 1rem;
+
+        position: relative;
+    }
+
+
+    .oracle-contact-hero::after {
+
+        content: "";
+
+        display: block;
+
+        width: 80px;
+
+        height: 5px;
+
+        background: var(--smart-blue);
+
+        margin-top: 10px;
+
+        border-radius: 10px;
+    }
+
+
+    .oracle-contact-hero h1 {
+
+        font-size: 2.3rem;
+
+        font-weight: 800;
+
+        color: var(--smart-blue-dark);
+
+        letter-spacing: -0.5px;
+
+        margin-bottom: 0.4rem;
+    }
+
+
+    .oracle-contact-hero p {
+
+        color: var(--smart-muted);
+
+        font-size: 1rem;
+    }
+
+
+    /* =========================================
+       CONTACT FORM CARD
+    ========================================== */
+
+    .oracle-contact-card {
+
+        background: var(--smart-card);
+
+        border: 1px solid var(--smart-border);
+
+        border-top: 5px solid var(--smart-pink);
+
+        border-radius: 12px;
+
+        padding: 2.5rem;
+
+        box-shadow:
+            0 8px 25px var(--smart-shadow);
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    /* Decorative blue corner */
+
+    .oracle-contact-card::before {
+
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+
+        right: 0;
+
+        width: 110px;
+
+        height: 110px;
+
+        background: var(--smart-blue-light);
+
+        border-radius: 0 0 0 100%;
+
+        z-index: 0;
+    }
+
+
+    .oracle-contact-card > * {
+
+        position: relative;
+
+        z-index: 1;
+    }
+
+
+    /* =========================================
+       CONTACT INFORMATION CARD
+    ========================================== */
+
+    .oracle-info-card {
+
+        background:
+            linear-gradient(
+                145deg,
+                var(--smart-blue-dark),
+                var(--smart-blue)
+            );
+
+        color: #ffffff;
+
+        border: none;
+
+        border-radius: 12px;
+
+        padding: 2rem;
+
+        height: 100%;
+
+        box-shadow:
+            0 8px 25px rgba(18, 60, 140, 0.18);
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    /* Pink decorative circle */
+
+    .oracle-info-card::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 150px;
+
+        height: 150px;
+
+        background: rgba(233, 30, 99, 0.25);
+
+        border-radius: 50%;
+
+        top: -60px;
+
+        right: -50px;
+    }
+
+
+    /* Yellow decorative circle */
+
+    .oracle-info-card::after {
+
+        content: "";
+
+        position: absolute;
+
+        width: 100px;
+
+        height: 100px;
+
+        background: rgba(255, 210, 31, 0.20);
+
+        border-radius: 50%;
+
+        bottom: -40px;
+
+        left: -30px;
+    }
+
+
+    .oracle-info-card > * {
+
+        position: relative;
+
+        z-index: 1;
+    }
+
+
+    /* =========================================
+       INFORMATION ITEMS
+    ========================================== */
+
+    .oracle-info-item {
+
+        margin-bottom: 1.5rem;
+
+        padding-bottom: 1rem;
+
+        border-bottom:
+            1px solid
+            rgba(255, 255, 255, 0.18);
+    }
+
+
+    .oracle-info-item:last-child {
+
+        border-bottom: none;
+    }
+
+
+    .oracle-info-label {
+
+        font-size: 0.75rem;
+
+        text-transform: uppercase;
+
+        letter-spacing: 1px;
+
+        font-weight: 800;
+
+        color: var(--smart-yellow);
+
+        margin-bottom: 0.3rem;
+    }
+
+
+    .oracle-info-value {
+
+        font-size: 0.95rem;
+
+        font-weight: 500;
+
+        color: #ffffff;
+
+        line-height: 1.6;
+    }
+
+
+    .oracle-info-value a {
+
+        color: #ffffff;
+
+        text-decoration: none;
+
+        font-weight: 600;
+
+        transition:
+            color 0.2s ease;
+    }
+
+
+    .oracle-info-value a:hover {
+
+        color: var(--smart-yellow);
+
+        text-decoration: underline;
+    }
+
+
+    /* =========================================
+       FORM
+    ========================================== */
+
+    .oracle-form .form-label {
+
+        font-weight: 700;
+
+        font-size: 0.875rem;
+
+        color: var(--smart-blue-dark);
+
+        margin-bottom: 0.45rem;
+    }
+
+
+    .oracle-form .form-control {
+
+        border:
+            1px solid
+            #c5d9ec;
+
+        border-radius: 7px;
+
+        padding:
+            0.7rem 0.9rem;
+
+        font-size: 0.95rem;
+
+        background-color: #fbfdff;
+
+        color: var(--smart-text);
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background-color 0.2s ease;
+    }
+
+
+    .oracle-form .form-control:hover {
+
+        border-color:
+            var(--smart-blue);
+    }
+
+
+    .oracle-form .form-control:focus {
+
+        border-color:
+            var(--smart-pink);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(233, 30, 99, 0.12);
+
+        background-color:
+            #ffffff;
+
+        outline: none;
+    }
+
+
+    .oracle-form textarea {
+
+        resize: vertical;
+    }
+
+
+    /* =========================================
+       SUBMIT BUTTON
+    ========================================== */
+
+    .btn-oracle {
+
+        background:
+            linear-gradient(
+                90deg,
+                var(--smart-pink),
+                var(--smart-pink-dark)
+            );
+
+        color: #ffffff;
+
+        font-weight: 700;
+
+        border-radius: 7px;
+
+        padding:
+            0.8rem 2rem;
+
+        border: none;
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+
+        box-shadow:
+            0 5px 12px
+            rgba(233, 30, 99, 0.20);
+    }
+
+
+    .btn-oracle:hover {
+
+        background:
+            linear-gradient(
+                90deg,
+                var(--smart-blue),
+                var(--smart-blue-dark)
+            );
+
+        color: #ffffff;
+
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 7px 16px
+            rgba(25, 118, 210, 0.25);
+    }
+
+
+    /* =========================================
+       SECTION TITLES
+    ========================================== */
+
+    .oracle-contact-card h3 {
+
+        color:
+            var(--smart-blue-dark) !important;
+    }
+
+
+    .oracle-info-card h4 {
+
+        color:
+            #ffffff !important;
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 768px) {
+
+        .contact-page-container {
+
+            margin-top: 0.25rem !important;
+
+        }
+
+
+        .oracle-contact-hero {
+
+            padding:
+                0.6rem 0 0.8rem;
+
+            margin-bottom:
+                0.8rem !important;
+        }
+
+
+        .oracle-contact-hero h1 {
+
+            font-size:
+                1.8rem;
+        }
+
+
+        .oracle-contact-card {
+
+            padding:
+                1.5rem;
+        }
+
+
+        .oracle-info-card {
+
+            padding:
+                1.5rem;
+        }
+
+    }
+
 </style>
 
-<div class="container mt-5" style="max-width:900px;">
 
-    <!-- PAGE HEADER -->
-    <div class="about-header text-center shadow-sm">
-        <h3 class="mb-0">Contact Smartkids Investment Club</h3>
+<!-- =====================================================
+     CONTACT PAGE
+====================================================== -->
+
+<div
+    class="container contact-page-container"
+    style="max-width: 1100px;"
+>
+
+
+    <!-- ================================================
+         CONTACT PAGE HEADER
+    ================================================= -->
+
+    <div class="oracle-contact-hero">
+
+        <h1>
+            Contact Smartkids Africa
+        </h1>
+
+        <p class="mb-0">
+
+            Have a question or need assistance?
+            Reach out to our team directly.
+
+        </p>
+
     </div>
 
-    <!-- CONTACT FORM -->
-    <div class="about-card">
-        <h4 class="mb-4 text-center">Get in Touch</h4>
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" name="name" placeholder="Your full name" required>
+
+    <!-- ================================================
+         CONTACT CONTENT
+    ================================================= -->
+
+    <div class="row g-4">
+
+
+        <!-- =========================================
+             CONTACT FORM
+        ========================================== -->
+
+        <div class="col-lg-7">
+
+            <div class="oracle-contact-card">
+
+                <h3 class="h4 mb-4 fw-bold">
+                    Send a Message
+                </h3>
+
+
+                <form
+                    method="post"
+                    class="oracle-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="name"
+                            placeholder="Enter your full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            name="email"
+                            placeholder="name@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Message
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            name="message"
+                            rows="5"
+                            placeholder="How can we help you?"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-oracle"
+                        >
+                            Submit Inquiry
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="Your email address" required>
+        </div>
+
+
+        <!-- =========================================
+             CONTACT INFORMATION
+        ========================================== -->
+
+        <div class="col-lg-5">
+
+            <div class="oracle-info-card">
+
+                <h4 class="h5 mb-4 fw-bold">
+                    Corporate Directory
+                </h4>
+
+
+                <!-- ADDRESS -->
+
+                <div class="oracle-info-item">
+
+                    <div class="oracle-info-label">
+                        Headquarters Address
+                    </div>
+
+                    <div class="oracle-info-value">
+
+                        3 Dele Osuntuyi Street,
+                        Even Estate,<br>
+
+                        Sunny Villa, Addo-Badore, Ajah,<br>
+
+                        Lagos Island, Nigeria.
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="oracle-info-item">
+
+                    <div class="oracle-info-label">
+                        Email Support
+                    </div>
+
+                    <div class="oracle-info-value">
+
+                        <a href="mailto:mgt@smartkidsafrica.com">
+
+                            mgt@smartkidsafrica.com
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="oracle-info-item">
+
+                    <div class="oracle-info-label">
+                        Phone Enquiries
+                    </div>
+
+                    <div class="oracle-info-value">
+
+                        <a href="tel:+2347049000171">
+
+                            +234 704 900 0171
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- WHATSAPP -->
+
+                <div class="oracle-info-item">
+
+                    <div class="oracle-info-label">
+                        WhatsApp Channel
+                    </div>
+
+                    <div class="oracle-info-value">
+
+                        <a
+                            href="https://wa.me/2349066386020"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+
+                            +234 906 638 6020
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- WEBSITE -->
+
+                <div class="oracle-info-item mb-0">
+
+                    <div class="oracle-info-label">
+                        Official Portal
+                    </div>
+
+                    <div class="oracle-info-value">
+
+                        <a
+                            href="https://smartkidsafrica.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+
+                            smartkidsafrica.com
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Message</label>
-                <textarea class="form-control" name="message" rows="6" placeholder="Your message here..." required></textarea>
-            </div>
+        </div>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-success btn-lg px-5">Send Message</button>
-            </div>
-        </form>
+
     </div>
 
 </div>
 
+
 {% endblock %}
+

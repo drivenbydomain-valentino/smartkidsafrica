@@ -33,36 +33,128 @@ class AdminProfile(models.Model):
 
 # ✅ Basic Post Model (needed for sharing)
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
-    content = models.TextField()
-    image = models.ImageField(upload_to="posts/", blank=True, null=True)
-    video = models.FileField(upload_to="videos/", null=True, blank=True)
-    title = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        # return f"Post by {self.author.username}"
-        return f"{self.author.username} - {self.title or 'Post'}"
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="posts"
+    )
+
+    content = models.TextField()
+
+    image = models.ImageField(
+        upload_to="posts/",
+        blank=True,
+        null=True
+    )
+
+    video = models.FileField(
+        upload_to="videos/",
+        null=True,
+        blank=True
+    )
+
+    title = models.CharField(
+        max_length=255
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
 
     def total_likes(self):
         return self.likes.count()
 
+    def total_shares(self):
+        return self.shares.count()
+
+    def __str__(self):
+        return f"{self.author.username} - {self.title or 'Post'}"
+
+class SocialAccount(models.Model):
+
+    PLATFORM_CHOICES = (
+        ('facebook', 'Facebook'),
+        ('x', 'X'),
+        ('linkedin', 'LinkedIn'),
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="social_accounts"
+    )
+
+    platform = models.CharField(
+        max_length=20,
+        choices=PLATFORM_CHOICES
+    )
+
+    platform_user_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    access_token = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    refresh_token = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    expires_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+    
 
 # ✅ Enhanced Share Model (internal + external)
 class Share(models.Model):
+
     SHARE_TYPE = (
         ('internal', 'Internal'),
         ('external', 'External'),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="shares")
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="shares")
+    PLATFORM_CHOICES = (
+        ('facebook', 'Facebook'),
+        ('x', 'X'),
+        ('linkedin', 'LinkedIn'),
+        ('whatsapp', 'WhatsApp'),
+        ('copy', 'Copy Link'),
+    )
 
-    # share_type = models.CharField(max_length=10, choices=SHARE_TYPE)
-    share_type = models.CharField(max_length=20, default='public')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="shares"
+    )
 
-    # Internal sharing (to another user)
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name="shares"
+    )
+
+    share_type = models.CharField(
+        max_length=10,
+        choices=SHARE_TYPE,
+        default='external'
+    )
+
+    # Internal sharing
     shared_with = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -71,24 +163,44 @@ class Share(models.Model):
         related_name="received_shares"
     )
 
-    # External sharing (to social media)
-    platform = models.CharField(max_length=20, blank=True, null=True)
+    # External platform
+    platform = models.CharField(
+        max_length=20,
+        choices=PLATFORM_CHOICES,
+        blank=True,
+        null=True
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True
+    )
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'post', 'shared_with', 'platform'],
+                fields=[
+                    'user',
+                    'post',
+                    'shared_with',
+                    'platform'
+                ],
                 name='unique_share_combination'
             )
         ]
 
     def __str__(self):
         if self.share_type == "internal":
-            return f"{self.user} shared post to {self.shared_with}"
-        return f"{self.user} shared post to {self.platform}"
-    
+            return (
+                f"{self.user.username} shared "
+                f"{self.post.title} with "
+                f"{self.shared_with.username}"
+            )
+
+        return (
+            f"{self.user.username} shared "
+            f"{self.post.title} to {self.platform}"
+        )    
 
 
 class Like(models.Model):

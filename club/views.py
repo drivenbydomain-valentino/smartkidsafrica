@@ -284,16 +284,89 @@ def delete_comment(request, comment_id):
 
     return redirect('mypost')  # ✅ FIXED
 
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+
+from .models import Post, Share
+
+
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+
+@login_required
 def share_post(request, post_id):
-    Share.objects.create(user=request.user, post_id=post_id)
+
+    post = get_object_or_404(Post, id=post_id)
+
+    post_url = request.build_absolute_uri(
+        reverse('post_detail', args=[post.id])
+    )
 
     return JsonResponse({
-        "url": request.build_absolute_uri(f"/post/{post_id}/")
+        "success": True,
+        "url": post_url,
+        "title": post.title,
+        "content": post.content[:200],
     })
-    share, created = Share.objects.get_or_create(
-    user=user,
-    post=post
-)
+
+# from django.contrib.auth import authenticate, login
+
+# user = authenticate(
+#     request,
+#     username=username,
+#     password=password
+# )
+
+
+
+@login_required
+def record_share(request, post_id):
+
+    if request.method != "POST":
+        return JsonResponse(
+            {"error": "POST request required"},
+            status=405
+        )
+
+    post = get_object_or_404(Post, id=post_id)
+
+    platform = request.POST.get("platform")
+
+    allowed_platforms = [
+        "facebook",
+        "x",
+        "linkedin",
+        "whatsapp",
+        "copy",
+    ]
+
+    if platform not in allowed_platforms:
+        return JsonResponse(
+            {"error": "Invalid sharing platform"},
+            status=400
+        )
+
+    Share.objects.get_or_create(
+        user=request.user,
+        post=post,
+        platform=platform,
+        share_type="external",
+        shared_with=None,
+    )
+
+    post_url = request.build_absolute_uri(
+        reverse('post_detail', args=[post.id])
+    )
+
+    return JsonResponse({
+        "success": True,
+        "url": post_url,
+        "platform": platform,
+    })
 
 @login_required
 def like_post(request, post_id):
@@ -382,65 +455,6 @@ def mypost(request):
 
 User = get_user_model()
 
-# @login_required
-# def profile_view(request, username=None):  # Added username parameter to handle dynamic routing
-#     # 1. Look up the specific user if a username is provided in the URL, else use the logged-in user
-#     if username:
-#         User = get_user_model()
-#         user = get_object_or_404(User, username=username)
-#     else:
-#         user = request.user
-        
-#     profile = None
-    
-#     # 2. Determine profile type dynamically
-#     if hasattr(user, 'studentprofile'):
-#         profile = user.studentprofile
-#         print("--- DEBUG: Found Student Profile ---")
-#     elif hasattr(user, 'schoolprofile'):
-#         profile = user.schoolprofile
-#         print("--- DEBUG: Found School Profile ---")
-#     else:
-#         print("--- DEBUG: NO PROFILE TYPE FOUND FOR THIS USER ---")
-
-#     # 3. Handle Form Submission
-#     if request.method == 'POST':
-#         print("--- DEBUG: POST Request Received ---")
-#         print("--- DEBUG: request.FILES contains:", request.FILES)
-
-#         if 'avatar' in request.FILES:
-#             print("--- DEBUG: 'avatar' key exists in request.FILES ---")
-#             if profile:
-#                 # Direct file extraction and hard save
-#                 profile.avatar = request.FILES['avatar']
-#                 profile.save()
-#                 print(f"--- DEBUG: Image saved. Current path: {profile.avatar}")
-                
-#                 messages.success(request, 'Profile image updated successfully!')
-                
-#                 # Dynamic Redirect that aligns with your routing patterns
-#                 return redirect('profile', username=user.username)
-#             else:
-#                 print("--- DEBUG: Could not save image because 'profile' is None ---")
-#         else:
-#             print("--- DEBUG: 'avatar' was NOT found in request.FILES. Check form enctype! ---")
-
-#     # Fallback form setup
-#     form = ProfileForm(instance=profile) if profile else None
-    
-#     # Clean relationship querying for the posts
-#     posts = []
-#     if hasattr(user, 'post_set'):
-#         posts = user.post_set.all().order_by('-created_at')
-#     elif hasattr(user, 'posts'):
-#         posts = user.posts.all().order_by('-created_at')
-
-#     context = {
-#         'form': form,
-#         'profile_user': user,
-#         'posts': posts
-#     }
-#     return render(request, 'club/profile.html', context)
 
 # views.py
 @login_required

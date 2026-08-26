@@ -3,301 +3,1213 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-7">
+<style>
+  :root {
+    /* =========================================
+       SMARTKIDS PINK + BLUE THEME
+    ========================================== */
 
-            <div class="card my-5 shadow"
-                 style="background-color: lightblue;">
+    --smart-blue-dark: #123c8c;
+    --smart-blue: #1976d2;
+    --smart-blue-light: #eaf5ff;
 
-                <form method="POST"
-                      action="{% url 'schoolregister' %}"
-                      enctype="multipart/form-data"
-                      class="card-body p-lg-5">
+    --smart-pink: #e91e63;
+    --smart-pink-dark: #c2185b;
+    --smart-pink-light: #fff0f6;
 
-                    {% csrf_token %}
+    --smart-yellow: #ffd21f;
 
-                    <!-- Logo -->
-                    <div class="text-center mb-3">
-                        <img src="{% static 'image/logo.png' %}"
-                             alt="School Logo"
-                             class="img-fluid img-thumbnail rounded-circle"
-                             width="120"
-                             height="120">
-                    </div>
+    --smart-bg: #f7fbff;
+    --smart-card: #ffffff;
+    --smart-border: #d8e7f5;
 
-                    <!-- Heading -->
-                    <div class="text-center mb-4">
-                        <h3>Register School</h3>
-                        <p class="text-muted mb-0">
-                            Create your school account
-                        </p>
-                    </div>
+    --smart-text: #172554;
+    --smart-muted: #5c6b82;
 
-                    <!-- Error message -->
-                    {% if error %}
-                        <div class="alert alert-danger text-center"
-                             role="alert">
-                            {{ error }}
-                        </div>
-                    {% endif %}
+    --smart-shadow: rgba(25, 118, 210, 0.10);
+  }
 
-                    <!-- School Name -->
-                    <div class="mb-3">
-                        <label for="school_name" class="form-label">
-                            School Name
-                        </label>
 
-                        <input type="text"
-                               id="school_name"
-                               name="school_name"
-                               class="form-control"
-                               placeholder="Enter school name"
-                               value="{{ form_data.school_name|default:'' }}"
-                               autocomplete="organization"
-                               required>
-                    </div>
+  /* =========================================
+     PAGE
+  ========================================== */
 
-                    <!-- Email -->
-                    <div class="mb-3">
-                        <label for="email" class="form-label">
-                            Email Address
-                        </label>
+  body {
+    background:
+      linear-gradient(
+        135deg,
+        #f7fbff 0%,
+        #ffffff 50%,
+        #fff4f8 100%
+      );
 
-                        <input type="email"
-                               id="email"
-                               name="email"
-                               class="form-control"
-                               placeholder="Enter email address"
-                               value="{{ form_data.email|default:'' }}"
-                               autocomplete="email"
-                               required>
-                    </div>
+    color: var(--smart-text);
 
-                    <!-- Password -->
-                    <div class="mb-3">
-                        <label for="password" class="form-label">
-                            Password
-                        </label>
+    font-family:
+      "Segoe UI",
+      Roboto,
+      Helvetica,
+      Arial,
+      sans-serif;
+  }
 
-                        <input type="password"
-                               id="password"
-                               name="password"
-                               class="form-control"
-                               placeholder="Create a password"
-                               minlength="8"
-                               autocomplete="new-password"
-                               required>
 
-                        <div class="form-text">
-                            Password must contain at least 8 characters.
-                        </div>
-                    </div>
+  /* =========================================
+     PAGE HEADER
+  ========================================== */
 
-                    <!-- Director -->
-                    <div class="mb-3">
-                        <label for="director_name" class="form-label">
-                            Director Name
-                        </label>
+  .oracle-contact-hero {
+    border-bottom: 3px solid var(--smart-pink);
 
-                        <input type="text"
-                               id="director_name"
-                               name="director_name"
-                               class="form-control"
-                               placeholder="Director name"
-                               value="{{ form_data.director_name|default:'' }}">
-                    </div>
+    padding: 2.5rem 0 1.5rem;
 
-                    <!-- Avatar -->
-                    <div class="mb-3">
-                        <label for="avatar" class="form-label">
-                            School Logo / Avatar
-                        </label>
+    margin-bottom: 2rem;
 
-                        <input type="file"
-                               id="avatar"
-                               name="avatar"
-                               class="form-control"
-                               accept="image/*">
-                    </div>
+    position: relative;
+  }
 
-                    <!-- WhatsApp -->
-                    <div class="mb-3">
-                        <label for="whatsapp_number" class="form-label">
-                            WhatsApp Number
-                        </label>
+  .oracle-contact-hero::after {
+    content: "";
 
-                        <input type="tel"
-                               id="whatsapp_number"
-                               name="whatsapp_number"
-                               class="form-control"
-                               placeholder="WhatsApp number"
-                               value="{{ form_data.whatsapp_number|default:'' }}"
-                               autocomplete="tel">
-                    </div>
+    display: block;
 
-                    <!-- Address -->
-                    <div class="mb-3">
-                        <label for="address" class="form-label">
-                            School Address
-                        </label>
+    width: 80px;
 
-                        <textarea id="address"
-                                  name="address"
-                                  class="form-control"
-                                  rows="3"
-                                  placeholder="School address">{{ form_data.address|default:'' }}</textarea>
-                    </div>
+    height: 5px;
 
-                    <!-- Nearest Bus Stop -->
-                    <div class="mb-3">
-                        <label for="nearest_bus_stop" class="form-label">
-                            Nearest Bus Stop
-                        </label>
+    background: var(--smart-blue);
 
-                        <input type="text"
-                               id="nearest_bus_stop"
-                               name="nearest_bus_stop"
-                               class="form-control"
-                               placeholder="Nearest bus stop"
-                               value="{{ form_data.nearest_bus_stop|default:'' }}">
-                    </div>
+    margin-top: 12px;
 
-                    <!-- Country -->
-                    <div class="mb-3">
-                        <label for="country" class="form-label">
-                            Country
-                        </label>
+    border-radius: 10px;
+  }
 
-                        <input type="text"
-                               id="country"
-                               name="country"
-                               class="form-control"
-                               placeholder="Country"
-                               value="{{ form_data.country|default:'' }}"
-                               required>
-                    </div>
+  .oracle-contact-hero h1 {
+    font-size: 2.3rem;
 
-                    <!-- LGA and State -->
-                    <div class="row">
+    font-weight: 800;
 
-                        <div class="col-md-6 mb-3">
-                            <label for="lga" class="form-label">
-                                LGA
-                            </label>
+    color: var(--smart-blue-dark);
 
-                            <input type="text"
-                                   id="lga"
-                                   name="lga"
-                                   class="form-control"
-                                   placeholder="LGA"
-                                   value="{{ form_data.lga|default:'' }}">
-                        </div>
+    letter-spacing: -0.5px;
 
-                        <div class="col-md-6 mb-3">
-                            <label for="state" class="form-label">
-                                State
-                            </label>
+    margin-bottom: 0.5rem;
+  }
 
-                            <input type="text"
-                                   id="state"
-                                   name="state"
-                                   class="form-control"
-                                   placeholder="State"
-                                   value="{{ form_data.state|default:'' }}">
-                        </div>
+  .oracle-contact-hero p {
+    color: var(--smart-muted);
 
-                    </div>
+    font-size: 1rem;
+  }
 
-                    <!-- Number of Students -->
-                    <div class="mb-3">
-                        <label for="num_students" class="form-label">
-                            Number of Students
-                        </label>
 
-                        <input type="number"
-                               id="num_students"
-                               name="num_students"
-                               class="form-control"
-                               placeholder="Number of students"
-                               min="0"
-                               value="{{ form_data.num_students|default:'' }}"
-                               required>
-                    </div>
+  /* =========================================
+     MAIN REGISTRATION CARD
+  ========================================== */
 
-                    <!-- School Type -->
-                    <div class="mb-4">
+  .oracle-contact-card {
+    background: var(--smart-card);
 
-                        <label class="form-label">
-                            School Type
-                        </label>
+    border: 1px solid var(--smart-border);
 
-                        <div class="form-check">
-                            <input type="checkbox"
-                                   id="nursery"
-                                   name="school_type"
-                                   value="Nursery"
-                                   class="form-check-input">
+    border-top: 5px solid var(--smart-pink);
 
-                            <label for="nursery"
-                                   class="form-check-label">
-                                Nursery
-                            </label>
-                        </div>
+    border-radius: 12px;
 
-                        <div class="form-check">
-                            <input type="checkbox"
-                                   id="primary"
-                                   name="school_type"
-                                   value="Primary"
-                                   class="form-check-input">
+    padding: 2.5rem;
 
-                            <label for="primary"
-                                   class="form-check-label">
-                                Primary
-                            </label>
-                        </div>
+    box-shadow:
+      0 8px 25px var(--smart-shadow);
 
-                        <div class="form-check">
-                            <input type="checkbox"
-                                   id="secondary"
-                                   name="school_type"
-                                   value="Secondary"
-                                   class="form-check-input">
+    position: relative;
 
-                            <label for="secondary"
-                                   class="form-check-label">
-                                Secondary
-                            </label>
-                        </div>
+    overflow: hidden;
+  }
 
-                    </div>
+  .oracle-contact-card::before {
+    content: "";
 
-                    <!-- Submit -->
-                    <div class="d-grid">
-                        <button type="submit"
-                                class="btn btn-success btn-lg">
-                            Create School Account
-                        </button>
-                    </div>
+    position: absolute;
 
-                    <!-- Login -->
-                    <div class="text-center mt-4">
-                        <p class="mb-0">
-                            Already registered?
+    top: 0;
+    right: 0;
 
-                            <a href="{% url 'school_login' %}">
-                                Login
-                            </a>
-                        </p>
-                    </div>
+    width: 110px;
+    height: 110px;
 
-                </form>
+    background: var(--smart-blue-light);
+
+    border-radius: 0 0 0 100%;
+
+    z-index: 0;
+  }
+
+  .oracle-contact-card > * {
+    position: relative;
+
+    z-index: 1;
+  }
+
+
+  /* =========================================
+     INFORMATION CARD
+  ========================================== */
+
+  .oracle-info-card {
+    background:
+      linear-gradient(
+        145deg,
+        var(--smart-blue-dark),
+        var(--smart-blue)
+      );
+
+    color: #ffffff;
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 2rem;
+
+    height: 100%;
+
+    box-shadow:
+      0 8px 25px rgba(18, 60, 140, 0.18);
+
+    position: relative;
+
+    overflow: hidden;
+  }
+
+  .oracle-info-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    background: rgba(233, 30, 99, 0.25);
+
+    border-radius: 50%;
+
+    top: -60px;
+    right: -50px;
+  }
+
+  .oracle-info-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    background: rgba(255, 210, 31, 0.20);
+
+    border-radius: 50%;
+
+    bottom: -40px;
+    left: -30px;
+  }
+
+  .oracle-info-card > * {
+    position: relative;
+
+    z-index: 1;
+  }
+
+
+  /* =========================================
+     INFORMATION ITEMS
+  ========================================== */
+
+  .oracle-info-item {
+    margin-bottom: 1.5rem;
+
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+  }
+
+  .oracle-info-item:last-child {
+    border-bottom: none;
+  }
+
+  .oracle-info-label {
+    font-size: 0.75rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-weight: 800;
+
+    color: var(--smart-yellow);
+
+    margin-bottom: 0.3rem;
+  }
+
+  .oracle-info-value {
+    font-size: 0.95rem;
+
+    font-weight: 500;
+
+    color: #ffffff;
+
+    line-height: 1.6;
+  }
+
+
+  /* =========================================
+     FORM
+  ========================================== */
+
+  .oracle-form .form-label {
+    font-weight: 700;
+
+    font-size: 0.875rem;
+
+    color: var(--smart-blue-dark);
+
+    margin-bottom: 0.45rem;
+  }
+
+  .oracle-form .form-control,
+  .oracle-form .form-select {
+    border: 1px solid #c5d9ec;
+
+    border-radius: 7px;
+
+    padding: 0.7rem 0.9rem;
+
+    font-size: 0.95rem;
+
+    background-color: #fbfdff;
+
+    color: var(--smart-text);
+
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .oracle-form .form-control:hover,
+  .oracle-form .form-select:hover {
+    border-color: var(--smart-blue);
+  }
+
+  .oracle-form .form-control:focus,
+  .oracle-form .form-select:focus {
+    border-color: var(--smart-pink);
+
+    box-shadow:
+      0 0 0 3px rgba(233, 30, 99, 0.12);
+
+    background-color: #ffffff;
+
+    outline: none;
+  }
+
+  .oracle-form textarea {
+    resize: vertical;
+  }
+
+  .oracle-form .form-text {
+    color: var(--smart-muted);
+
+    font-size: 0.8rem;
+  }
+
+
+  /* =========================================
+     SCHOOL LOGO
+  ========================================== */
+
+  .school-register-logo {
+    display: block;
+
+    width: 105px;
+    height: 105px;
+
+    object-fit: contain;
+
+    margin: 0 auto 1.5rem;
+
+    border: 4px solid var(--smart-pink);
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    padding: 8px;
+
+    box-shadow:
+      0 5px 15px rgba(233, 30, 99, 0.15);
+  }
+
+
+  /* =========================================
+     SCHOOL TYPE BOX
+  ========================================== */
+
+  .school-type-box {
+    background:
+      linear-gradient(
+        135deg,
+        var(--smart-blue-light),
+        var(--smart-pink-light)
+      );
+
+    border: 1px solid var(--smart-border);
+
+    padding: 1rem;
+
+    border-radius: 8px;
+  }
+
+  .school-type-box .form-check {
+    margin-bottom: 0.65rem;
+  }
+
+  .school-type-box .form-check:last-child {
+    margin-bottom: 0;
+  }
+
+  .school-type-box .form-check-input {
+    border-color: var(--smart-blue);
+  }
+
+  .school-type-box .form-check-input:checked {
+    background-color: var(--smart-pink);
+
+    border-color: var(--smart-pink);
+  }
+
+  .school-type-box .form-check-label {
+    color: var(--smart-text);
+
+    font-weight: 600;
+  }
+
+
+  /* =========================================
+     BUTTON
+  ========================================== */
+
+  .btn-oracle {
+    background:
+      linear-gradient(
+        90deg,
+        var(--smart-pink),
+        var(--smart-pink-dark)
+      );
+
+    color: #ffffff;
+
+    font-weight: 700;
+
+    border-radius: 7px;
+
+    padding: 0.8rem 2rem;
+
+    border: none;
+
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+
+    box-shadow:
+      0 5px 12px rgba(233, 30, 99, 0.20);
+  }
+
+  .btn-oracle:hover {
+    background:
+      linear-gradient(
+        90deg,
+        var(--smart-blue),
+        var(--smart-blue-dark)
+      );
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 7px 16px rgba(25, 118, 210, 0.25);
+  }
+
+
+  /* =========================================
+     LOGIN LINK
+  ========================================== */
+
+  .oracle-login-link {
+    color: var(--smart-pink);
+
+    font-weight: 700;
+
+    text-decoration: none;
+  }
+
+  .oracle-login-link:hover {
+    color: var(--smart-blue);
+
+    text-decoration: underline;
+  }
+
+
+  /* =========================================
+     ALERT
+  ========================================== */
+
+  .oracle-alert {
+    border-radius: 7px;
+
+    border: 1px solid #f0a8bd;
+
+    background-color: #fff0f5;
+
+    color: #a31545;
+
+    font-size: 0.9rem;
+  }
+
+
+  /* =========================================
+     SECTION TITLES
+  ========================================== */
+
+  .oracle-contact-card h3 {
+    color: var(--smart-blue-dark) !important;
+  }
+
+  .oracle-info-card h4 {
+    color: #ffffff !important;
+  }
+
+
+  /* =========================================
+     RESPONSIVE
+  ========================================== */
+
+  @media (max-width: 768px) {
+
+    .oracle-contact-hero {
+      padding: 1.5rem 0 1rem;
+    }
+
+    .oracle-contact-hero h1 {
+      font-size: 1.8rem;
+    }
+
+    .oracle-contact-card {
+      padding: 1.5rem;
+    }
+
+    .oracle-info-card {
+      padding: 1.5rem;
+    }
+
+    .school-register-logo {
+      width: 90px;
+      height: 90px;
+    }
+
+  }
+
+</style>
+
+
+<div class="container my-5" style="max-width: 1100px;">
+
+  <!-- =========================================
+       PAGE HEADER
+  ========================================== -->
+
+  <div class="oracle-contact-hero">
+
+    <h1>
+      Register Your School
+    </h1>
+
+    <p class="mb-0">
+      Create your school's account and join the Smartkids Africa network.
+    </p>
+
+  </div>
+
+
+  <div class="row g-4">
+
+
+    <!-- =========================================
+         REGISTRATION FORM
+    ========================================== -->
+
+    <div class="col-lg-7">
+
+      <div class="oracle-contact-card">
+
+        <!-- Logo -->
+
+        <img src="{% static 'image/logo.png' %}"
+             alt="Smartkids Africa"
+             class="school-register-logo">
+
+
+        <h3 class="h4 mb-4 fw-bold">
+
+          School Registration
+
+        </h3>
+
+
+        <!-- Error -->
+
+        {% if error %}
+
+          <div class="alert oracle-alert text-center mb-4"
+               role="alert">
+
+            {{ error }}
+
+          </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              action="{% url 'schoolregister' %}"
+              enctype="multipart/form-data"
+              class="oracle-form">
+
+          {% csrf_token %}
+
+
+          <!-- =================================
+               SCHOOL NAME
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="school_name"
+                   class="form-label">
+
+              School Name
+
+            </label>
+
+            <input type="text"
+                   id="school_name"
+                   name="school_name"
+                   class="form-control"
+                   placeholder="Enter school name"
+                   value="{{ form_data.school_name|default:'' }}"
+                   autocomplete="organization"
+                   required>
+
+          </div>
+
+
+          <!-- =================================
+               EMAIL
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="email"
+                   class="form-label">
+
+              Email Address
+
+            </label>
+
+            <input type="email"
+                   id="email"
+                   name="email"
+                   class="form-control"
+                   placeholder="name@example.com"
+                   value="{{ form_data.email|default:'' }}"
+                   autocomplete="email"
+                   required>
+
+          </div>
+
+
+          <!-- =================================
+               PASSWORD
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="password"
+                   class="form-label">
+
+              Password
+
+            </label>
+
+            <input type="password"
+                   id="password"
+                   name="password"
+                   class="form-control"
+                   placeholder="Create a password"
+                   minlength="8"
+                   autocomplete="new-password"
+                   required>
+
+            <div class="form-text">
+
+              Password must contain at least 8 characters.
 
             </div>
 
-        </div>
+          </div>
+
+
+          <!-- =================================
+               DIRECTOR
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="director_name"
+                   class="form-label">
+
+              Director Name
+
+            </label>
+
+            <input type="text"
+                   id="director_name"
+                   name="director_name"
+                   class="form-control"
+                   placeholder="Enter director's name"
+                   value="{{ form_data.director_name|default:'' }}">
+
+          </div>
+
+
+          <!-- =================================
+               SCHOOL LOGO
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="avatar"
+                   class="form-label">
+
+              School Logo / Avatar
+
+            </label>
+
+            <input type="file"
+                   id="avatar"
+                   name="avatar"
+                   class="form-control"
+                   accept="image/*">
+
+            <div class="form-text">
+
+              Upload your school's official logo.
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               WHATSAPP
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="whatsapp_number"
+                   class="form-label">
+
+              WhatsApp Number
+
+            </label>
+
+            <input type="tel"
+                   id="whatsapp_number"
+                   name="whatsapp_number"
+                   class="form-control"
+                   placeholder="Enter WhatsApp number"
+                   value="{{ form_data.whatsapp_number|default:'' }}"
+                   autocomplete="tel">
+
+          </div>
+
+
+          <!-- =================================
+               SCHOOL ADDRESS
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="address"
+                   class="form-label">
+
+              School Address
+
+            </label>
+
+            <textarea id="address"
+                      name="address"
+                      class="form-control"
+                      rows="3"
+                      placeholder="Enter complete school address">{{ form_data.address|default:'' }}</textarea>
+
+          </div>
+
+
+          <!-- =================================
+               BUS STOP
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="nearest_bus_stop"
+                   class="form-label">
+
+              Nearest Bus Stop
+
+            </label>
+
+            <input type="text"
+                   id="nearest_bus_stop"
+                   name="nearest_bus_stop"
+                   class="form-control"
+                   placeholder="Enter nearest bus stop"
+                   value="{{ form_data.nearest_bus_stop|default:'' }}">
+
+          </div>
+
+
+          <!-- =================================
+               COUNTRY
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="country"
+                   class="form-label">
+
+              Country
+
+            </label>
+
+            <select id="country"
+                    name="country"
+                    class="form-select"
+                    required>
+
+              <option value=""
+                      disabled
+                      {% if not form_data.country %}
+                        selected
+                      {% endif %}>
+
+                Select Country
+
+              </option>
+
+
+              <option value="Nigeria"
+                {% if form_data.country == "Nigeria" %}
+                  selected
+                {% endif %}>
+
+                Nigeria
+
+              </option>
+
+
+              <option disabled>
+                ──────────
+              </option>
+
+
+              <option value="Algeria">Algeria</option>
+              <option value="Angola">Angola</option>
+              <option value="Benin">Benin</option>
+              <option value="Botswana">Botswana</option>
+              <option value="Burkina Faso">Burkina Faso</option>
+              <option value="Burundi">Burundi</option>
+              <option value="Cabo Verde">Cabo Verde</option>
+              <option value="Cameroon">Cameroon</option>
+
+              <option value="Central African Republic">
+                Central African Republic
+              </option>
+
+              <option value="Chad">Chad</option>
+              <option value="Comoros">Comoros</option>
+
+              <option value="Congo, Democratic Republic of the">
+                Congo, Democratic Republic of the
+              </option>
+
+              <option value="Congo, Republic of the">
+                Congo, Republic of the
+              </option>
+
+              <option value="Côte d'Ivoire">
+                Côte d'Ivoire
+              </option>
+
+              <option value="Djibouti">Djibouti</option>
+              <option value="Egypt">Egypt</option>
+
+              <option value="Equatorial Guinea">
+                Equatorial Guinea
+              </option>
+
+              <option value="Eritrea">Eritrea</option>
+              <option value="Eswatini">Eswatini</option>
+              <option value="Ethiopia">Ethiopia</option>
+              <option value="Gabon">Gabon</option>
+              <option value="Gambia">Gambia</option>
+              <option value="Ghana">Ghana</option>
+              <option value="Guinea">Guinea</option>
+              <option value="Guinea-Bissau">Guinea-Bissau</option>
+              <option value="Kenya">Kenya</option>
+              <option value="Lesotho">Lesotho</option>
+              <option value="Liberia">Liberia</option>
+              <option value="Libya">Libya</option>
+              <option value="Madagascar">Madagascar</option>
+              <option value="Malawi">Malawi</option>
+              <option value="Mali">Mali</option>
+              <option value="Mauritania">Mauritania</option>
+              <option value="Mauritius">Mauritius</option>
+              <option value="Morocco">Morocco</option>
+              <option value="Mozambique">Mozambique</option>
+              <option value="Namibia">Namibia</option>
+              <option value="Niger">Niger</option>
+              <option value="Rwanda">Rwanda</option>
+
+              <option value="São Tomé and Príncipe">
+                São Tomé and Príncipe
+              </option>
+
+              <option value="Senegal">Senegal</option>
+              <option value="Seychelles">Seychelles</option>
+              <option value="Sierra Leone">Sierra Leone</option>
+              <option value="Somalia">Somalia</option>
+              <option value="South Africa">South Africa</option>
+              <option value="South Sudan">South Sudan</option>
+              <option value="Sudan">Sudan</option>
+              <option value="Tanzania">Tanzania</option>
+              <option value="Togo">Togo</option>
+              <option value="Tunisia">Tunisia</option>
+              <option value="Uganda">Uganda</option>
+              <option value="Zambia">Zambia</option>
+              <option value="Zimbabwe">Zimbabwe</option>
+
+            </select>
+
+          </div>
+
+
+          <!-- =================================
+               STATE + LGA
+          ================================== -->
+
+          <div class="row">
+
+            <!-- State -->
+
+            <div class="col-md-6 mb-3">
+
+              <label for="state"
+                     class="form-label">
+
+                State / Province
+
+              </label>
+
+              <input type="text"
+                     id="state"
+                     name="state"
+                     class="form-control"
+                     placeholder="Enter State / Province"
+                     value="{{ form_data.state|default:'' }}"
+                     autocomplete="address-level1"
+                     required>
+
+            </div>
+
+
+            <!-- LGA -->
+
+            <div class="col-md-6 mb-3">
+
+              <label for="lga"
+                     class="form-label">
+
+                LGA / District
+
+              </label>
+
+              <input type="text"
+                     id="lga"
+                     name="lga"
+                     class="form-control"
+                     placeholder="Enter LGA / District"
+                     value="{{ form_data.lga|default:'' }}"
+                     autocomplete="address-level2"
+                     required>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               NUMBER OF STUDENTS
+          ================================== -->
+
+          <div class="mb-3">
+
+            <label for="num_students"
+                   class="form-label">
+
+              Number of Students
+
+            </label>
+
+            <input type="number"
+                   id="num_students"
+                   name="num_students"
+                   class="form-control"
+                   placeholder="Enter number of students"
+                   min="0"
+                   value="{{ form_data.num_students|default:'' }}"
+                   required>
+
+          </div>
+
+
+          <!-- =================================
+               SCHOOL TYPE
+          ================================== -->
+
+          <div class="mb-4">
+
+            <label class="form-label">
+
+              School Type
+
+            </label>
+
+
+            <div class="school-type-box">
+
+              <div class="form-check">
+
+                <input type="checkbox"
+                       id="nursery"
+                       name="school_type"
+                       value="Nursery"
+                       class="form-check-input">
+
+                <label for="nursery"
+                       class="form-check-label">
+
+                  Nursery
+
+                </label>
+
+              </div>
+
+
+              <div class="form-check">
+
+                <input type="checkbox"
+                       id="primary"
+                       name="school_type"
+                       value="Primary"
+                       class="form-check-input">
+
+                <label for="primary"
+                       class="form-check-label">
+
+                  Primary
+
+                </label>
+
+              </div>
+
+
+              <div class="form-check">
+
+                <input type="checkbox"
+                       id="secondary"
+                       name="school_type"
+                       value="Secondary"
+                       class="form-check-input">
+
+                <label for="secondary"
+                       class="form-check-label">
+
+                  Secondary
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               SUBMIT
+          ================================== -->
+
+           <div class="d-grid">
+
+            <button type="submit"
+                    class="btn btn-oracle">
+
+              Register as School
+
+            </button>
+
+          </div>
+
+
+          <!-- =================================
+               LOGIN
+          ================================== -->
+
+          <div class="mt-4">
+
+            <span class="text-muted">
+              Already registered?
+            </span>
+
+            <a href="{% url 'school_login' %}"
+               class="oracle-login-link">
+
+              Login here
+
+            </a>
+
+          </div>
+
+
+        </form>
+
+      </div>
+
     </div>
+
+
+    <!-- =========================================
+         INFORMATION PANEL
+    ========================================== -->
+
+    <div class="col-lg-5">
+
+      <div class="oracle-info-card">
+
+        <h4 class="h5 mb-4 fw-bold">
+
+          Smartkids School Network
+
+        </h4>
+
+
+        <div class="oracle-info-item">
+
+          <div class="oracle-info-label">
+            Registration
+          </div>
+
+          <div class="oracle-info-value">
+
+            Register your school and become part
+            of the Smartkids Africa educational network.
+
+          </div>
+
+        </div>
+
+
+        <div class="oracle-info-item">
+
+          <div class="oracle-info-label">
+            School Information
+          </div>
+
+          <div class="oracle-info-value">
+
+            Provide accurate information about
+            your school, director and contact details.
+
+          </div>
+
+        </div>
+
+
+        <div class="oracle-info-item">
+
+          <div class="oracle-info-label">
+            Location
+          </div>
+
+          <div class="oracle-info-value">
+
+            Enter your Country, State or Province,
+            and LGA or District directly.
+
+          </div>
+
+        </div>
+
+
+        <div class="oracle-info-item">
+
+          <div class="oracle-info-label">
+            School Logo
+          </div>
+
+          <div class="oracle-info-value">
+
+            Upload your school's official logo
+            to help identify your school profile.
+
+          </div>
+
+        </div>
+
+
+        <div class="oracle-info-item mb-0">
+
+          <div class="oracle-info-label">
+            Need Assistance?
+          </div>
+
+          <div class="oracle-info-value">
+
+            Contact the Smartkids Africa team
+            if you need help completing registration.
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
 {% endblock %}

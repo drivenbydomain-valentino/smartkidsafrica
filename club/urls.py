@@ -63,7 +63,8 @@ urlpatterns = [
     # INTERACTIONS
     path("like/<int:post_id>/", views.like_post, name="like_post"),
     path("comment/<int:post_id>/", views.add_comment, name="add_comment"),
-    path("share/<int:post_id>/", views.share_post, name="share_post"),
+    path("share/<int:post_id>/",views.share_post,name="share_post"),
+    path("record-share/<int:post_id>/",views.record_share,name="record_share"),
 
     # COMMENTS
     path('comment/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
