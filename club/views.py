@@ -313,14 +313,48 @@ def share_post(request, post_id):
         "content": post.content[:200],
     })
 
-# from django.contrib.auth import authenticate, login
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST, require_GET
+from django.contrib.auth.decorators import login_required
+from .models import Post, Share
 
-# user = authenticate(
-#     request,
-#     username=username,
-#     password=password
-# )
+@require_GET
+def get_post_share_url(request, post_id):
+    """
+    Returns the absolute canonical URL of a post so social platforms can fetch metadata.
+    """
+    post = get_object_or_404(Post, id=post_id)
+    # Generate full absolute URL (e.g. https://yourdomain.com/post/12/)
+    # Replace 'post_detail' with your actual post detail view name if different
+    relative_url = f"/post/{post.id}/" 
+    absolute_url = request.build_absolute_uri(relative_url)
+    
+    return JsonResponse({'url': absolute_url})
 
+
+@require_POST
+def record_post_share(request, post_id):
+    """
+    Records the share activity in the database.
+    """
+    post = get_object_or_404(Post, id=post_id)
+    platform = request.POST.get('platform', 'copy')
+    
+    user = request.user if request.user.is_authenticated else None
+
+    if user:
+        # Prevent exact duplicate constraint violations if unique_share_combination applies
+        share, created = Share.objects.get_or_create(
+            user=user,
+            post=post,
+            platform=platform,
+            share_type='external',
+            defaults={'shared_with': None}
+        )
+        return JsonResponse({'success': True, 'shares': post.total_shares()})
+    
+    return JsonResponse({'success': False, 'error': 'User not authenticated'}, status=401)
 
 
 @login_required

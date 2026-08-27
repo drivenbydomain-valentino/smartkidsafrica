@@ -53,7 +53,7 @@ urlpatterns = [
     path('financeliteracy/savings/', views.savings, name='savings'),
     path('financeliteracy/investment/', views.investment, name='investment'),
     path('financeliteracy/', views.financeliteracy, name='financeliteracy'),
-    path('careers/digitalentrepreneurship/', views.digitalentrepreneurship, name='digitalentrepreneurship'),
+    path('digitalentrepreneurship/', views.digitalentrepreneurship, name='digitalentrepreneurship'),
     path('characterbuilding/', views.characterbuilding, name='characterbuilding'),
 
     # POSTS
@@ -65,6 +65,8 @@ urlpatterns = [
     path("comment/<int:post_id>/", views.add_comment, name="add_comment"),
     path("share/<int:post_id>/",views.share_post,name="share_post"),
     path("record-share/<int:post_id>/",views.record_share,name="record_share"),
+    path('share/<int:post_id>/', views.get_post_share_url, name='get_post_share_url'),
+    path('record-share/<int:post_id>/', views.record_post_share, name='record_post_share'),
 
     # COMMENTS
     path('comment/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
