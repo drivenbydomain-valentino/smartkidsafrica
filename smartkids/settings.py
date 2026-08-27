@@ -20,10 +20,18 @@ CLOUDINARY_STORAGE = {
     'API_KEY': '862548548812594',
     'API_SECRET': 'lklFKOIkxMjLO_B530_yukmAe70'
 }
-
-MEDIA_URL = '/media/'
+# For Django 4.2+ or Django 5, also define STORAGES:
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+MEDIA_URL = '/media/'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -103,15 +111,6 @@ MEDIA_URL = '/media/'
 # MUST be at top-level in settings.py (not inside "if DEBUG:")
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# For Django 4.2+ or Django 5, also define STORAGES:
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
