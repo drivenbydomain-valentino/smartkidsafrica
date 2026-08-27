@@ -1,3 +1,4 @@
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage, MediaCloudinaryStorage
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -50,7 +51,8 @@ class Post(models.Model):
 
     video = models.FileField(
         upload_to="videos/",
-        null=True,
+        storage=VideoMediaCloudinaryStorage(), 
+        null=True, 
         blank=True
     )
 
