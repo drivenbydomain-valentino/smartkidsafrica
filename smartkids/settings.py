@@ -58,6 +58,9 @@ else:
     CSRF_COOKIE_SECURE = False
 
 
+import os
+
+# Default allowed hosts for local development and production
 ALLOWED_HOSTS = [
     'smartkidsafrica.com',
     'www.smartkidsafrica.com',
@@ -66,6 +69,11 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '[::1]',
 ]
+
+# Append any hosts provided via environment variable (if set)
+env_hosts = os.environ.get('ALLOWED_HOSTS')
+if env_hosts:
+    ALLOWED_HOSTS.extend([host.strip() for host in env_hosts.split(',') if host.strip()])
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
