@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container-fluid feed-layout mt-3">
     <div class="row">
-        
+
         <!-- LEFT SIDEBAR -->
         <aside class="col-lg-3 col-md-4 order-2 order-md-1">
             <div class="sticky-top" style="top: 20px;">
@@ -13,7 +13,7 @@
                     <p class="text-muted small mb-3" style="line-height: 1.5;">
                         Join to learn finance education and gain financial freedom. Access premium tools, courses, and expert network updates.
                     </p>
-                    
+
                     <div class="widget-slideshow mt-2">
                         <img src="{% static 'image/promo1.jpg' %}" alt="Finance Education" class="img-fluid rounded slideshow-img active">
                         <img src="{% static 'image/promo2.jpg' %}" alt="Tech Education" class="img-fluid rounded slideshow-img d-none">
@@ -25,7 +25,7 @@
 
         <!-- CENTER FEED -->
         <main class="col-lg-6 col-md-8 order-1 order-md-2">
-            
+
             <!-- HEADER -->
             <div class="card p-3 shadow-sm mb-4">
                 <div class="d-flex align-items-center justify-content-between mb-2">
@@ -38,7 +38,7 @@
                 </div>
                 <form method="GET" action="{% url 'search_users' %}" class="mt-2">
                     <div class="input-group input-group-sm">
-                        <input type="text" name="q" class="form-control" placeholder="Search users..." required>
+                        <input type="text" name="q" class="form-control" placeholder="Search users..." value="{{ request.GET.q|default:'' }}" required>
                         <button class="btn btn-outline-secondary" type="submit">🔍 Search</button>
                     </div>
                 </form>
@@ -47,18 +47,19 @@
             <!-- POSTS LOOP -->
             {% for post in posts %}
             <div class="card shadow-sm mb-4 post-card" id="post-card-{{ post.id }}">
-                
-                <!-- AUTHOR INFO -->
+
+                <!-- AUTHOR INFO & DELETE BUTTON -->
                 <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center pt-3 px-3">
                     <div class="d-flex align-items-center">
-                        <a href="{% url 'view_profile' post.author.username %}" class="text-decoration-none text-dark d-flex align-items-center">
-                            {% if post.author.profile and post.author.profile.avatar %}
-                                <img src="{{ post.author.profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                            {% elif post.author.school_profile and post.author.school_profile.avatar %}
+                        <a href="{% url 'profile_view' post.author.username %}" class="text-decoration-none text-dark d-flex align-items-center">
+                            {% if post.author.studentprofile.avatar %}
+                                <img src="{{ post.author.studentprofile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                            {% elif post.author.school_profile.avatar %}
                                 <img src="{{ post.author.school_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                             {% else %}
                                 <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                             {% endif %}
+
                             <div>
                                 <h6 class="mb-0 fw-bold small">{{ post.author.get_full_name|default:post.author.username }}</h6>
                                 <span class="text-muted" style="font-size: 0.75rem;">{{ post.created_at|date:"F d, Y h:i A" }}</span>
@@ -113,7 +114,6 @@
                 <div id="shareBox-{{ post.id }}" class="p-3 bg-light border-top" style="display:none;">
                     <div class="fw-bold small mb-2">Share this post:</div>
                     <div class="d-flex flex-wrap gap-2">
-                        <!-- Direct link construct avoids dynamic fetch delay -->
                         <button class="btn btn-light btn-sm" onclick="openShareModal({{ post.id }}, '{{ request.scheme }}://{{ request.get_host }}/post/{{ post.id }}/')">🔗 Share</button>
                         <button class="btn btn-primary btn-sm" onclick="shareToPlatform({{ post.id }}, 'facebook', '{{ request.scheme }}://{{ request.get_host }}/post/{{ post.id }}/')">Facebook</button>
                         <button class="btn btn-dark btn-sm" onclick="shareToPlatform({{ post.id }}, 'x', '{{ request.scheme }}://{{ request.get_host }}/post/{{ post.id }}/')">X</button>
@@ -147,6 +147,47 @@
             <div class="alert alert-info text-center small">No social feed posts available right now.</div>
             {% endfor %}
 
+            <!-- PAGINATION -->
+            {% if posts.has_other_pages %}
+            <nav aria-label="Page navigation" class="my-4">
+                <ul class="pagination pagination-sm justify-content-center">
+                    
+                    {% if posts.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">&laquo; Prev</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo; Prev</span>
+                    </li>
+                    {% endif %}
+
+                    {% for num in posts.paginator.page_range %}
+                        {% if posts.number == num %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if posts.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next &raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Next &raquo;</span>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+            {% endif %}
+
         </main>
 
         <!-- RIGHT SIDEBAR -->
@@ -156,7 +197,7 @@
                     {% if not request.user.is_authenticated %}
                         <h5 class="fw-bold mb-2">Portal Gateway</h5>
                         <p class="text-muted small mb-3">Select your portal to log in or register.</p>
-                        
+
                         <div class="mb-2">
                             <span class="text-secondary fw-bold small d-block mb-1">🎓 Student</span>
                             <div class="d-flex gap-2">
@@ -194,6 +235,10 @@ function getCSRF() {
 function toggleShareBox(postId) {
     const box = document.getElementById(`shareBox-${postId}`);
     box.style.display = box.style.display === "none" ? "block" : "none";
+}
+
+function openShareModal(postId, url) {
+    copyPostLink(postId, url);
 }
 
 function shareToPlatform(postId, platform, postUrl) {

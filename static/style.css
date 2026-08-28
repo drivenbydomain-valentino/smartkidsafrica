@@ -158,7 +158,8 @@ body {
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  border: 4px solid $sunlight-yellow; // Matches your theme style
+  border: 1px solid #ef0909;
+  /* border: 4px solid $sunlight-yellow; // Matches your theme style */
 }
 
 .widget-slideshow .slideshow-img {
@@ -169,6 +170,7 @@ body {
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
   border: none; // Handled by outer container
+  border: 1px solid #ef0909;
 }
 
 /* Position stacked images absolute after the first one to prevent collapse */
@@ -200,6 +202,7 @@ body {
     letter-spacing: 0.5px;
     color: #f10606;
     margin-bottom: 15px;
+    border: 1px solid #ef0909;
 }
 
 .widget-img {

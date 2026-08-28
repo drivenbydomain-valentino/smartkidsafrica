@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 CLOUDINARY_STORAGE = {
+    'SECURE': True,
     'CLOUD_NAME': 'sywzvlna',
     'API_KEY': '862548548812594',
     'API_SECRET': 'lklFKOIkxMjLO_B530_yukmAe70'
@@ -152,7 +153,8 @@ WSGI_APPLICATION = 'smartkids.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}",
-        conn_max_age=600
+        conn_max_age=60 # Or 0 if using transaction poolers like PgBouncer
+          
     )
 }
 
@@ -200,3 +202,14 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
 
 LOGIN_URL = 'login'
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.hostinger.com'  # Clean hostname - no https://
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'mgt@smartkidsafrica.com'
+EMAIL_HOST_PASSWORD = 'Sire@1983'
+DEFAULT_FROM_EMAIL = 'mgt@smartkidsafrica.com'

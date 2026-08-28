@@ -4,9 +4,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-
-
-
 from . import views
 
 urlpatterns = [
@@ -35,20 +32,17 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('login/', auth_views.LoginView.as_view(template_name='club/login.html'), name='login'),
     path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
+    path('contact/', views.contact_view, name='contact'),
 
     # CONTENT
     path('newpost/', views.newpost, name='newpost'),
     path('mypost/', views.mypost, name='mypost'),
-    path('profile/', views.profile_view, name='profile'),
-    path('profile/<str:username>/', views.view_profile, name='view_profile'),
-
+    path('profile/', views.profile_view, name='profile_view'),
+    path('profile/<str:username>/', views.profile_view, name='profile_view'),
+    
     # EDUCATIONAL SECTIONS
     path('books/', views.books, name='books'),
     path('books/<str:slug>/', views.book_detail, name='book_detail'),
-    # path('books/<int:pk>/', views.book_detail, name='book_detail'),  # <--- Add this pattern
-    # path('add_to_cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
-
     path('careers/', views.careers, name='careers'),
     path('financeliteracy/savings/', views.savings, name='savings'),
     path('financeliteracy/investment/', views.investment, name='investment'),

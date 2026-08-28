@@ -1,12 +1,12 @@
 import json
 import time
 from functools import wraps
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, get_object_or_404
-from .models import Book
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.contrib.auth import authenticate, get_user_model, logout
-from django.contrib.auth import login as auth_login  # Resolves conflict between standard login and auth_login
+from django.contrib.auth import authenticate, get_user_model, logout, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError, transaction
@@ -15,9 +15,47 @@ from django.dispatch import receiver
 from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from .forms import ProfileForm  # or StudentProfileForm depending on your setup
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.http import Http404
+from .models import Book, CartItem
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.models import User
+from django.db import transaction
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_protect
+
+from .models import SchoolProfile
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
+from .models import Book
+from django.shortcuts import render
+from .models import Post, SchoolProfile  # Ensure your imports match your project structure
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST, require_GET
+from django.contrib.auth.decorators import login_required
+from .models import Post, Share
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+
+from .models import Post, Share
+
+from .forms import ProfileForm
 from .models import (
     AdminProfile,
+    Book,
     Comment,
     Like,
     Post,
@@ -25,6 +63,66 @@ from .models import (
     Share,
     StudentProfile,
 )
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.conf import settings
+
+import traceback
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.conf import settings
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.conf import settings
+
+def contact_view(request):
+    print("--- VIEW ACCESSED ---")
+    print("METHOD:", request.method)
+
+    if request.method == 'POST':
+        print("--- INSIDE POST BLOCK ---")
+        
+        name = request.POST.get('name')
+        sender_email = request.POST.get('email')
+        message_body = request.POST.get('message')
+
+        print(f"DATA RECEIVED: Name={name}, Email={sender_email}")
+
+        subject = f"New Inquiry from {name}"
+        full_message = f"Sender Name: {name}\nSender Email: {sender_email}\n\nMessage:\n{message_body}"
+
+        try:
+            email = EmailMessage(
+                subject=subject,
+                body=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=['mgt@smartkidsafrica.com'],
+                reply_to=[sender_email],
+            )
+            email.send(fail_silently=False)
+            print("--- EMAIL SENT SUCCESSFULLY ---")
+            
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect('contact')
+            
+        except Exception as e:
+            print("--- EMAIL ERROR ---:", e)
+            messages.error(request, f"Error sending message: {e}")
+
+    return render(request, 'club/contact.html')
 
 
 def admin_login(request):
@@ -41,7 +139,7 @@ def admin_login(request):
         if user is not None:
             # ✅ Only allow staff/admin users
             if user.is_staff or user.is_superuser:
-                login(request, user)
+                auth_login(request, user)
                 return redirect('admin_dashboard')
             else:
                 messages.error(request, "You are not authorized as an admin.")
@@ -123,13 +221,12 @@ def _debug_log(hypothesis_id, location, message, data):
     try:
         with open('debug-cad0c0.log', 'a', encoding='utf-8') as f:
             f.write(json.dumps({
-                "sessionId": "cad0c0",
-                "runId": "school-image-debug-1",
+                "sessionId": "c",
                 "hypothesisId": hypothesis_id,
                 "location": location,
                 "message": message,
                 "data": data,
-                "timestamp": int(time.time() * 1000),
+                "timestamp": time.time()
             }) + "\n")
     except Exception:
         pass
@@ -227,13 +324,38 @@ def search_users(request):
         'users': users
     })
 
-def view_profile(request, username):
-    user_obj = get_object_or_404(User, username=username)
-    posts = Post.objects.filter(author=user_obj).order_by('-created_at')
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+@login_required
+def profile_view(request, username=None):
+    if username:
+        profile_user = get_object_or_404(User, username=username)
+    else:
+        profile_user = request.user
+
+    # POST Handling: Update profile picture / avatar
+    if request.method == 'POST' and request.user == profile_user:
+        profile = getattr(profile_user, 'studentprofile', None) or getattr(profile_user, 'school_profile', None)
+
+        if profile and 'avatar' in request.FILES:
+            profile.avatar = request.FILES['avatar']
+            profile.save()
+            return redirect('profile_view', username=profile_user.username)
+
+    # Fetch user posts safely
+    if hasattr(profile_user, 'posts'):
+        posts = profile_user.posts.all().order_by('-created_at')
+    else:
+        posts = []
 
     return render(request, 'club/profile.html', {
-        'profile_user': user_obj,
-        'posts': posts
+        'profile_user': profile_user,
+        'posts': posts,
     })
 
 @login_required
@@ -284,19 +406,6 @@ def delete_comment(request, comment_id):
 
     return redirect('mypost')  # ✅ FIXED
 
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.urls import reverse
-
-from .models import Post, Share
-
-
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.urls import reverse
-
 @login_required
 def share_post(request, post_id):
 
@@ -313,11 +422,7 @@ def share_post(request, post_id):
         "content": post.content[:200],
     })
 
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST, require_GET
-from django.contrib.auth.decorators import login_required
-from .models import Post, Share
+
 
 @require_GET
 def get_post_share_url(request, post_id):
@@ -443,25 +548,90 @@ def student_login(request):
 
     return render(request, "club/student_login.html")
 
+from django.core.paginator import Paginator
+
+
 def home(request):
-    posts = Post.objects.all().order_by('-created_at')
+    posts_list = Post.objects.select_related("author").order_by("-created_at")
 
-    for post in posts[:15]:
-        school_profile = SchoolProfile.objects.filter(user=post.author).first()
+    # Retain your debug logging (checks the first 15 items of the queryset)
+    for post in posts_list[:15]:
+        school_profile = getattr(post.author, "school_profile", None)
+        student_profile = getattr(post.author, "studentprofile", None)
 
-        profile = getattr(post.author, "profile", None)
+        _debug_log(
+            "SI2",
+            "home",
+            "avatar check",
+            {
+                "post_id": post.id,
+                "author": post.author.username,
+                "is_school_author": bool(school_profile),
+                "school_avatar": (
+                    bool(getattr(school_profile, "avatar", None))
+                    if school_profile
+                    else False
+                ),
+                "profile_avatar": (
+                    bool(getattr(student_profile, "avatar", None))
+                    if student_profile
+                    else False
+                ),
+            },
+        )
 
-        _debug_log("SI2", "home", "avatar check", {
-            "post_id": post.id,
-            "author": post.author.username,
-            "is_school_author": bool(school_profile),
-            "school_avatar": bool(getattr(school_profile, "avatar", None)) if school_profile else False,
-            "profile_avatar": bool(getattr(profile, "avatar", None)) if profile else False,
-        })
+    # Instantiate Paginator (adjust 10 to any number of posts per page you prefer)
+    paginator = Paginator(posts_list, 10)
+    page_number = request.GET.get("page")
+    posts = paginator.get_page(page_number)
 
-    return render(request, 'club/home.html', {'posts': posts})
+    return render(request, "club/home.html", {"posts": posts})
+
+    
+@login_required
+def edit_profile(request):
+    # Determine profile type (Student or School)
+    profile = getattr(request.user, 'studentprofile', None) or getattr(request.user, 'school_profile', None)
+
+    if request.method == 'POST':
+        # MUST include request.FILES alongside request.POST
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('view_profile', username=request.user.username)
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'club/edit_profile.html', {'form': form})
 
 
+@login_required
+def profile(request):
+    profile_user = request.user
+
+    if request.method == 'POST':
+        if 'avatar' in request.FILES:
+            avatar_file = request.FILES['avatar']
+            
+            # Check for StudentProfile or SchoolProfile
+            if hasattr(profile_user, 'studentprofile'):
+                profile_obj = profile_user.studentprofile
+                profile_obj.avatar = avatar_file
+                profile_obj.save()
+            elif hasattr(profile_user, 'school_profile'):
+                profile_obj = profile_user.school_profile
+                profile_obj.avatar = avatar_file
+                profile_obj.save()
+
+            return redirect('profile')
+
+    # Fetch user's posts
+    posts = Post.objects.filter(author=profile_user).order_by('-created_at')
+
+    return render(request, 'club/profile.html', {
+        'profile_user': profile_user,
+        'posts': posts,
+    })
 
 @login_required(login_url='login')
 def newpost(request):
@@ -484,31 +654,9 @@ def newpost(request):
 
 @login_required(login_url='login')
 def mypost(request):
-    posts = Post.objects.filter(author=request.user).order_by('-created_at')
+    # posts = Post.objects.filter(author=request.user).order_by('-created_at')
+    posts = Post.objects.select_related('author', 'author__profile', 'author__school_profile').all()
     return render(request, 'club/mypost.html', {'posts': posts})
-
-User = get_user_model()
-
-
-# views.py
-@login_required
-def profile_view(request):
-    # Retrieve the student profile (or school profile)
-    profile = request.user.profile  # or request.user.studentprofile
-    
-    if request.method == 'POST':
-        # MUST include request.FILES along with request.POST
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-    else:
-        form = ProfileForm(instance=profile)
-
-    return render(request, 'club/profile.html', {
-        'profile_user': request.user,
-        'form': form,
-    })
 
 def signout(request):
     logout(request)
@@ -538,90 +686,6 @@ def careers(request):
 def books(request):
     books = Book.objects.all()
     return render(request, 'club/books.html', {'books': books})
-
-# views.py
-from django.shortcuts import render, get_object_or_404
-from .models import Book  # Adjust to your model name
-
-# Hardcoded dictionary matching your 8 static fallback books
-STATIC_BOOKS = {
-    1: {"title": "Strokes", "author": "Murphy A. Rich", "description": "A foundational workbook to strokes skills building.", "cover": "image/book_covers/strokes.jpeg"},
-    2: {"title": "Patterns", "author": "Murphy A. Rich", "description": "A foundational workbook to patterns skills building.", "cover": "image/book_covers/patterns.jpeg"},
-    3: {"title": "123 to 10 Vol. 1", "author": "Murphy A. Rich", "description": "A foundational workbook to number skills building.", "cover": "image/book_covers/123_10_vol1.jpeg"},
-    4: {"title": "123 to 20 Vol. 2", "author": "Murphy A. Rich", "description": "A foundational workbook to number skills building.", "cover": "image/book_covers/123_20_vol2.jpeg"},
-    5: {"title": "abc to m Vol. 1", "author": "Murphy A. Rich", "description": "A foundational workbook to letter skills building.", "cover": "image/book_covers/abc_m_vol1.jpeg"},
-    6: {"title": "abc to z Vol. 2", "author": "Murphy A. Rich", "description": "A foundational workbook to letter skills building.", "cover": "image/book_covers/abc_z_vol2.jpeg"},
-    7: {"title": "Capital ABC to Z", "author": "Murphy A. Rich", "description": "A foundational workbook to letter skills building.", "cover": "image/book_covers/CAPITAL_ABC_Z.jpeg"},
-    8: {"title": "Drawing & Colouring", "author": "Murphy A. Rich", "description": "A foundational workbook to art skills building.", "cover": "image/book_covers/drawing_colouring.jpeg"},
-}
-
-# def book_detail(request, pk):
-#     try:
-#         # Try fetching from database first
-#         book = Book.objects.get(pk=pk)
-#     except (Book.DoesNotExist, ValueError):
-#         # Fallback to static dummy data if not in DB
-#         book = STATIC_BOOKS.get(pk)
-        
-#         if not book:
-#             # If it's not in DB AND not in static list, return 404
-#             from django.http import Http404
-#             raise Http404("Book not found")
-
-#     return render(request, 'club/book_detail.html', {'book': book})
-
-# views.py
-# def book_detail(request, pk):
-#     try:
-#         book = Book.objects.get(pk=pk)
-#     except (Book.DoesNotExist, ValueError):
-#         book = STATIC_BOOKS.get(int(pk))
-#         if not book:
-#             raise Http404("Book not found")
-
-#     context = {
-#         'book': book,
-#         'pk': pk,  # <-- Pass 'pk' explicitly to context!
-#     }
-#     return render(request, 'club/book_detail.html', context)
-
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
-from .models import Book, Marketer
-
-# def book_detail(request, slug):
-#     book = get_object_or_404(Book, slug=slug)
-    
-#     # Fetch active marketers assigned to this book
-#     marketers = book.marketers.filter(is_active=True)
-    
-#     # Handle search/filter by region or marketer name
-#     query = request.GET.get('q', '').strip()
-#     if query:
-#         marketers = marketers.filter(
-#             Q(name__icontains=query) |
-#             Q(region__icontains=query) |
-#             Q(business_name__icontains=query)
-#         )
-    
-#     # Handle auto-selection via URL referral code (e.g. ?ref=MARKETER123)
-#     ref_code = request.GET.get('ref', '').strip()
-#     selected_marketer = None
-#     if ref_code:
-#         selected_marketer = marketers.filter(referral_code__iexact=ref_code).first()
-
-#     context = {
-#         'book': book,
-#         'marketers': marketers,
-#         'query': query,
-#         'ref_code': ref_code,
-#         'selected_marketer': selected_marketer,
-#     }
-#     return render(request, 'club/book_detail.html', context)
-
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
-from .models import Book
 
 def book_detail(request, slug):
     # If 'slug' is actually a number (e.g. /books/3/), look up by ID
@@ -668,12 +732,7 @@ def digitalentrepreneurship(request):
 def characterbuilding(request):
     return render(request, 'club/characterbuilding.html')
 
-from django.contrib.auth.models import User
-from django.db import transaction
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_protect
 
-from .models import SchoolProfile
 
 
 @csrf_protect
@@ -864,9 +923,7 @@ def schoolregister(request):
     return render(request, "club/schoolregister.html")
 
 
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_protect
+
 
 
 @csrf_protect
@@ -948,11 +1005,7 @@ def admin_logout(request):
     logout(request)
     return redirect("home")
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.http import Http404
-from .models import Book, CartItem
+
 
 
 @login_required

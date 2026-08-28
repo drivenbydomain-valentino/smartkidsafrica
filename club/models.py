@@ -1,13 +1,14 @@
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage, MediaCloudinaryStorage
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.core.validators import MinValueValidator
-from django.utils import timezone
-from django.db import models, IntegrityError
-from django.utils.timezone import now
 import datetime
 from decimal import Decimal
+
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage, MediaCloudinaryStorage
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
+from django.db import models, IntegrityError
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils import timezone
+from django.utils.timezone import now
 
 
 # ================= ADMIN ================= #
@@ -20,7 +21,7 @@ class AdminProfile(models.Model):
     )
 
     user = models.OneToOneField(
-        User,on_delete=models.CASCADE,related_name="adminprofile"
+        User, on_delete=models.CASCADE, related_name="adminprofile"
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     can_manage_users = models.BooleanField(default=False)
@@ -268,8 +269,8 @@ class StudentProfile(models.Model):
     parent_phone = models.CharField(max_length=20, blank=True, null=True)
     parent_whatsapp = models.CharField(max_length=20, blank=True, null=True)
 
-    # avatar = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg', blank=True)
-    avatar = models.ImageField(upload_to='avatars/', default='image/default_avatar.png', blank=True, null=True)
+    # CORRECT: Allow null/blank and let the template render a static fallback
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     bio = models.TextField(blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     user_class = models.CharField(max_length=100, blank=True)
@@ -290,8 +291,9 @@ class SchoolProfile(models.Model):
 
     email = models.EmailField(unique=True, db_index=True)
 
-    # avatar = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg', blank=True)
-    avatar = models.ImageField(upload_to='avatars/', default='image/default_avatar.png', blank=True, null=True)
+    
+    # CORRECT: Allow null/blank and let the template render a static fallback
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     whatsapp_number = models.CharField(max_length=20)
     contact_number = models.CharField(max_length=20, blank=True, null=True)
 
@@ -347,21 +349,6 @@ class SocialMedia(models.Model):
         return f"{owner} - {self.platform}: {self.handle}"
 
 
-
-# class Book(models.Model):
-#     title = models.CharField(max_length=255)
-#     author = models.CharField(max_length=255)
-#     price = models.DecimalField(max_digits=8, decimal_places=2)
-#     # Changed upload_image to upload_to here:
-#     cover_image = models.ImageField(upload_to="book_covers/", blank=True, null=True)
-#     description = models.TextField(blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return self.title
-
-from django.db import models
-
 class Marketer(models.Model):
     name = models.CharField(max_length=200)
     business_name = models.CharField(max_length=200, blank=True, null=True)
@@ -381,7 +368,6 @@ class Marketer(models.Model):
 
 
 class Book(models.Model):
-    # Your existing Book fields...
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     author = models.CharField(max_length=200)
@@ -390,10 +376,9 @@ class Book(models.Model):
     rrp_price = models.DecimalField(
         max_digits=10, 
         decimal_places=2, 
-        default=Decimal('0.00'), # or simply default=0.00
+        default=Decimal('0.00'),
         help_text="Recommended Retail Price"
     )
-    # Link books to assigned marketers
     marketers = models.ManyToManyField(
         Marketer, 
         related_name='books', 
@@ -411,7 +396,7 @@ class CartItem(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
 
     def get_total_price(self):
-        return self.book.price * self.quantity
+        return self.book.rrp_price * self.quantity
 
     def __str__(self):
         return f"{self.quantity}x {self.book.title} for {self.user.username}"

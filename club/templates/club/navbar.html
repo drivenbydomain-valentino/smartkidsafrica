@@ -597,51 +597,18 @@
 
                 <!-- FINANCE LITERACY -->
 
-                <li class="nav-item dropdown">
+                                <li class="nav-item">
 
                     <a
-                        class="nav-link dropdown-toggle"
+                        class="nav-link"
                         href="{% url 'financeliteracy' %}"
-                        id="financeliteracyDropdown"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
                     >
                         Finance Literacy
                     </a>
 
-
-                    <ul
-                        class="dropdown-menu"
-                        aria-labelledby="financeliteracyDropdown"
-                    >
-
-                        <li>
-
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'investment' %}"
-                            >
-                                Investment
-                            </a>
-
-                        </li>
-
-
-                        <li>
-
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'savings' %}"
-                            >
-                                Savings
-                            </a>
-
-                        </li>
-
-                    </ul>
-
                 </li>
+
+
 
 
                 <!-- CONTACT -->
@@ -684,6 +651,33 @@
                 </button>
 
             </form>
+
+            <!-- USER AVATAR / PROFILE DROPDOWN -->
+            {% if request.user.is_authenticated %}
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% if request.user.studentprofile and request.user.studentprofile.avatar and request.user.studentprofile.avatar.name %}
+                                <img src="{{ request.user.studentprofile.avatar.url }}" alt="{{ request.user.username }}" class="rounded-circle me-1" style="width: 32px; height: 32px; object-fit: cover;">
+                            {% elif request.user.school_profile and request.user.school_profile.avatar and request.user.school_profile.avatar.name %}
+                                <img src="{{ request.user.school_profile.avatar.url }}" alt="{{ request.user.username }}" class="rounded-circle me-1" style="width: 32px; height: 32px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-1" style="width: 32px; height: 32px; object-fit: cover;">
+                            {% endif %}
+                            <span>{{ request.user.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
+                            <li><a class="dropdown-item" href="{% url 'profile_view' %}">My Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                </ul>
+            {% endif %}
 
         </div>
 

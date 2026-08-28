@@ -1,16 +1,18 @@
 {% extends 'club/base.html' %}
 {% load static %}
-{% block content %}
 
+{% block content %}
 <div class="container mt-5" style="max-width:800px;">
 
-    <div class="card p-4 mb-4 text-center shadow-sm">
-        {% if profile_user.studentprofile.avatar and profile_user.studentprofile.avatar.url %}
-            <img src="{{ profile_user.studentprofile.avatar.url }}" class="rounded-circle mb-3 mx-auto" width="90" height="90" style="object-fit: cover;">
-        {% elif profile_user.schoolprofile.avatar and profile_user.schoolprofile.avatar.url %}
-            <img src="{{ profile_user.schoolprofile.avatar.url }}" class="rounded-circle mb-3 mx-auto" width="90" height="90" style="object-fit: cover;">
+    <!-- Profile Header Card -->
+    <div class="card p-4 mb-4 text-center shadow-sm align-items-center">
+        <!-- Avatar Display -->
+        {% if profile_user.studentprofile.avatar %}
+            <img src="{{ profile_user.studentprofile.avatar.url }}" alt="{{ profile_user.username }}" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+        {% elif profile_user.school_profile.avatar %}
+            <img src="{{ profile_user.school_profile.avatar.url }}" alt="{{ profile_user.username }}" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
         {% else %}
-            <img src="{% static 'image/default_avatar.png' %}" class="rounded-circle mb-3 mx-auto" width="90" height="90" style="object-fit: cover;">
+            <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
         {% endif %}
 
         <h4>@{{ profile_user.username }}</h4>
@@ -18,6 +20,7 @@
             Joined {{ profile_user.date_joined|date:"F Y" }}
         </p>
 
+        <!-- Edit Form Collapsible (Visible only to profile owner) -->
         {% if request.user == profile_user %}
             <div class="text-center mb-3">
                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#editProfileForm" aria-expanded="false" aria-controls="editProfileForm">
@@ -25,8 +28,9 @@
                 </button>
             </div>
 
-            <div class="collapse" id="editProfileForm">
-                <form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data" class="text-start p-3 bg-light rounded border mt-2">
+            <div class="collapse w-100" id="editProfileForm">
+                <!-- URL name matches profile_view -->
+                <form method="POST" action="{% url 'profile_view' username=profile_user.username %}" enctype="multipart/form-data" class="text-start p-3 bg-light rounded border mt-2">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="id_avatar" class="form-label small fw-bold">Upload New Profile Image</label>
@@ -40,30 +44,30 @@
         {% endif %}
     </div>
 
+    <!-- Posts Feed -->
     <h5 class="mb-3">Posts</h5>
 
     {% for post in posts %}
-    <div class="card mb-3 p-3 shadow-sm">
-        {% if post.title %}
-            <h6>{{ post.title }}</h6>
-        {% endif %}
+        <div class="card mb-3 p-3 shadow-sm">
+            {% if post.title %}
+                <h6>{{ post.title }}</h6>
+            {% endif %}
 
-        {% if post.content %}
-            <p>{{ post.content }}</p>
-        {% endif %}
+            {% if post.content %}
+                <p class="mb-2">{{ post.content }}</p>
+            {% endif %}
 
-        {% if post.image and post.image.url %}
-            <img src="{{ post.image.url }}" class="img-fluid rounded mb-2" style="max-height: 400px; object-fit: cover;">
-        {% endif %}
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="img-fluid rounded mb-2" style="max-height: 400px; object-fit: cover;" alt="Post media">
+            {% endif %}
 
-        <small class="text-muted">
-            {{ post.created_at|date:"F d, Y h:i A" }}
-        </small>
-    </div>
+            <small class="text-muted">
+                {{ post.created_at|date:"F d, Y h:i A" }}
+            </small>
+        </div>
     {% empty %}
         <p class="text-muted">No posts yet.</p>
     {% endfor %}
 
 </div>
-
 {% endblock %}
