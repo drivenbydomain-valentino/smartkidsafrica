@@ -27,10 +27,11 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 MEDIA_URL = '/media/'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -94,17 +95,41 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 # Application definition
+# INSTALLED_APPS = [
+#     'cloudinary_storage',
+#     'django.contrib.staticfiles',
+#     'cloudinary',
+#     'channels',
+#     'club.apps.ClubConfig',
+#     'django.contrib.admin',
+#     'django.contrib.auth',
+#     'django.contrib.contenttypes',
+#     'django.contrib.sessions',
+#     'django.contrib.messages',
+# ]
+
 INSTALLED_APPS = [
+    # 1. Third-party app overrides
+    # Optional: Disables default runserver static handling so WhiteNoise works in dev
+    'whitenoise.runserver_nostatic',
+    
+    # Must come BEFORE django.contrib.staticfiles to override collectstatic commands
     'cloudinary_storage',
-    'django.contrib.staticfiles',
-    'cloudinary',
-    'channels',
-    'club.apps.ClubConfig',
+
+    # 2. Django core apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # 3. Cloudinary main package & third-party integrations
+    'cloudinary',
+    'channels',
+
+    # 4. Your local apps
+    'club.apps.ClubConfig',
 ]
 
 
@@ -127,8 +152,6 @@ MIDDLEWARE = [
 # STATIC_URL = '/static/'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# settings.py
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
 ROOT_URLCONF = 'smartkids.urls'
