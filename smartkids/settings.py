@@ -127,7 +127,8 @@ MIDDLEWARE = [
 # STATIC_URL = '/static/'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# settings.py
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
 ROOT_URLCONF = 'smartkids.urls'
