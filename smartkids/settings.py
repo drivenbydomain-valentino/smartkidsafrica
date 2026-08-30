@@ -160,20 +160,19 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'lklFKOIkxMjLO_B530_yukmAe70'
 }
 
-# Django 4.2+ (Recommended)
-# Django 4.2+
-# Modern Django 4.2+ storage setting
 STORAGES = {
+    # Handles media files (user uploads) via Cloudinary
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
+    # Handles static files (CSS/JS) safely
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
-# Compatibility fallback for django-cloudinary-storage
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+# Compatibility fallback
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
