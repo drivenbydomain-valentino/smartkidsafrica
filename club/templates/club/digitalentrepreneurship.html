@@ -38,6 +38,8 @@ body {
     </div>
 
     <!-- Images -->
+    <div id="digitalCarousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Carousel Slides -->
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img src="{% static 'image/digital02.jpeg' %}" class="d-block w-100" alt="Digital Entrepreneurship 1">
@@ -53,12 +55,14 @@ body {
         </div>
     </div>
 
-    <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#investmentCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
+    <!-- Controls (Target ID matches container id="digitalCarousel") -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#digitalCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#investmentCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
+    <button class="carousel-control-next" type="button" data-bs-target="#digitalCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
 
