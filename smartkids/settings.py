@@ -162,6 +162,7 @@ CLOUDINARY_STORAGE = {
 
 # Django 4.2+ (Recommended)
 # Django 4.2+
+# Modern Django 4.2+ storage setting
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -171,8 +172,8 @@ STORAGES = {
     },
 }
 
-# Older Django versions (< 4.2):
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+# Compatibility fallback for django-cloudinary-storage
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
