@@ -160,7 +160,8 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'lklFKOIkxMjLO_B530_yukmAe70'
 }
 
-# Change from CompressedManifestStaticFilesStorage to CompressedStaticFilesStorage
+# Django 4.2+ (Recommended)
+# Django 4.2+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -170,8 +171,9 @@ STORAGES = {
     },
 }
 
-# Django < 4.2 Fallbacks
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# Older Django versions (< 4.2):
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # -----------------------------------------------------------------------------
