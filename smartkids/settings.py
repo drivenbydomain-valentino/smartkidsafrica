@@ -25,6 +25,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '[::1]',
 ]
+APPEND_SLASH = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 env_hosts = os.environ.get('ALLOWED_HOSTS')
 if env_hosts:
