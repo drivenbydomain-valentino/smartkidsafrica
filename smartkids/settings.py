@@ -97,7 +97,7 @@ ASGI_APPLICATION = 'smartkids.asgi.application'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.DjangoTemplates',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -160,9 +160,10 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'lklFKOIkxMjLO_B530_yukmAe70'
 }
 
+# Change from CompressedManifestStaticFilesStorage to CompressedStaticFilesStorage
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
@@ -170,7 +171,7 @@ STORAGES = {
 }
 
 # Django < 4.2 Fallbacks
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # -----------------------------------------------------------------------------
