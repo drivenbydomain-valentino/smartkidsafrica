@@ -37,6 +37,7 @@ urlpatterns = [
     # CONTENT
     path('newpost/', views.newpost, name='newpost'),
     path('mypost/', views.mypost, name='mypost'),
+    path('post/<int:post_id>/edit/', views.edit_post, name='edit_post'),
     path('profile/', views.profile_view, name='profile_view'),
     path('profile/<str:username>/', views.profile_view, name='profile_view'),
     

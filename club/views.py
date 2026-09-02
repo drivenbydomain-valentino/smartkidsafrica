@@ -64,6 +64,36 @@ from .models import (
     StudentProfile,
 )
 
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.contrib import messages
+from .models import Post  # Adjust import based on your model name
+
+@login_required
+@require_POST
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    # Ensure only the author can edit their own post
+    if post.author != request.user:
+        messages.error(request, "You do not have permission to edit this post.")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    title = request.POST.get('title', '').strip()
+    content = request.POST.get('content', '').strip()
+
+    if content:
+        post.title = title
+        post.content = content
+        post.save()
+        messages.success(request, "Post updated successfully.")
+    else:
+        messages.error(request, "Post content cannot be empty.")
+
+    # Redirect back to the previous page (social feed)
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
