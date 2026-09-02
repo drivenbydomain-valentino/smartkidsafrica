@@ -705,7 +705,7 @@ def mypost(request):
 
 def signout(request):
     logout(request)
-    return redirect('home')
+    return redirect('club:home')
 
 def about(request):
     return render(request, 'club/about.html')
@@ -1007,7 +1007,7 @@ def school_login(request):
             login(request, user)
 
             # Redirect after successful login
-            return redirect("home")
+            return redirect("club:home")
 
         # Authentication failed
         return render(
@@ -1023,12 +1023,12 @@ def school_login(request):
 
 def school_dashboard(request):
     if not request.user.is_authenticated:
-        return redirect("school_login")
+        return redirect("club:school_login")
 
     try:
         profile = request.user.school_profile
     except SchoolProfile.DoesNotExist:
-        return redirect("schoolregister")
+        return redirect("club:schoolregister")
 
     return render(request, "club/school_dashboard.html", {
         "profile": profile
@@ -1037,18 +1037,15 @@ def school_dashboard(request):
 
 def school_logout(request):
     logout(request)
-    return redirect("home")
+    return redirect("club:home")
 
 def student_logout(request):
     logout(request)
-    return redirect("home")
+    return redirect("club:home")
 
 def admin_logout(request):
     logout(request)
-    return redirect("home")
-
-
-
+    return redirect("club:home")
 
 @login_required
 def cart_detail(request):
@@ -1158,9 +1155,3 @@ def post_detail(request, post_id):
     }
     
     return render(request, 'club/post_detail.html', context)
-
-# # club/views.py
-# def search_users(request):
-#     query = request.GET.get('q', '')
-#     # Your search logic here
-#     return render(request, 'club/search_results.html', {'query': query})

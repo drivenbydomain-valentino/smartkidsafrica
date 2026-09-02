@@ -17,7 +17,7 @@
                  style="background-color: #fffdf5;">
 
                 <form method="POST"
-                      action="{% url 'school_login' %}"
+                      action="{% url 'club:school_login' %}"
                       class="card-body p-4 p-lg-5">
 
                     {% csrf_token %}
@@ -162,7 +162,7 @@
 
                             Don't have a school account?
 
-                            <a href="{% url 'schoolregister' %}"
+                            <a href="{% url 'club:schoolregister' %}"
                                class="fw-bold text-decoration-none"
                                style="color: #123c8c;">
 
