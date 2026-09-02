@@ -71,14 +71,14 @@
                         <!-- EDIT BUTTON (TOGGLES INLINE EDIT) -->
                         {% if request.user == post.author %}
                         <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none p-0" onclick="toggleInlineEdit({{ post.id }})">
-                            ✏️
+                            ✏️ Edit
                         </button>
                         {% endif %}
 
                         <!-- DELETE BUTTON -->
                         <form method="post" action="{% url 'club:delete_post' post.id %}" onsubmit="return confirm('Delete this post?');" class="m-0">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-link btn-sm text-danger text-decoration-none p-0">🗑️</button>
+                            <button type="submit" class="btn btn-link btn-sm text-danger text-decoration-none p-0">🗑️ Delete</button>
                         </form>
                     </div>
                 </div>
