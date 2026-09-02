@@ -494,7 +494,7 @@
 
         <a
             class="navbar-brand d-flex align-items-center"
-            href="{% url 'home' %}"
+            href="{% url 'club:home' %}"
         >
 
             <img
@@ -546,7 +546,7 @@
 
                     <a
                         class="nav-link"
-                        href="{% url 'home' %}"
+                        href="{% url 'club:home' %}"
                     >
                         Clubhouse
                     </a>
@@ -560,7 +560,7 @@
 
                     <a
                         class="nav-link"
-                        href="{% url 'about' %}"
+                        href="{% url 'club:about' %}"
                     >
                         About
                     </a>
@@ -573,7 +573,7 @@
 
                     <a
                         class="nav-link"
-                        href="{% url 'digitalentrepreneurship' %}"
+                        href="{% url 'club:digitalentrepreneurship' %}"
                     >
                         Digital Entrepreneurship
                     </a>
@@ -587,7 +587,7 @@
 
                     <a
                         class="nav-link"
-                        href="{% url 'characterbuilding' %}"
+                        href="{% url 'club:characterbuilding' %}"
                     >
                         Character Building
                     </a>
@@ -601,7 +601,7 @@
 
                     <a
                         class="nav-link"
-                        href="{% url 'financeliteracy' %}"
+                        href="{% url 'club:financeliteracy' %}"
                     >
                         Finance Literacy
                     </a>
@@ -617,7 +617,7 @@
 
                     <a
                         class="nav-link"
-                        href="{% url 'contact' %}"
+                        href="{% url 'club:contact' %}"
                     >
                         Contact Us
                     </a>
@@ -667,7 +667,7 @@
                             <span>{{ request.user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
-                            <li><a class="dropdown-item" href="{% url 'profile_view' %}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'club:profile_view' %}">My Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
                         </ul>

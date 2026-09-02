@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from . import views
+app_name = 'club'  # Ensure namespace is defined
 
 urlpatterns = [
     # urls.py
@@ -38,6 +39,7 @@ urlpatterns = [
     path('newpost/', views.newpost, name='newpost'),
     path('mypost/', views.mypost, name='mypost'),
     path('post/<int:post_id>/edit/', views.edit_post, name='edit_post'),
+    path('post/<int:post_id>/', views.post_detail, name='post_detail'),
     path('profile/', views.profile_view, name='profile_view'),
     path('profile/<str:username>/', views.profile_view, name='profile_view'),
     

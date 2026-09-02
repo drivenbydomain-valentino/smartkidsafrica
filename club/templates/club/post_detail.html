@@ -1,0 +1,28 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block og_meta %}
+  <!-- Specific post Open Graph tags for social crawlers -->
+  <meta property="og:title" content="{{ post.title|default:'Social Feed Post' }}" />
+  <meta property="og:description" content="{{ post.content|truncatewords:30 }}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}" />
+  
+  {% if post.image %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}" />
+  {% else %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/logo.png' %}" />
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="card my-4">
+    <div class="card-body">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content }}</p>
+      {% if post.image %}
+        <img src="{{ post.image.url }}" class="img-fluid" alt="{{ post.title }}">
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

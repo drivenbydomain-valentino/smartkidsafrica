@@ -492,6 +492,12 @@ def record_post_share(request, post_id):
     return JsonResponse({'success': False, 'error': 'User not authenticated'}, status=401)
 
 
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse, NoReverseMatch
+from .models import Post, Share
+
 @login_required
 def record_share(request, post_id):
 
@@ -519,6 +525,7 @@ def record_share(request, post_id):
             status=400
         )
 
+    # Log/record the user's share action
     Share.objects.get_or_create(
         user=request.user,
         post=post,
@@ -527,15 +534,23 @@ def record_share(request, post_id):
         shared_with=None,
     )
 
-    post_url = request.build_absolute_uri(
-        reverse('post_detail', args=[post.id])
-    )
+    # Resolve URL using the 'club' app namespace
+    try:
+        post_url = request.build_absolute_uri(
+            reverse('club:post_detail', args=[post.id])
+        )
+    except NoReverseMatch:
+        # Fallback if your app_name isn't 'club' or isn't namespaced
+        post_url = request.build_absolute_uri(
+            reverse('post_detail', args=[post.id])
+        )
 
     return JsonResponse({
         "success": True,
         "url": post_url,
         "platform": platform,
     })
+
 
 @login_required
 def like_post(request, post_id):
@@ -953,9 +968,6 @@ def schoolregister(request):
     return render(request, "club/schoolregister.html")
 
 
-
-
-
 @csrf_protect
 def school_login(request):
     if request.method == "POST":
@@ -1125,3 +1137,30 @@ def remove_from_cart(request, item_id):
     cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
     cart_item.delete()
     return redirect('cart')
+
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Post
+
+from django.shortcuts import render, get_object_or_404
+from .models import Post
+
+def post_detail(request, post_id):
+    """
+    Public view for social media crawlers and shared post links.
+    Ensures Open Graph meta tags render properly without requiring login.
+    """
+    post = get_object_or_404(Post, id=post_id)
+    
+    context = {
+        'post': post,
+    }
+    
+    return render(request, 'club/post_detail.html', context)
+
+# # club/views.py
+# def search_users(request):
+#     query = request.GET.get('q', '')
+#     # Your search logic here
+#     return render(request, 'club/search_results.html', {'query': query})
