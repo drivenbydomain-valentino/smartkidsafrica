@@ -8,7 +8,6 @@
 ===================================================== */
 
 .custom-navbar {
-
     background:
         linear-gradient(
             135deg,
@@ -36,7 +35,6 @@
 ===================================================== */
 
 .custom-navbar .container-fluid {
-
     padding-left: 18px;
     padding-right: 18px;
 }
@@ -47,7 +45,6 @@
 ===================================================== */
 
 .navbar-logo {
-
     /* Larger and easier to read */
     width: 72px;
 
@@ -73,7 +70,6 @@
 
 
 .navbar-logo:hover {
-
     transform: scale(1.05);
 
     box-shadow:
@@ -86,7 +82,6 @@
 ===================================================== */
 
 .custom-navbar .navbar-brand {
-
     margin-right: 22px;
 
     padding-top: 0;
@@ -104,7 +99,6 @@
 ===================================================== */
 
 .custom-navbar .nav-link {
-
     color: #ffffff !important;
 
     font-size: 0.84rem;
@@ -128,7 +122,6 @@
 ===================================================== */
 
 .custom-navbar .nav-link:hover {
-
     color: #ffd21f !important;
 }
 
@@ -138,7 +131,6 @@
 ===================================================== */
 
 .custom-navbar .nav-link::after {
-
     content: "";
 
     position: absolute;
@@ -161,7 +153,6 @@
 
 
 .custom-navbar .nav-link:hover::after {
-
     width: 65%;
 }
 
@@ -171,7 +162,6 @@
 ===================================================== */
 
 .custom-navbar .dropdown-toggle::after {
-
     margin-left: 4px;
 
     vertical-align: 0.15em;
@@ -183,7 +173,6 @@
 ===================================================== */
 
 .custom-navbar .dropdown-menu {
-
     background: #ffffff;
 
     border: none;
@@ -206,7 +195,6 @@
 ===================================================== */
 
 .custom-navbar .dropdown-item {
-
     color: #123c8c;
 
     font-size: 0.78rem;
@@ -224,7 +212,6 @@
 
 
 .custom-navbar .dropdown-item:hover {
-
     background: #eaf5ff;
 
     color: #e91e63;
@@ -232,86 +219,50 @@
 
 
 /* =====================================================
-   SEARCH AREA
+   SEARCH AREA (INPUT & BUTTON ALIGNMENT FIX)
 ===================================================== */
+
+.custom-navbar .search-group {
+    max-width: 250px;
+    width: 100%;
+}
 
 .custom-navbar .form-control {
-
-    height: 34px;
-
-    width: 150px;
-
-    font-size: 0.76rem;
-
-    padding:
-        0.25rem
-        0.65rem;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.5);
-
-    border-radius: 5px;
-
-    background:
-        rgba(255, 255, 255, 0.92);
-
+    height: 36px;
+    font-size: 0.78rem;
+    padding: 0.25rem 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.92);
     color: #172554;
-
     box-shadow: none;
+    line-height: normal;
 }
-
 
 .custom-navbar .form-control:focus {
-
     border-color: #ffd21f;
-
-    box-shadow:
-        0 0 0 2px
-        rgba(255, 210, 31, 0.18);
+    box-shadow: 0 0 0 2px rgba(255, 210, 31, 0.18);
+    background: #ffffff;
 }
-
-
-/* =====================================================
-   SEARCH BUTTON
-===================================================== */
 
 .custom-navbar .btn-search {
-
-    height: 34px;
-
-    font-size: 0.75rem;
-
+    height: 36px;
+    font-size: 0.78rem;
     font-weight: 700;
-
-    padding:
-        0.25rem
-        0.7rem;
-
-    border-radius: 5px;
-
+    padding: 0 0.85rem;
     border: 1px solid #ffd21f;
-
     color: #123c8c;
-
     background: #ffd21f;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
-
 .custom-navbar .btn-search:hover {
-
     background: #e91e63;
-
     border-color: #e91e63;
-
     color: #ffffff;
-
-    transform: translateY(-1px);
 }
 
 
@@ -320,7 +271,6 @@
 ===================================================== */
 
 .custom-navbar .navbar-toggler {
-
     border:
         1px solid
         rgba(255, 255, 255, 0.5) !important;
@@ -332,7 +282,6 @@
 
 
 .custom-navbar .navbar-toggler:focus {
-
     box-shadow:
         0 0 0 2px
         rgba(255, 210, 31, 0.35);
@@ -342,7 +291,6 @@
 /* Bootstrap toggler icon */
 
 .custom-navbar .navbar-toggler-icon {
-
     filter: brightness(0) invert(1);
 
     width: 23px;
@@ -358,77 +306,42 @@
 @media (max-width: 991px) {
 
     .custom-navbar {
-
-        padding:
-            7px 0 !important;
+        padding: 7px 0 !important;
     }
-
 
     /* Slightly smaller but still very readable */
     .navbar-logo {
-
         width: 68px;
-
         height: 68px;
     }
 
-
     .custom-navbar .navbar-collapse {
-
         margin-top: 8px;
-
-        padding:
-            10px 0 5px;
-
-        border-top:
-            1px solid
-            rgba(255, 255, 255, 0.15);
+        padding: 10px 0 5px;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
     }
-
 
     .custom-navbar .nav-link {
-
-        padding:
-            0.6rem
-            0.75rem !important;
+        padding: 0.6rem 0.75rem !important;
     }
 
-
     .custom-navbar .nav-link::after {
-
         display: none;
     }
 
-
     .custom-navbar .nav-link:hover {
-
-        background:
-            rgba(255, 255, 255, 0.08);
-
+        background: rgba(255, 255, 255, 0.08);
         border-radius: 5px;
     }
 
-
-    .custom-navbar .form-control {
-
-        width: 100%;
-
-        margin-bottom: 6px;
-    }
-
-
     .custom-navbar form {
-
-        margin-top: 8px;
-
-        padding:
-            0 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 0 5px;
     }
 
-
-    .custom-navbar .btn-search {
-
-        width: 85px;
+    .custom-navbar .search-group {
+        max-width: 100%;
     }
 
 }
@@ -441,34 +354,22 @@
 @media (max-width: 580px) {
 
     .custom-navbar {
-
-        padding:
-            6px 0 !important;
+        padding: 6px 0 !important;
     }
 
-
     .navbar-logo {
-
         width: 62px;
-
         height: 62px;
-
         padding: 3px;
-
         border-width: 2px;
     }
 
-
     .custom-navbar .container-fluid {
-
         padding-left: 10px;
-
         padding-right: 10px;
     }
 
-
     .custom-navbar .navbar-brand {
-
         margin-right: 10px;
     }
 
@@ -481,9 +382,7 @@
      SMARTKIDS NAVBAR
 ===================================================== -->
 
-<nav
-    class="navbar navbar-expand-lg custom-navbar fixed-top"
->
+<nav class="navbar navbar-expand-lg custom-navbar fixed-top">
 
     <div class="container-fluid">
 
@@ -492,17 +391,8 @@
              SMARTKIDS LOGO
         ============================================== -->
 
-        <a
-            class="navbar-brand d-flex align-items-center"
-            href="{% url 'club:home' %}"
-        >
-
-            <img
-                src="{% static 'image/logo.png' %}"
-                alt="SmartKids Africa Logo"
-                class="navbar-logo"
-            >
-
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'club:home' %}">
+            <img src="{% static 'image/logo.png' %}" alt="SmartKids Africa Logo" class="navbar-logo">
         </a>
 
 
@@ -519,9 +409,7 @@
             aria-expanded="false"
             aria-label="Toggle navigation"
         >
-
             <span class="navbar-toggler-icon"></span>
-
         </button>
 
 
@@ -529,127 +417,83 @@
              NAVIGATION
         ============================================== -->
 
-        <div
-            class="collapse navbar-collapse"
-            id="navbarSupportedContent"
-        >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-
-            <ul
-                class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center"
-            >
-
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
 
                 <!-- CLUBHOUSE -->
-
                 <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{% url 'club:home' %}"
-                    >
+                    <a class="nav-link" href="{% url 'club:home' %}">
                         Clubhouse
                     </a>
-
                 </li>
-
 
                 <!-- ABOUT -->
-
                 <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{% url 'club:about' %}"
-                    >
+                    <a class="nav-link" href="{% url 'club:about' %}">
                         About
                     </a>
-
                 </li>
 
-
-                <!-- Digital Entrepreneurship -->
-                 <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{% url 'club:digitalentrepreneurship' %}"
-                    >
-                        Digital Entrepreneurship
-                    </a>
-
-                </li>
-
-
-                <!-- CHARACTER BUILDING -->
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{% url 'club:characterbuilding' %}"
-                    >
-                        Character Building
-                    </a>
-
-                </li>
-
-
+                
                 <!-- FINANCE LITERACY -->
-
-                                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{% url 'club:financeliteracy' %}"
-                    >
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'club:financeliteracy' %}">
                         Finance Literacy
                     </a>
-
                 </li>
 
+                
+                <!-- FINANCE LITERACY -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'club:stencilbooks' %}">
+                        Stencil Books
+                    </a>
+                </li>
 
+                <!-- Digital Entrepreneurship -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'club:digitalentrepreneurship' %}">
+                        SmartTech
+                    </a>
+                </li>
+
+                <!-- CHARACTER BUILDING -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'club:characterbuilding' %}">
+                        Teens Afrique
+                    </a>
+                </li>
 
 
                 <!-- CONTACT -->
-
                 <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{% url 'club:contact' %}"
-                    >
+                    <a class="nav-link" href="{% url 'club:contact' %}">
                         Contact Us
                     </a>
-
                 </li>
 
             </ul>
 
 
             <!-- =========================================
-                 SEARCH
+                 SEARCH (PROPERLY ALIGNED)
             ========================================== -->
 
-            <form
-                class="d-flex align-items-center ms-lg-2"
-            >
-
-                <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search..."
-                    aria-label="Search"
-                >
-
-
-                <button
-                    class="btn btn-search"
-                    type="submit"
-                >
-                    Search
-                </button>
-
+            <form class="d-flex align-items-center my-2 my-lg-0 me-lg-3" method="GET" action="{% url 'club:search_users' %}">
+                <div class="input-group search-group">
+                    <input
+                        class="form-control"
+                        type="search"
+                        name="q"
+                        placeholder="Search..."
+                        aria-label="Search"
+                        value="{{ request.GET.q|default:'' }}"
+                    >
+                    <button class="btn btn-search" type="submit">
+                        Search
+                    </button>
+                </div>
             </form>
 
             <!-- USER AVATAR / PROFILE DROPDOWN -->
@@ -669,13 +513,13 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
                             <li><a class="dropdown-item" href="{% url 'club:profile_view' %}">My Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'club:signout' %}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
             {% else %}
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'club:student_login' %}">Login</a></li>
                 </ul>
             {% endif %}
 
@@ -684,4 +528,3 @@
     </div>
 
 </nav>
-

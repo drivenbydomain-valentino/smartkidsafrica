@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'club/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container my-5">
@@ -6,7 +7,13 @@
   <!-- HERO SECTION -->
   <div class="row align-items-center mb-5 p-4 border rounded shadow-sm bg-light">
     <div class="col-md-4 text-center mb-3 mb-md-0">
-      <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+      {% if book.cover_image %}
+        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+      {% else %}
+        <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded shadow mx-auto" style="height: 380px; max-width: 250px;">
+          <span>No Cover Available</span>
+        </div>
+      {% endif %}
     </div>
     <div class="col-md-8">
       <h1 class="fw-bold">{{ book.title }}</h1>
@@ -97,7 +104,7 @@
       {% empty %}
         <div class="col-12 text-center py-5">
           <p class="text-muted fs-5">No authorized marketers found for this area or query.</p>
-          <a href="{% url 'book_detail' slug=book.slug %}" class="btn btn-link">Reset Search</a>
+          <a href="{% url 'club:book_detail' pk=book.pk %}" class="btn btn-link">Reset Search</a>
         </div>
       {% endfor %}
     </div>

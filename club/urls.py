@@ -45,11 +45,12 @@ urlpatterns = [
     
     # EDUCATIONAL SECTIONS
     path('books/', views.books, name='books'),
-    path('books/<str:slug>/', views.book_detail, name='book_detail'),
+    path('books/<int:pk>/', views.book_detail, name='book_detail'),
     path('careers/', views.careers, name='careers'),
     path('financeliteracy/savings/', views.savings, name='savings'),
     path('financeliteracy/investment/', views.investment, name='investment'),
     path('financeliteracy/', views.financeliteracy, name='financeliteracy'),
+    path('stencilbooks/', views.stencilbooks, name='stencilbooks'),
     path('digitalentrepreneurship/', views.digitalentrepreneurship, name='digitalentrepreneurship'),
     path('characterbuilding/', views.characterbuilding, name='characterbuilding'),
 

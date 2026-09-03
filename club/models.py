@@ -33,6 +33,7 @@ class AdminProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} ({self.role})"
 
+
 # ✅ Basic Post Model (needed for sharing)
 class Post(models.Model):
 
@@ -78,6 +79,7 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.author.username} - {self.title or 'Post'}"
 
+
 class SocialAccount(models.Model):
 
     PLATFORM_CHOICES = (
@@ -121,7 +123,7 @@ class SocialAccount(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
-    
+
 
 # ✅ Enhanced Share Model (internal + external)
 class Share(models.Model):
@@ -239,6 +241,7 @@ class Like(models.Model):
     def __str__(self):
         return f"{self.user} likes {self.post}"
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
@@ -278,7 +281,6 @@ class StudentProfile(models.Model):
 
     created_at = models.DateTimeField(default=now, db_index=True)
 
-
     def __str__(self):
         return f"{self.user.username} Profile"
 
@@ -291,7 +293,6 @@ class SchoolProfile(models.Model):
 
     email = models.EmailField(unique=True, db_index=True)
 
-    
     # CORRECT: Allow null/blank and let the template render a static fallback
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     whatsapp_number = models.CharField(max_length=20)
@@ -328,6 +329,7 @@ class SchoolProfile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         StudentProfile.objects.get_or_create(user=instance)
+
 
 # ✅ Integrated Social Media (works for both Profile & School)
 class SocialMedia(models.Model):
@@ -389,6 +391,11 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+
+class Review(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart_items")
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -400,3 +407,14 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity}x {self.book.title} for {self.user.username}"
+
+
+# Helper function to safely populate seed data AFTER Django has loaded
+def seed_initial_books():
+    books_data = [
+        {"id": 1, "title": "Strokes", "author": "Murphy A. Rich", "slug": "strokes"},
+        {"id": 2, "title": "Patterns", "author": "Murphy A. Rich", "slug": "patterns"},
+        {"id": 3, "title": "123 to 10 Vol. 1", "author": "Murphy A. Rich", "slug": "123-10-vol1"},
+    ]
+    for item in books_data:
+        Book.objects.get_or_create(id=item["id"], defaults=item)

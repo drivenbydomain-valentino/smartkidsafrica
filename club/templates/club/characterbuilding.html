@@ -23,6 +23,57 @@ body {
     min-height: 500px;
     object-fit: cover;
 }
+
+/* ===== SHOWCASE & NAVIGATION STYLING ===== */
+.showcase-tab-btn {
+    border: 2px solid transparent;
+    background: #ffffff;
+    color: #123c8c;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    border-radius: 30px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.25s ease;
+}
+
+.showcase-tab-btn:hover {
+    background: #eaf5ff;
+    color: #e91e63;
+}
+
+.showcase-tab-btn.active {
+    background: linear-gradient(135deg, #1976d2, #123c8c) !important;
+    color: #ffffff !important;
+    border-color: #ffd21f !important;
+    box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+}
+
+.showcase-card {
+    border: none;
+    border-radius: 12px;
+    background: #ffffff;
+    border-top: 4px solid #4da6ff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.showcase-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+}
+
+.pillar-badge {
+    display: inline-block;
+    background: #eaf5ff;
+    color: #1976d2;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 </style>
 
 <!-- FULL-WIDTH IMAGE CAROUSEL -->
@@ -70,67 +121,226 @@ body {
     
     <!-- PAGE HEADER -->
     <div class="about-header text-center shadow-sm">
-        <h2 class="mb-0 fw-bold">Character Building</h2>
+        <h2 class="mb-0 fw-bold">Child & Youth Development Showcase</h2>
     </div>
 
     <!-- MAIN OVERVIEW -->
-    <div class="mb-5">
-        <h2 class="text-center mb-4 text-primary">Building Strong Foundations for the Future</h2>
-        <p class="text-justify lead fs-6">
-            Financial literacy goes beyond saving — understanding investment is key to long-term wealth creation.
-            Many young people are never taught how to grow their money strategically or how investments work.
-            This knowledge gap contributes to persistent poverty and missed opportunities for wealth building.
-            <br><br>
-            In Nigeria and across Africa, formal education often ignores practical investment skills.
-            Smartkids Investment Club was created to fill this gap by teaching age-appropriate investment concepts,
-            helping students understand stocks, bonds, entrepreneurship, and other wealth-building strategies early.
-        </p>
-    </div>
-
-    <!-- CORE CHARACTER PILLARS -->
-    <div class="my-5">
-        <h2 class="text-center mb-4 text-primary">Key Pillars of Character</h2>
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Integrity & Accountability</h5>
-                    <p class="text-justify mb-0">
-                        Developing trust and personal responsibility when managing resources and making decisions.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Discipline & Patience</h5>
-                    <p class="text-justify mb-0">
-                        Cultivating long-term perspective and self-control necessary for wealth preservation and compound growth.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Leadership & Vision</h5>
-                    <p class="text-justify mb-0">
-                        Empowering students to take initiative, inspire peers, and make impactful choices for their communities.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Confidence & Independence</h5>
-                    <p class="text-justify mb-0">
-                        Gaining the self-assurance needed to navigate complex financial decisions and prepare for a successful future.
-                    </p>
-                </div>
+    <div class="mb-5 text-center">
+        <h2 class="mb-3 text-primary fw-bold">Building Strong Foundations for the Future</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <p class="lead fs-6 text-secondary">
+                    Child and youth development encompasses the holistic progression of cognitive, emotional, physical, and social capabilities. Understanding these core growth pillars allows us to cultivate resilient, financially savvy, and morally grounded future leaders across Africa.
+                </p>
             </div>
         </div>
     </div>
 
+    <!-- SHOWCASE TABBED NAVIGATION -->
+    <div class="my-5">
+        <ul class="nav nav-pills justify-content-center gap-2 mb-4" id="developmentShowcaseTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="showcase-tab-btn active" id="tab-1" data-bs-toggle="pill" data-bs-target="#stage-1" type="button" role="tab">
+                    1. Developmental Stages
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="showcase-tab-btn" id="tab-2" data-bs-toggle="pill" data-bs-target="#stage-2" type="button" role="tab">
+                    2. Psychological & Cognitive
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="showcase-tab-btn" id="tab-3" data-bs-toggle="pill" data-bs-target="#stage-3" type="button" role="tab">
+                    3. Social & Environmental
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="showcase-tab-btn" id="tab-4" data-bs-toggle="pill" data-bs-target="#stage-4" type="button" role="tab">
+                    4. Physical & Health
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="showcase-tab-btn" id="tab-5" data-bs-toggle="pill" data-bs-target="#stage-5" type="button" role="tab">
+                    5. Mental Health
+                </button>
+            </li>
+        </ul>
+
+        <!-- SHOWCASE CONTENT PANELS -->
+        <div class="tab-content pt-2" id="developmentShowcaseContent">
+
+            <!-- STAGE 1: DEVELOPMENTAL STAGES & MILESTONES -->
+            <div class="tab-pane fade show active" id="stage-1" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Early Childhood</span>
+                            <h5 class="fw-bold text-primary mb-3">Ages 0–5 Years</h5>
+                            <p class="text-secondary small mb-0">
+                                Focuses on foundational sensorimotor learning, rapid language acquisition, emotional attachment theories, fine/gross motor skill mastery, and primary school readiness.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Middle Childhood</span>
+                            <h5 class="fw-bold text-primary mb-3">Ages 6–12 Years</h5>
+                            <p class="text-secondary small mb-0">
+                                Focuses on cognitive concrete operational reasoning, structured peer relationship formation, self-concept development, and building academic self-efficacy.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Adolescence & Adulthood</span>
+                            <h5 class="fw-bold text-primary mb-3">Ages 13–24 Years</h5>
+                            <p class="text-secondary small mb-0">
+                                Focuses on identity formation, active autonomy seeking, prefrontal cortex brain remodeling, and transitioning toward independent decision-making.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 2: PSYCHOLOGICAL & COGNITIVE GROWTH -->
+            <div class="tab-pane fade" id="stage-2" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Cognitive Skills</span>
+                            <h5 class="fw-bold text-primary mb-3">Cognitive Development</h5>
+                            <p class="text-secondary small mb-0">
+                                Enhancing language processing capabilities, structured problem-solving, spatial reasoning, executive functions, and working memory capacity.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Emotional Strength</span>
+                            <h5 class="fw-bold text-primary mb-3">Emotional Regulation</h5>
+                            <p class="text-secondary small mb-0">
+                                Developing healthy coping mechanisms, high emotional intelligence (EQ), stress management strategies, and techniques to overcome adverse childhood experiences (ACEs).
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Ethics & Values</span>
+                            <h5 class="fw-bold text-primary mb-3">Moral Reasoning</h5>
+                            <p class="text-secondary small mb-0">
+                                Cultivating deep understanding of individual rights, fairness, empathy, personal values formation, and consistent prosocial behavior.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 3: SOCIAL & ENVIRONMENTAL CONTEXTS -->
+            <div class="tab-pane fade" id="stage-3" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Home & Family</span>
+                            <h5 class="fw-bold text-primary mb-3">Family & Parenting</h5>
+                            <p class="text-secondary small mb-0">
+                                Analyzing authoritative versus permissive parenting, sibling dynamics, addressing intergenerational trauma, and understanding family structure impacts.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Peer Interactions</span>
+                            <h5 class="fw-bold text-primary mb-3">Peer Dynamics</h5>
+                            <p class="text-secondary small mb-0">
+                                Navigating friendship quality, peer pressure, social hierarchies, anti-bullying measures, and youth subculture integration.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Academic Growth</span>
+                            <h5 class="fw-bold text-primary mb-3">Educational Settings</h5>
+                            <p class="text-secondary small mb-0">
+                                Fostering inclusive learning environments, supportive teacher-student relationships, play-based learning frameworks, and active extracurricular engagement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 4: PHYSICAL DEVELOPMENT & HEALTH -->
+            <div class="tab-pane fade" id="stage-4" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Fitness & Growth</span>
+                            <h5 class="fw-bold text-primary mb-3">Nutrition & Fitness</h5>
+                            <p class="text-secondary small mb-0">
+                                Monitoring physical growth trajectories, promoting healthy dietary habits, driving sports participation, and combating childhood obesity.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Biological Changes</span>
+                            <h5 class="fw-bold text-primary mb-3">Puberty & Sexual Health</h5>
+                            <p class="text-secondary small mb-0">
+                                Understanding hormonal shifts, fostering positive body image perception, delivering comprehensive reproductive health education, and gender identity support.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Rest & Brain</span>
+                            <h5 class="fw-bold text-primary mb-3">Sleep & Neurodevelopment</h5>
+                            <p class="text-secondary small mb-0">
+                                Addressing adolescent circadian rhythm shifts, enforcing proper sleep hygiene, and optimizing long-term physical health outcomes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 5: MENTAL HEALTH & WELL-BEING -->
+            <div class="tab-pane fade" id="stage-5" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Clinical Awareness</span>
+                            <h5 class="fw-bold text-primary mb-3">Behavioral Disorders</h5>
+                            <p class="text-secondary small mb-0">
+                                Early identification and support for anxiety, depression, ADHD, conduct disorders, and autism spectrum conditions in young people.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Psychological Care</span>
+                            <h5 class="fw-bold text-primary mb-3">Trauma & Healing</h5>
+                            <p class="text-secondary small mb-0">
+                                Implementing trauma-informed care, systemic support networks, mitigating adverse childhood experiences, and promoting psychological recovery.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 showcase-card shadow-sm h-100">
+                            <span class="pillar-badge">Risk Prevention</span>
+                            <h5 class="fw-bold text-primary mb-3">Substance Use Control</h5>
+                            <p class="text-secondary small mb-0">
+                                Enhancing risk perception, executing evidence-based prevention strategies, improving impulse control, and early intervention for youth addictions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- SUMMARY SECTION -->
-    <div class="my-5 p-4 bg-white rounded-3 shadow-sm">
-        <p class="text-justify lead fs-6 mb-0">
-            Nigeria’s young population presents a unique opportunity — equipping students with strong character and investment knowledge today
-            builds financially savvy adults who can contribute to sustainable economic development tomorrow.
+    <div class="my-5 p-4 bg-white rounded-3 shadow-sm border-start border-4 border-primary">
+        <p class="text-justify lead fs-6 mb-0 text-secondary">
+            Equipping youth with strong character, developmental support, and financial knowledge builds savvy, emotionally resilient adults capable of driving sustainable social and economic progress across Africa.
         </p>
     </div>
 

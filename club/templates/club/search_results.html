@@ -9,7 +9,7 @@
             {% for user in users %}
                 <li class="list-group-item d-flex justify-content-between">
                     {{ user.username }}
-                    <a href="{% url 'view_profile' user.username %}" 
+                    <a href="{% url 'club:profile_view' user.username %}" 
    class="btn btn-sm btn-primary">
    View Profile
 </a>

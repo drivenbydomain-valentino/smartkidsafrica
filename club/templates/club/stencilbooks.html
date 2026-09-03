@@ -1,0 +1,450 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- External Assets -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}" />
+
+<style>
+  body {
+    background: #f4f6fb;
+    overflow-x: hidden;
+  }
+
+  /* ===== COMPACT PINK & BLUE HERO HEADER SECTION ===== */
+  .inner_page_head {
+    background: linear-gradient(135deg, #e83e8c, #d63384, #007bff, #0056b3);
+    color: #ffffff;
+    padding: 20px 0;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(232, 62, 140, 0.2);
+  }
+
+  .inner_page_head h3 {
+    font-weight: 700;
+    margin: 0;
+    font-size: 1.35rem;
+    letter-spacing: -0.3px;
+  }
+
+  /* ===== BOOK CARDS & GRID ===== */
+  .product_section .box {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #ffffff;
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .product_section .box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .product_section .box .img-box {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    background-color: #111827;
+  }
+
+  .product_section .box .img-box img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+  }
+
+  .product_section .box:hover .img-box img {
+    transform: scale(1.06);
+  }
+
+  .detail-box {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .book-author {
+    font-size: 0.825rem;
+    color: #6c757d;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .description-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    font-size: 0.85rem;
+    color: #4f566b;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .btn-detail {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  }
+
+  .btn-detail:hover {
+    background-color: #123c8c;
+    color: #ffffff;
+    box-shadow: 0 6px 15px rgba(18, 60, 140, 0.3);
+  }
+
+  /* ===== MARKETER & AUTHOR PROFILE CARDS ===== */
+  .marketer-card {
+    border: none;
+    border-radius: 16px;
+    background: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .marketer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .marketer-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 8px 18px rgba(0, 123, 255, 0.2);
+  }
+</style>
+
+<!-- Header Section (Compact Pink & Blue Gradient) -->
+<section class="inner_page_head text-center">
+  <div class="container">
+    <h2>Smartkids Stencil Books & Digital Library</h2>
+    <p class="mb-0 text-white-50 mt-1 small">Curated Tech, Entrepreneurship & Financial Literacy Publications</p>
+  </div>
+</section>
+
+<!-- Main Library Container -->
+<div class="container-fluid px-4 px-md-5">
+
+  <!-- BOOK CATALOG SECTION -->
+  <section class="product_section my-4">
+    <div class="text-center mb-5">
+      <h2 class="text-primary fw-bold mb-2">Explore Our Book Collection</h2>
+      <p class="text-secondary small">Empowering young minds with world-class curriculum workbooks and skill-building handbooks.</p>
+    </div>
+
+    {% if books %}
+      <!-- Dynamic Database Books Grid -->
+      <div class="row g-4">
+        {% for book in books %}
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="box shadow-sm">
+              <div class="img-box">
+                {% if book.cover_image %}
+                  <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+                {% else %}
+                  <img src="{% static 'image/book_covers/strokes.jpeg' %}" alt="{{ book.title }}">
+                {% endif %}
+              </div>
+
+              <div class="detail-box d-flex flex-column align-items-start h-100">
+                <h5 class="fw-bold text-dark text-truncate w-100 mb-0" title="{{ book.title }}">{{ book.title }}</h5>
+                <div class="book-author">By {{ book.author }}</div>
+                
+                {% if book.description %}
+                  <p class="description-text flex-grow-1">{{ book.description }}</p>
+                {% else %}
+                  <p class="description-text flex-grow-1 fst-italic text-muted">A foundational workbook designed for structured skill development.</p>
+                {% endif %}
+
+                <div class="mt-3 w-100 pt-2 border-top">
+                  <a href="{% url 'book_detail' slug=book.slug %}" class="btn-detail text-center">View Detail</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Pagination -->
+      {% if books.has_other_pages %}
+        <nav aria-label="Catalog pagination navigation" class="d-flex justify-content-center my-5">
+          <ul class="pagination shadow-sm rounded-pill overflow-hidden">
+            {% if books.has_previous %}
+              <li class="page-item">
+                <a class="page-link text-dark border-0" href="?page={{ books.previous_page_number }}" aria-label="Previous">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link border-0">&laquo;</span></li>
+            {% endif %}
+
+            {% for i in books.paginator.page_range %}
+              {% if books.number == i %}
+                <li class="page-item active"><span class="page-link bg-primary border-0 text-white">{{ i }}</span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link text-dark border-0" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if books.has_next %}
+              <li class="page-item">
+                <a class="page-link text-dark border-0" href="?page={{ books.next_page_number }}" aria-label="Next">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link border-0">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+
+    {% else %}
+      <!-- Static Stencil Books Catalog -->
+      <div class="row g-4">
+        
+        <!-- Book 1: Strokes -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/strokes.jpeg' %}" alt="Strokes">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">Strokes</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">A foundational workbook for basic stroke alignment and handwriting skills.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 1 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 2: Patterns -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/patterns.jpeg' %}" alt="Patterns">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">Patterns</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">Step-by-step pattern tracing to refine fine motor control and concentration.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 2 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 3: 123 to 10 Vol. 1 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/123_10_vol1.jpeg' %}" alt="123 to 10 Vol. 1">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">123 to 10 Vol. 1</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">Early childhood numeracy guide covering introductory numbers and counting concepts.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 3 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 4: 123 to 20 Vol. 2 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/123_20_vol2.jpeg' %}" alt="123 to 20 Vol. 2">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">123 to 20 Vol. 2</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">Expanded arithmetic and numerical recognition workbook for progressing learners.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 4 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 5: abc to m Vol. 1 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="abc to m Vol. 1">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">abc to m Vol. 1</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">Practical literacy exercises focusing on lower-case alphabet formation from A to M.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 5 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 6: n to z Vol. 2 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="n to z Vol. 2">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">n to z Vol. 2</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">Completing lower-case alphabet mastery with guided writing paths from N to Z.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 6 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 7: Capital ABC Vol. 1 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="Capital ABC Vol. 1">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">Capital ABC Vol. 1</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">Structured workbook covering upper-case letter construction and phonics.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 7 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 8: Capital ABC Vol. 2 -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="box shadow-sm">
+            <div class="img-box">
+              <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="Capital ABC Vol. 2">
+            </div>
+            <div class="detail-box d-flex flex-column align-items-start h-100">
+              <h5 class="fw-bold text-dark text-truncate w-100 mb-0">Capital ABC Vol. 2</h5>
+              <div class="book-author">By Murphy A. Rich</div>
+              <p class="description-text flex-grow-1">Advanced letter combinations and word building prep for early readers.</p>
+              <div class="mt-3 w-100 pt-2 border-top">
+                <a href="{% url 'club:book_detail' 8 %}" class="btn-detail text-center">View Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- PUBLISHING & MARKETING TEAM SECTION -->
+  <section class="my-5 pt-4 border-top">
+    <div class="text-center mb-5">
+      <h2 class="text-primary fw-bold mb-2">Meet Our Publishing & Marketing Team</h2>
+      <p class="text-secondary small">The educational strategists, authors, and growth marketers driving StencilBooks distribution.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      
+      <!-- Profile 1 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card marketer-card p-4 shadow-sm text-center h-100">
+          <div class="mb-3">
+            <img src="{% static 'image/digital02.jpeg' %}" class="marketer-avatar" alt="Head of Growth">
+          </div>
+          <h5 class="fw-bold text-dark mb-1">Head of Growth</h5>
+          <p class="text-primary fw-semibold small mb-2">Institutional Partnerships</p>
+          <p class="text-secondary small mb-3">
+            Leading school distributions and educational partnerships across Nigeria and broader West Africa.
+          </p>
+          <div class="mt-auto pt-2 border-top">
+            <span class="badge bg-light text-primary border border-primary px-3 py-2 rounded-pill">Partnership Outreach</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile 2 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card marketer-card p-4 shadow-sm text-center h-100">
+          <div class="mb-3">
+            <img src="{% static 'image/digital03.jpeg' %}" class="marketer-avatar" alt="Chief Editor">
+          </div>
+          <h5 class="fw-bold text-dark mb-1">Chief Editor</h5>
+          <p class="text-success fw-semibold small mb-2">Curriculum Author</p>
+          <p class="text-secondary small mb-3">
+            Overseeing technical accuracy, STEM alignment, and practical workbook exercises for young learners.
+          </p>
+          <div class="mt-auto pt-2 border-top">
+            <span class="badge bg-light text-success border border-success px-3 py-2 rounded-pill">STEM Publications</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile 3 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card marketer-card p-4 shadow-sm text-center h-100">
+          <div class="mb-3">
+            <img src="{% static 'image/digital04.jpeg' %}" class="marketer-avatar" alt="Digital Marketing">
+          </div>
+          <h5 class="fw-bold text-dark mb-1">Digital Marketing</h5>
+          <p class="text-warning text-dark fw-semibold small mb-2">Brand & Media Strategy</p>
+          <p class="text-secondary small mb-3">
+            Managing digital storefronts, content distribution, and online community engagement for readers.
+          </p>
+          <div class="mt-auto pt-2 border-top">
+            <span class="badge bg-light text-dark border border-warning px-3 py-2 rounded-pill">Digital Campaigns</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile 4 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card marketer-card p-4 shadow-sm text-center h-100">
+          <div class="mb-3">
+            <img src="{% static 'image/digital05.jpeg' %}" class="marketer-avatar" alt="Distribution Lead">
+          </div>
+          <h5 class="fw-bold text-dark mb-1">Distribution Lead</h5>
+          <p class="text-info fw-semibold small mb-2">Logistics & Fulfilment</p>
+          <p class="text-secondary small mb-3">
+            Ensuring seamless physical workbook deliveries and e-reader licensing for member schools.
+          </p>
+          <div class="mt-auto pt-2 border-top">
+            <span class="badge bg-light text-info border border-info px-3 py-2 rounded-pill">Direct Fulfillment</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUMMARY CALLOUT -->
+  <div class="my-5 p-4 bg-white rounded-3 shadow-sm text-center border-top border-4 border-primary">
+    <p class="lead fs-6 mb-0 text-secondary">
+      <strong>Smartkids Stencil Books & Digital Library</strong> combines structured educational publishing with direct distribution networks to ensure schools and young learners gain easy access to early literacy, numeracy, and career skill resources.
+    </p>
+  </div>
+
+</div>
+{% endblock %}

@@ -732,43 +732,16 @@ def books(request):
     books = Book.objects.all()
     return render(request, 'club/books.html', {'books': books})
 
-def book_detail(request, slug):
-    # If 'slug' is actually a number (e.g. /books/3/), look up by ID
-    if slug.isdigit():
-        book = get_object_or_404(Book, pk=int(slug))
-    else:
-        book = get_object_or_404(Book, slug=slug)
-    
-    # Active marketers assigned to this book
-    marketers = book.marketers.filter(is_active=True)
-    
-    # Search/filter by region or name
-    query = request.GET.get('q', '').strip()
-    if query:
-        marketers = marketers.filter(
-            Q(name__icontains=query) |
-            Q(region__icontains=query) |
-            Q(business_name__icontains=query)
-        )
-    
-    # Referral code lookup (?ref=CODE)
-    ref_code = request.GET.get('ref', '').strip()
-    selected_marketer = None
-    if ref_code:
-        selected_marketer = marketers.filter(referral_code__iexact=ref_code).first()
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return render(request, 'club/book_detail.html', {'book': book})
 
-    context = {
-        'book': book,
-        'marketers': marketers,
-        'query': query,
-        'ref_code': ref_code,
-        'selected_marketer': selected_marketer,
-    }
-    return render(request, 'store/book_detail.html', context)
 
 def financeliteracy(request):
     return render(request, 'club/financeliteracy.html')
 
+def stencilbooks(request):
+    return render(request, 'club/stencilbooks.html')
 
 def digitalentrepreneurship(request):
     return render(request, 'club/digitalentrepreneurship.html')
