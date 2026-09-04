@@ -129,6 +129,13 @@
                     color: #ffffff;
                 }
 
+                .post-clamp-text {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 4;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
                 @media (max-width: 767px) {
                     .feed-header-wrapper {
                         flex-direction: column;
@@ -238,13 +245,13 @@
                 </div>
 
                 <!-- POST DISPLAY VIEW -->
-                <div class="px-3 pt-2" id="post-view-{{ post.id }}">
+                <div class="px-3 pt-1" id="post-view-{{ post.id }}">
                     {% if post.title %}<h6 class="fw-bold mb-1">{{ post.title }}</h6>{% endif %}
                     {% if post.content %}
-                    <div class="text-secondary small mb-2" style="line-height: 1.6; white-space: pre-line;">{{ post.content|linebreaksbr }}</div>
+                    <div class="text-secondary small mb-2 post-clamp-text" style="line-height: 1.5; white-space: pre-line;">{{ post.content|linebreaksbr }}</div>
                     {% endif %}
                     <div class="mb-2">
-                        <a href="{% url 'club:post_detail' post.id %}" class="small text-decoration-none fw-semibold">View Post Details &rarr;</a>
+                        <a href="{% url 'club:post_detail' post.id %}" class="small text-decoration-none fw-semibold">Read post in detail &rarr;</a>
                     </div>
                 </div>
 
@@ -272,13 +279,13 @@
                 <!-- ATTACHMENTS -->
                 {% if post.image %}
                 <div class="px-3 pb-2">
-                    <img src="{{ post.image.url }}" class="img-fluid rounded border w-100" style="max-height: 450px; object-fit: cover;">
+                    <img src="{{ post.image.url }}" class="img-fluid rounded border w-100" style="max-height: 200px; object-fit: cover;">
                 </div>
                 {% endif %}
 
                 {% if post.video %}
                 <div class="px-3 pb-2">
-                    <video controls class="w-100 rounded border" style="max-height: 400px;">
+                    <video controls class="w-100 rounded border" style="max-height: 220px; object-fit: cover;">
                         <source src="{{ post.video.url }}">
                     </video>
                 </div>
