@@ -26,501 +26,322 @@
         <!-- CENTER FEED -->
         <main class="col-lg-6 col-md-8 order-1 order-md-2">
 
-    <!-- CSS STYLES FOR PROFESSIONAL HEADER & BUTTONS -->
-    <style>
-        /* Header Card Elevation & Spacing */
-        .feed-header-card {
-            border: none;
-            border-radius: 10px;
-            background: #ffffff;
-            border-top: 4px solid #ffd21f; /* Accent yellow border from main navbar */
-        }
+            <!-- CSS STYLES FOR PROFESSIONAL HEADER & BUTTONS -->
+            <style>
+                .feed-header-card {
+                    border: none;
+                    border-radius: 10px;
+                    background: #ffffff;
+                    border-top: 4px solid #ffd21f;
+                }
 
-        /* Title Styling */
-        .feed-header-title {
-            color: #123c8c;
-            font-size: 1.1rem;
-            letter-spacing: -0.2px;
-        }
+                .feed-header-title {
+                    color: #123c8c;
+                    font-size: 1.1rem;
+                    letter-spacing: -0.2px;
+                }
 
-        /* Action Buttons Core */
-        .feed-actions .btn-action {
-            height: 36px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0 0.85rem;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            border: none;
-        }
+                .feed-actions .btn-action {
+                    height: 36px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    padding: 0 0.85rem;
+                    border-radius: 6px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+                    transition: all 0.2s ease;
+                    text-decoration: none;
+                    border: none;
+                }
 
-        /* Color Scheme - Blue (Post) */
-        .btn-action-blue {
-            background-color: #1976d2 !important;
-            color: #ffffff !important;
-        }
-        .btn-action-blue:hover {
-            background-color: #123c8c !important;
-            box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
-        }
+                .btn-action-blue {
+                    background-color: #1976d2 !important;
+                    color: #ffffff !important;
+                }
+                .btn-action-blue:hover {
+                    background-color: #123c8c !important;
+                    box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+                }
 
-        /* Color Scheme - Green (My Posts) */
-        .btn-action-green {
-            background-color: #2e7d32 !important;
-            color: #ffffff !important;
-        }
-        .btn-action-green:hover {
-            background-color: #1b5e20 !important;
-            box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
-        }
+                .btn-action-green {
+                    background-color: #2e7d32 !important;
+                    color: #ffffff !important;
+                }
+                .btn-action-green:hover {
+                    background-color: #1b5e20 !important;
+                    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+                }
 
-        /* Color Scheme - Red (Logout) */
-        .btn-action-red {
-            background-color: #d32f2f !important;
-            color: #ffffff !important;
-        }
-        .btn-action-red:hover {
-            background-color: #c62828 !important;
-            box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
-        }
+                .btn-action-red {
+                    background-color: #d32f2f !important;
+                    color: #ffffff !important;
+                }
+                .btn-action-red:hover {
+                    background-color: #c62828 !important;
+                    box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+                }
 
-        /* Search Input Group Alignment */
-        .feed-search-form {
-            margin: 0;
-        }
+                .feed-search-form {
+                    margin: 0;
+                }
 
-        .feed-search-group {
-            width: 240px;
-        }
+                .feed-search-group {
+                    width: 240px;
+                }
 
-        .feed-search-group .form-control {
-            height: 36px;
-            font-size: 0.8rem;
-            border: 1px solid #ced4da;
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
-            padding: 0.25rem 0.75rem;
-            line-height: normal;
-        }
+                .feed-search-group .form-control {
+                    height: 36px;
+                    font-size: 0.8rem;
+                    border: 1px solid #ced4da;
+                    border-top-left-radius: 6px;
+                    border-bottom-left-radius: 6px;
+                    padding: 0.25rem 0.75rem;
+                    line-height: normal;
+                }
 
-        .feed-search-group .form-control:focus {
-            border-color: #1976d2;
-            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
-        }
+                .feed-search-group .form-control:focus {
+                    border-color: #1976d2;
+                    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+                }
 
-        .feed-search-group .btn-search {
-            height: 36px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            background-color: #ffd21f;
-            color: #123c8c;
-            border: 1px solid #ffd21f;
-            border-top-right-radius: 6px;
-            border-bottom-right-radius: 6px;
-            padding: 0 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
+                .feed-search-group .btn-search {
+                    height: 36px;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    background-color: #ffd21f;
+                    color: #123c8c;
+                    border: 1px solid #ffd21f;
+                    border-top-right-radius: 6px;
+                    border-bottom-right-radius: 6px;
+                    padding: 0 0.85rem;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    line-height: 1;
+                    transition: background 0.2s ease, color 0.2s ease;
+                }
 
-        .feed-search-group .btn-search:hover {
-            background-color: #123c8c;
-            border-color: #123c8c;
-            color: #ffffff;
-        }
+                .feed-search-group .btn-search:hover {
+                    background-color: #123c8c;
+                    border-color: #123c8c;
+                    color: #ffffff;
+                }
 
-        /* Mobile & Tablet Responsive Layout */
-        @media (max-width: 767px) {
-            .feed-header-wrapper {
-                flex-direction: column;
-                align-items: stretch !important;
-                gap: 0.75rem;
-            }
+                @media (max-width: 767px) {
+                    .feed-header-wrapper {
+                        flex-direction: column;
+                        align-items: stretch !important;
+                        gap: 0.75rem;
+                    }
 
-            .feed-header-left {
-                width: 100%;
-                justify-content: space-between;
-            }
+                    .feed-header-left {
+                        width: 100%;
+                        justify-content: space-between;
+                    }
 
-            .feed-search-group {
-                width: 100%;
-            }
+                    .feed-search-group {
+                        width: 100%;
+                    }
 
-            .feed-actions {
-                flex-wrap: nowrap;
-            }
+                    .feed-actions {
+                        flex-wrap: nowrap;
+                    }
 
-            .feed-actions .btn-action {
-                padding: 0 0.65rem;
-            }
-        }
-    </style>
+                    .feed-actions .btn-action {
+                        padding: 0 0.65rem;
+                    }
+                }
+            </style>
 
-    <!-- HEADER -->
-    <div class="card p-3 shadow-sm mb-4 feed-header-card">
-        <div class="d-flex align-items-center justify-content-between feed-header-wrapper">
+            <!-- HEADER -->
+            <div class="card p-3 shadow-sm mb-4 feed-header-card">
+                <div class="d-flex align-items-center justify-content-between feed-header-wrapper">
 
-            <!-- Left Side: Title & Colored Action Buttons -->
-            <div class="feed-header-left d-flex align-items-center gap-2">
-                <h5 class="mb-0 fw-bold feed-header-title me-1">Social Feed</h5>
+                    <!-- Left Side: Title & Colored Action Buttons -->
+                    <div class="feed-header-left d-flex align-items-center gap-2">
+                        <h5 class="mb-0 fw-bold feed-header-title me-1">Social Feed</h5>
 
-                <div class="feed-actions d-flex align-items-center gap-2">
-                    <!-- Blue Post Button -->
-                    <a href="{% url 'club:newpost' %}" class="btn-action btn-action-blue">
-                        ➕ Post
-                    </a>
-                    <!-- Green My Posts Button -->
-                    <a href="{% url 'club:mypost' %}" class="btn-action btn-action-green">
-                        📄 My Posts
-                    </a>
-                    <!-- Red Logout Button -->
-                    <a href="{% url 'club:signout' %}" class="btn-action btn-action-red" title="Logout">
-                        🚪 Logout
-                    </a>
-                </div>
-            </div>
-
-            <!-- Right Side: Perfectly Aligned Search Input & Button -->
-            <form method="GET" action="{% url 'club:search_users' %}" class="feed-search-form">
-                <div class="input-group feed-search-group">
-                    <input 
-                        type="search" 
-                        name="q" 
-                        class="form-control" 
-                        placeholder="Search users..." 
-                        aria-label="Search users"
-                        value="{{ request.GET.q|default:'' }}"
-                    >
-                    <button class="btn btn-search" type="submit">
-                        Search
-                    </button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-    <!-- POSTS LOOP -->
-    {% for post in posts %}
-    <div class="card shadow-sm mb-4 post-card" id="post-card-{{ post.id }}">
-
-        <!-- AUTHOR INFO & ACTIONS (EDIT & DELETE) -->
-        <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center pt-3 px-3">
-            <div class="d-flex align-items-center">
-                <a href="{% url 'club:profile_view' post.author.username %}" class="text-decoration-none text-dark d-flex align-items-center">
-                    {% if post.author.studentprofile.avatar %}
-                        <img src="{{ post.author.studentprofile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                    {% elif post.author.school_profile.avatar %}
-                        <img src="{{ post.author.school_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                    {% else %}
-                        <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                    {% endif %}
-
-                    <div>
-                        <h6 class="mb-0 fw-bold small">{{ post.author.get_full_name|default:post.author.username }}</h6>
-                        <span class="text-muted" style="font-size: 0.75rem;">{{ post.created_at|date:"F d, Y h:i A" }}</span>
+                        <div class="feed-actions d-flex align-items-center gap-2">
+                            <a href="{% url 'club:newpost' %}" class="btn-action btn-action-blue">
+                                ➕ Post
+                            </a>
+                            <a href="{% url 'club:mypost' %}" class="btn-action btn-action-green">
+                                📄 My Posts
+                            </a>
+                            <a href="{% url 'club:signout' %}" class="btn-action btn-action-red" title="Logout">
+                                🚪 Logout
+                            </a>
+                        </div>
                     </div>
-                </a>
+
+                    <!-- Right Side: Search Input & Button -->
+                    <form method="GET" action="{% url 'club:search_users' %}" class="feed-search-form">
+                        <div class="input-group feed-search-group">
+                            <input 
+                                type="search" 
+                                name="q" 
+                                class="form-control" 
+                                placeholder="Search users..." 
+                                aria-label="Search users"
+                                value="{{ request.GET.q|default:'' }}"
+                            >
+                            <button class="btn btn-search" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
             </div>
 
-            <div class="d-flex align-items-center gap-2">
-                <!-- EDIT BUTTON -->
-                <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none p-0" onclick="toggleInlineEdit({{ post.id }})">
-                    ✏️ Edit
-                </button>
+            <!-- POSTS LOOP -->
+            {% for post in posts %}
+            <div class="card shadow-sm mb-4 post-card" id="post-card-{{ post.id }}">
 
-                <!-- DELETE BUTTON -->
-                <form method="post" action="{% url 'club:delete_post' post.id %}" onsubmit="return confirm('Delete this post?');" class="m-0">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-link btn-sm text-danger text-decoration-none p-0">🗑️ Delete</button>
-                </form>
-            </div>
-        </div>
+                <!-- AUTHOR INFO & ACTIONS (EDIT & DELETE) -->
+                <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center pt-3 px-3">
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'club:profile_view' post.author.username %}" class="text-decoration-none text-dark d-flex align-items-center">
+                            {% if post.author.studentprofile.avatar %}
+                                <img src="{{ post.author.studentprofile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                            {% elif post.author.school_profile.avatar %}
+                                <img src="{{ post.author.school_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                            {% endif %}
 
-        <!-- POST DISPLAY VIEW -->
-        <div class="px-3 pt-2" id="post-view-{{ post.id }}">
-            {% if post.title %}<h6 class="fw-bold mb-1">{{ post.title }}</h6>{% endif %}
-            {% if post.content %}
-            <div class="text-secondary small mb-2" style="line-height: 1.6; white-space: pre-line;">{{ post.content|linebreaksbr }}</div>
-            {% endif %}
-            <div class="mb-2">
-                <a href="{% url 'club:post_detail' post.id %}" class="small text-decoration-none fw-semibold">View Post Details &rarr;</a>
-            </div>
-        </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold small">{{ post.author.get_full_name|default:post.author.username }}</h6>
+                                <span class="text-muted" style="font-size: 0.75rem;">{{ post.created_at|date:"F d, Y h:i A" }}</span>
+                            </div>
+                        </a>
+                    </div>
 
-        <!-- INLINE EDIT FORM (HIDDEN BY DEFAULT) -->
-        <div class="px-3 pt-2" id="post-edit-{{ post.id }}" style="display: none;">
-            <form method="post" action="{% url 'club:edit_post' post.id %}">
-                {% csrf_token %}
-                <div class="mb-2">
-                    <label class="form-label fw-semibold small mb-1">Title</label>
-                    <input type="text" name="title" class="form-control form-control-sm" value="{{ post.title|default:'' }}">
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- EDIT BUTTON (AUTHOR ONLY) -->
+                        {% if request.user == post.author %}
+                        <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none p-0" onclick="toggleInlineEdit({{ post.id }})">
+                            ✏️ Edit
+                        </button>
+                        {% endif %}
+
+                        <!-- DELETE BUTTON (AUTHOR ONLY) -->
+                        {% if request.user == post.author %}
+                        <form method="post" action="{% url 'club:delete_post' post.id %}" onsubmit="return confirm('Delete this post?');" class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link btn-sm text-danger text-decoration-none p-0">🗑️ Delete</button>
+                        </form>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="mb-2">
-                    <label class="form-label fw-semibold small mb-1">Content</label>
-                    <textarea name="content" class="form-control form-control-sm" rows="4">{{ post.content }}</textarea>
+
+                <!-- POST DISPLAY VIEW -->
+                <div class="px-3 pt-2" id="post-view-{{ post.id }}">
+                    {% if post.title %}<h6 class="fw-bold mb-1">{{ post.title }}</h6>{% endif %}
+                    {% if post.content %}
+                    <div class="text-secondary small mb-2" style="line-height: 1.6; white-space: pre-line;">{{ post.content|linebreaksbr }}</div>
+                    {% endif %}
+                    <div class="mb-2">
+                        <a href="{% url 'club:post_detail' post.id %}" class="small text-decoration-none fw-semibold">View Post Details &rarr;</a>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-end gap-2 mb-2">
-                    <button type="button" class="btn btn-light btn-sm" onclick="toggleInlineEdit({{ post.id }})">Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-sm fw-bold">Save Changes</button>
+
+                <!-- INLINE EDIT FORM (HIDDEN BY DEFAULT - AUTHOR ONLY) -->
+                {% if request.user == post.author %}
+                <div class="px-3 pt-2" id="post-edit-{{ post.id }}" style="display: none;">
+                    <form method="post" action="{% url 'club:edit_post' post.id %}">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Title</label>
+                            <input type="text" name="title" class="form-control form-control-sm" value="{{ post.title|default:'' }}">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small mb-1">Content</label>
+                            <textarea name="content" class="form-control form-control-sm" rows="4">{{ post.content }}</textarea>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2 mb-2">
+                            <button type="button" class="btn btn-light btn-sm" onclick="toggleInlineEdit({{ post.id }})">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-sm fw-bold">Save Changes</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-
-        <!-- ATTACHMENTS -->
-        {% if post.image %}
-        <div class="px-3 pb-2">
-            <img src="{{ post.image.url }}" class="img-fluid rounded border w-100" style="max-height: 450px; object-fit: cover;">
-        </div>
-        {% endif %}
-
-        {% if post.video %}
-        <div class="px-3 pb-2">
-            <video controls class="w-100 rounded border" style="max-height: 400px;">
-                <source src="{{ post.video.url }}">
-            </video>
-        </div>
-        {% endif %}
-
-        <!-- STATS INDICATOR -->
-        <div class="px-3 pb-2 text-muted border-bottom" style="font-size: 0.8rem;">
-            ❤️ <span id="like-count-{{ post.id }}">{{ post.total_likes }}</span> &nbsp;•&nbsp; 
-            🔗 <span id="share-count-{{ post.id }}">{{ post.total_shares|default:0 }}</span> shares &nbsp;•&nbsp; 
-            👁 {{ post.views }} views
-        </div>
-
-        <!-- ACTIONS -->
-        <div class="card-footer bg-white d-flex justify-content-around py-2">
-            <button class="btn btn-link btn-sm text-decoration-none text-secondary {% if request.user in post.likes.all %}text-danger fw-bold{% endif %}" onclick="likePost({{ post.id }}, this)">❤️ Like</button>
-            <button class="btn btn-link btn-sm text-decoration-none text-secondary" onclick="toggleComments({{ post.id }})">💬 Comment</button>
-            <button class="btn btn-link btn-sm text-decoration-none text-secondary" onclick="toggleShareBox({{ post.id }})">🔗 Share</button>
-        </div>
-
-        <!-- INLINE SHARE BOX -->
-        <div id="shareBox-{{ post.id }}" class="p-3 bg-light border-top" style="display:none;">
-            <div class="fw-bold small mb-2">Share this post:</div>
-            <div class="d-flex flex-wrap gap-2">
-                <button class="btn btn-light btn-sm" onclick="openShareModal({{ post.id }}, '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}')">🔗 Share</button>
-                <button class="btn btn-primary btn-sm" onclick="shareToPlatform({{ post.id }}, 'facebook', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">Facebook</button>
-                <button class="btn btn-dark btn-sm" onclick="shareToPlatform({{ post.id }}, 'x', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">X</button>
-                <button class="btn btn-primary btn-sm" style="background-color: #0077b5;" onclick="shareToPlatform({{ post.id }}, 'linkedin', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">LinkedIn</button>
-                <button class="btn btn-success btn-sm" onclick="shareToPlatform({{ post.id }}, 'whatsapp', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">WhatsApp</button>
-                <button class="btn btn-outline-secondary btn-sm" onclick="copyPostLink({{ post.id }}, '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}')">📋 Copy Link</button>
-            </div>
-        </div>
-
-        <!-- COMMENTS SECTION -->
-        <div id="comments-{{ post.id }}" class="p-3 border-top" style="display:none; background-color: #fafbfc;">
-            <form onsubmit="addComment(event, {{ post.id }})">
-                <div class="input-group input-group-sm mb-2">
-                    <input type="text" id="comment-input-{{ post.id }}" class="form-control" placeholder="Write a comment..." required>
-                    <button class="btn btn-primary" type="submit">Post</button>
-                </div>
-            </form>
-            <div id="comment-list-{{ post.id }}" class="small">
-                {% for comment in post.comments.all %}
-                <div class="bg-white border p-2 rounded mb-1 shadow-sm">
-                    <strong>{{ comment.author.username }}</strong>: {{ comment.content }}
-                </div>
-                {% empty %}
-                <span class="text-muted empty-msg">No comments yet.</span>
-                {% endfor %}
-            </div>
-        </div>
-
-    </div>
-    {% empty %}
-    <div class="alert alert-info text-center small">No social feed posts available right now.</div>
-    {% endfor %}
-
-    <!-- PAGINATION -->
-    {% if posts.has_other_pages %}
-    <nav aria-label="Page navigation" class="my-4">
-        <ul class="pagination pagination-sm justify-content-center">
-            
-            {% if posts.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">&laquo; Prev</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <span class="page-link">&laquo; Prev</span>
-            </li>
-            {% endif %}
-
-            {% for num in posts.paginator.page_range %}
-                {% if posts.number == num %}
-                <li class="page-item active" aria-current="page">
-                    <span class="page-link">{{ num }}</span>
-                </li>
-                {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
-                </li>
                 {% endif %}
+
+                <!-- ATTACHMENTS -->
+                {% if post.image %}
+                <div class="px-3 pb-2">
+                    <img src="{{ post.image.url }}" class="img-fluid rounded border w-100" style="max-height: 450px; object-fit: cover;">
+                </div>
+                {% endif %}
+
+                {% if post.video %}
+                <div class="px-3 pb-2">
+                    <video controls class="w-100 rounded border" style="max-height: 400px;">
+                        <source src="{{ post.video.url }}">
+                    </video>
+                </div>
+                {% endif %}
+
+                <!-- STATS INDICATOR -->
+                <div class="px-3 pb-2 text-muted border-bottom" style="font-size: 0.8rem;">
+                    ❤️ <span id="like-count-{{ post.id }}">{{ post.total_likes }}</span> &nbsp;•&nbsp; 
+                    🔗 <span id="share-count-{{ post.id }}">{{ post.total_shares|default:0 }}</span> shares &nbsp;•&nbsp; 
+                    👁 {{ post.views }} views
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="card-footer bg-white d-flex justify-content-around py-2">
+                    <button class="btn btn-link btn-sm text-decoration-none text-secondary {% if request.user in post.likes.all %}text-danger fw-bold{% endif %}" onclick="likePost({{ post.id }}, this)">❤️ Like</button>
+                    <button class="btn btn-link btn-sm text-decoration-none text-secondary" onclick="toggleComments({{ post.id }})">💬 Comment</button>
+                    <button class="btn btn-link btn-sm text-decoration-none text-secondary" onclick="toggleShareBox({{ post.id }})">🔗 Share</button>
+                </div>
+
+                <!-- INLINE SHARE BOX -->
+                <div id="shareBox-{{ post.id }}" class="p-3 bg-light border-top" style="display:none;">
+                    <div class="fw-bold small mb-2">Share this post:</div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-light btn-sm" onclick="openShareModal({{ post.id }}, '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}')">🔗 Share</button>
+                        <button class="btn btn-primary btn-sm" onclick="shareToPlatform({{ post.id }}, 'facebook', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">Facebook</button>
+                        <button class="btn btn-dark btn-sm" onclick="shareToPlatform({{ post.id }}, 'x', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">X</button>
+                        <button class="btn btn-primary btn-sm" style="background-color: #0077b5;" onclick="shareToPlatform({{ post.id }}, 'linkedin', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">LinkedIn</button>
+                        <button class="btn btn-success btn-sm" onclick="shareToPlatform({{ post.id }}, 'whatsapp', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">WhatsApp</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="copyPostLink({{ post.id }}, '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}')">📋 Copy Link</button>
+                    </div>
+                </div>
+
+                <!-- COMMENTS SECTION -->
+                <div id="comments-{{ post.id }}" class="p-3 border-top" style="display:none; background-color: #fafbfc;">
+                    <form onsubmit="addComment(event, {{ post.id }})">
+                        <div class="input-group input-group-sm mb-2">
+                            <input type="text" id="comment-input-{{ post.id }}" class="form-control" placeholder="Write a comment..." required>
+                            <button class="btn btn-primary" type="submit">Post</button>
+                        </div>
+                    </form>
+                    <div id="comment-list-{{ post.id }}" class="small">
+                        {% for comment in post.comments.all %}
+                        <div class="bg-white border p-2 rounded mb-1 shadow-sm">
+                            <strong>{{ comment.author.username }}</strong>: {{ comment.content }}
+                        </div>
+                        {% empty %}
+                        <span class="text-muted empty-msg">No comments yet.</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+            {% empty %}
+            <div class="alert alert-info text-center shadow-sm">
+                No posts available yet.
+            </div>
             {% endfor %}
 
-            {% if posts.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next &raquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <span class="page-link">Next &raquo;</span>
-            </li>
-            {% endif %}
-
-        </ul>
-    </nav>
-    {% endif %}
-
-</main>
-
-        <!-- RIGHT SIDEBAR -->
-        <aside class="col-lg-3 col-md-12 order-3">
-            <div class="sticky-top" style="top: 20px;">
-                <div class="card p-3 shadow-sm mb-3">
-                    {% if not request.user.is_authenticated %}
-                        <h5 class="fw-bold mb-2">Portal Gateway</h5>
-                        <p class="text-muted small mb-3">Select your portal to log in or register.</p>
-
-                        <div class="mb-2">
-                            <span class="text-secondary fw-bold small d-block mb-1">🎓 Student</span>
-                            <div class="d-flex gap-2">
-                                <a href="{% url 'club:student_login' %}" class="btn btn-outline-primary btn-sm flex-grow-1">Log In</a>
-                                <a href="{% url 'club:studentregister' %}" class="btn btn-primary btn-sm flex-grow-1">Register</a>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <span class="text-secondary fw-bold small d-block mb-1">🏫 Institution</span>
-                            <div class="d-flex gap-2">
-                                <a href="{% url 'club:school_login' %}" class="btn btn-outline-primary btn-sm flex-grow-1">Log In</a>
-                                <a href="{% url 'club:schoolregister' %}" class="btn btn-primary btn-sm flex-grow-1">Register</a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <h5 class="fw-bold">Welcome back,</h5>
-                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom small">
-                            <span class="text-dark fw-semibold">@{{ request.user.username }}</span>
-                            <a href="{% url 'club:signout' %}" class="text-danger text-decoration-none small">Log Out</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </aside>
-
+        </main>
     </div>
 </div>
 
 <script>
-    /* Clean Alignment & Heights for Feed Header */
-.feed-header-wrapper {
-    gap: 0.75rem;
-}
-
-.feed-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.feed-actions .btn {
-    height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 0 0.85rem;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-}
-
-/* Custom Colorful Button Colors */
-.btn-post {
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
-    color: #ffffff !important;
-}
-.btn-post:hover {
-    background-color: #0b5ed7 !important;
-}
-
-.btn-myposts {
-    background-color: #198754 !important;
-    border-color: #198754 !important;
-    color: #ffffff !important;
-}
-.btn-myposts:hover {
-    background-color: #157347 !important;
-}
-
-.btn-logout {
-    background-color: #dc3545 !important;
-    border-color: #dc3545 !important;
-    color: #ffffff !important;
-}
-.btn-logout:hover {
-    background-color: #bb2d3b !important;
-}
-
-/* Search Group Match Heights */
-.feed-search-group {
-    max-width: 260px;
-    width: 100%;
-}
-
-.feed-search-group .form-control {
-    height: 36px;
-    font-size: 0.82rem;
-    padding: 0.25rem 0.75rem;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-}
-
-.feed-search-group .btn {
-    height: 36px;
-    font-size: 0.82rem;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-}
-
-/* Responsive adjustment for small screens */
-@media (max-width: 576px) {
-    .feed-header-wrapper {
-        flex-direction: column;
-        align-items: stretch !important;
-    }
-
-    .feed-header-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
-
-    .feed-search-group {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .feed-actions {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .feed-actions .btn {
-        flex: 1;
-    }
-}
 function toggleInlineEdit(postId) {
     const viewDiv = document.getElementById(`post-view-${postId}`);
     const editDiv = document.getElementById(`post-edit-${postId}`);

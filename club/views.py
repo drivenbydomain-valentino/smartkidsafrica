@@ -313,18 +313,18 @@ def student_dashboard(request):
     return render(request, "club/student_dashboard.html", context)
 
 # ✅ Delete Post
+
+# club/views.py
+
+# Update 'pk' or 'id' to 'post_id' in the function signature
 @login_required
 def delete_post(request, post_id):
-    if request.method != "POST":
-        return HttpResponseForbidden("Invalid request")
+    post = get_object_or_404(Post, pk=post_id)
+    
+    if request.method == 'POST':
+        post.delete()
+        return redirect('club:mypost')
 
-    post = get_object_or_404(Post, id=post_id)
-
-    if request.user != post.author:
-        return HttpResponseForbidden("You cannot delete this post")
-
-    post.delete()
-    return redirect('mypost')
 
 def add_comment(request, post_id):
     if request.method == "POST":
@@ -693,7 +693,7 @@ def newpost(request):
             video=video,
             author=request.user
         )
-        return redirect('home')
+        return redirect('club:home')
 
     return render(request, 'club/newpost.html')
 
