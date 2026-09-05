@@ -6,12 +6,13 @@ from dotenv import load_dotenv
 
 # settings.py
 
-# settings.py
 
 AUTH_USER_MODEL = 'club.User'  # Replace 'club' with your exact app_name if different'
 
 # Load environment variables from .env file
 load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

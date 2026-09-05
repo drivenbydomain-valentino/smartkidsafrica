@@ -64,6 +64,35 @@ from .models import (
     StudentProfile,
 )
 
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .agents import run_tutor_agent
+
+@csrf_exempt
+def tutor_chat_api(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user_message = data.get("message", "")
+            age_group = data.get("age_group", "9-12")
+            tutor_type = data.get("tutor_type", "coding")
+
+            if not user_message:
+                return JsonResponse({"error": "Message required"}, status=400)
+
+            bot_reply = run_tutor_agent(
+                message=user_message,
+                age_group=age_group,
+                tutor_type=tutor_type
+            )
+            return JsonResponse({"reply": bot_reply})
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Marketer, Book

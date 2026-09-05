@@ -87,6 +87,8 @@ urlpatterns = [
 
     path('marketers/', views.marketer_list, name='marketer_list'),
     path('become-a-marketer/', views.partner_application, name='partner_application'),
+
+    path('api/tutor-chat/', views.tutor_chat_api, name='tutor_chat_api'),
 ]
 
 # MEDIA FILES (development only)

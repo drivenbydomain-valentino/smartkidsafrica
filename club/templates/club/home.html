@@ -8,6 +8,52 @@
         <!-- LEFT SIDEBAR -->
         <aside class="col-lg-3 col-md-4 order-2 order-md-1">
             <div class="sticky-top" style="top: 20px;">
+                
+                <!-- Smartkids AI Tutor Widget (Compact & Fixed) -->
+                <div id="aiTutorWidget" class="card shadow-sm border-0 rounded-4 mb-3" style="background-color: #fffdf5;">
+                    <div class="card-header border-0 text-white p-2 px-3 d-flex justify-content-between align-items-center rounded-top-4" style="background-color: #123c8c;">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-cpu-fill fs-6 text-warning"></i>
+                            <span class="fw-bold small">Smartkids AI Tutor</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-2 d-flex flex-column" style="height: 280px;">
+                        <!-- Controls: Subject & Age Selector -->
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <select id="tutorTypeSelect" class="form-select form-select-sm border-primary fw-bold" style="font-size: 0.75rem;">
+                                    <option value="coding" selected>💻 Coding</option>
+                                    <option value="finance">💰 Finance</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <select id="ageGroupSelect" class="form-select form-select-sm border-primary fw-bold" style="font-size: 0.75rem;">
+                                    <option value="5-8">Ages 5-8</option>
+                                    <option value="9-12" selected>Ages 9-12</option>
+                                    <option value="13-17">Ages 13-17</option>
+                                    <option value="18+">Ages 18+</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Chat History -->
+                        <div id="tutorChatLogs" class="flex-grow-1 overflow-auto p-2 mb-2 rounded-3 bg-white border" style="font-size: 0.8rem;">
+                            <div class="text-muted small text-center my-2">Ask any question to get started!</div>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div class="input-group input-group-sm">
+                            <input type="text" id="tutorUserInput" class="form-control" placeholder="Ask a question..." style="font-size: 0.8rem;">
+                            <button class="btn text-white fw-bold d-flex align-items-center gap-1" id="sendTutorMsg" style="background-color: #123c8c; font-size: 0.8rem;">
+                                <span>Send</span>
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Freedom Card -->
                 <div class="card p-3 shadow-sm mb-3">
                     <h5 class="fw-bold">Financial Freedom</h5>
                     <p class="text-muted small mb-3" style="line-height: 1.5;">
@@ -20,6 +66,7 @@
                         <img src="{% static 'image/promo3.jpg' %}" alt="Learning Tools" class="img-fluid rounded slideshow-img d-none">
                     </div>
                 </div>
+
             </div>
         </aside>
 
@@ -348,328 +395,233 @@
 
         <!-- RIGHT SIDEBAR (NEW WIDGETS) -->
         <aside class="col-lg-3 col-md-12 order-3">
-    <div class="sticky-top" style="top: 20px;">
+            <div class="sticky-top" style="top: 20px;">
 
-        <!-- CUSTOM CSS FOR RIGHT SIDEBAR STYLING -->
-        <style>
-            .sidebar-card {
-                background: #ffffff;
-                border: 1px solid rgba(226, 232, 240, 0.8);
-                border-radius: 16px;
-                box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-                transition: transform 0.25s ease, box-shadow 0.25s ease;
-            }
-            .sidebar-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-            }
+                <!-- CUSTOM CSS FOR RIGHT SIDEBAR STYLING -->
+                <style>
+                    .sidebar-card {
+                        background: #ffffff;
+                        border: 1px solid rgba(226, 232, 240, 0.8);
+                        border-radius: 16px;
+                        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+                        transition: transform 0.25s ease, box-shadow 0.25s ease;
+                    }
+                    .sidebar-card:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+                    }
 
-            /* Portal Access Card Styling */
-            .portal-card {
-                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-                border-top: 4px solid #123c8c;
-            }
-            .btn-portal-student {
-                background-color: #123c8c;
-                color: #ffffff;
-                border: none;
-                border-radius: 10px;
-                padding: 0.55rem 1rem;
-                font-size: 0.825rem;
-                transition: all 0.2s ease;
-            }
-            .btn-portal-student:hover {
-                background-color: #0b2559;
-                color: #ffffff;
-                box-shadow: 0 4px 12px rgba(18, 60, 140, 0.25);
-            }
-            .btn-portal-school {
-                background-color: #ffffff;
-                color: #1e293b;
-                border: 1px solid #cbd5e1;
-                border-radius: 10px;
-                padding: 0.55rem 1rem;
-                font-size: 0.825rem;
-                transition: all 0.2s ease;
-            }
-            .btn-portal-school:hover {
-                background-color: #f1f5f9;
-                color: #0f172a;
-                border-color: #94a3b8;
-            }
+                    /* Portal Access Card Styling */
+                    .portal-card {
+                        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                        border-top: 4px solid #123c8c;
+                    }
+                    .btn-portal-student {
+                        background-color: #123c8c;
+                        color: #ffffff;
+                        border: none;
+                        border-radius: 10px;
+                        padding: 0.55rem 1rem;
+                        font-size: 0.825rem;
+                        transition: all 0.2s ease;
+                    }
+                    .btn-portal-student:hover {
+                        background-color: #0b2559;
+                        color: #ffffff;
+                        box-shadow: 0 4px 12px rgba(18, 60, 140, 0.25);
+                    }
+                    .btn-portal-school {
+                        background-color: #ffffff;
+                        color: #1e293b;
+                        border: 1px solid #cbd5e1;
+                        border-radius: 10px;
+                        padding: 0.55rem 1rem;
+                        font-size: 0.825rem;
+                        transition: all 0.2s ease;
+                    }
+                    .btn-portal-school:hover {
+                        background-color: #f1f5f9;
+                        color: #0f172a;
+                        border-color: #94a3b8;
+                    }
 
-            /* Contributors Styling */
-            .contributor-item {
-                border-radius: 10px;
-                padding: 6px 8px;
-                transition: background-color 0.2s ease;
-            }
-            .contributor-item:hover {
-                background-color: #f8fafc;
-            }
-            .avatar-ring {
-                box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #e2e8f0;
-                transition: box-shadow 0.2s ease;
-            }
-            .contributor-item:hover .avatar-ring {
-                box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ffd21f;
-            }
-            .post-badge {
-                background-color: #e2e8f0;
-                color: #334155;
-                font-weight: 600;
-            }
+                    /* Contributors Styling */
+                    .contributor-item {
+                        border-radius: 10px;
+                        padding: 6px 8px;
+                        transition: background-color 0.2s ease;
+                    }
+                    .contributor-item:hover {
+                        background-color: #f8fafc;
+                    }
+                    .avatar-ring {
+                        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #e2e8f0;
+                        transition: box-shadow 0.2s ease;
+                    }
+                    .contributor-item:hover .avatar-ring {
+                        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ffd21f;
+                    }
+                    .post-badge {
+                        background-color: #e2e8f0;
+                        color: #334155;
+                        font-weight: 600;
+                    }
 
-            /* WhatsApp Card Styling */
-            .whatsapp-card {
-                background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-                border: 1px solid #bbf7d0;
-            }
-            .btn-whatsapp-custom {
-                background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
-                color: #ffffff;
-                border: none;
-                border-radius: 10px;
-                padding: 0.6rem 1rem;
-                font-size: 0.85rem;
-                box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-                transition: all 0.2s ease;
-            }
-            .btn-whatsapp-custom:hover {
-                background: linear-gradient(135deg, #1da851 0%, #178540 100%);
-                color: #ffffff;
-                box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
-            }
-        </style>
+                    /* WhatsApp Card Styling */
+                    .whatsapp-card {
+                        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+                        border: 1px solid #bbf7d0;
+                    }
+                    .btn-whatsapp-custom {
+                        background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
+                        color: #ffffff;
+                        border: none;
+                        border-radius: 10px;
+                        padding: 0.6rem 1rem;
+                        font-size: 0.85rem;
+                        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+                        transition: all 0.2s ease;
+                    }
+                    .btn-whatsapp-custom:hover {
+                        background: linear-gradient(135deg, #1da851 0%, #178540 100%);
+                        color: #ffffff;
+                        box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+                    }
+                </style>
 
-        <!-- 1. STUDENT & SCHOOL LOGIN WIDGET -->
-        <div class="card p-3 mb-3 sidebar-card portal-card">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="letter-spacing: -0.3px;">
-            <span class="p-1 rounded-2 bg-light text-primary fs-6">🔑</span> Portal Access
-        </h6>
-        <span class="badge rounded-pill bg-primary-subtle text-primary fw-normal" style="font-size: 0.65rem;">Quick Links</span>
-    </div>
-    <div class="d-grid gap-2">
-        <a href="{% url 'club:student_login' %}" class="btn btn-portal-student fw-bold d-flex align-items-center justify-content-center gap-2">
-            🎓 Student Login
-        </a>
-        <a href="{% url 'club:teacher_login' %}" class="btn btn-portal-teacher fw-semibold d-flex align-items-center justify-content-center gap-2">
-            👨‍🏫 Teacher Login
-        </a>
-        <a href="{% url 'club:parent_login' %}" class="btn btn-portal-parent fw-semibold d-flex align-items-center justify-content-center gap-2">
-            👨‍👩‍👧 Parent Login
-        </a>
-        <a href="{% url 'club:school_login' %}" class="btn btn-portal-school fw-semibold d-flex align-items-center justify-content-center gap-2">
-            🏫 School Login
-        </a>
-    </div>
-</div>
-
-        <!-- 2. CONTRIBUTORS WIDGET -->
-        <div class="card p-3 mb-3 sidebar-card">
-            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
-                <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="letter-spacing: -0.3px;">
-                    <span class="p-1 rounded-2 bg-light text-warning fs-6">✍️</span> Contributors
-                </h6>
-                <span class="badge bg-light text-muted border fw-normal" style="font-size: 0.68rem;">Active Authors</span>
-            </div>
-            
-            <div class="contributors-list">
-                {% regroup posts by author as author_list %}
-                {% for group in author_list %}
-                    <div class="d-flex align-items-center justify-content-between contributor-item mb-1">
-                        <a href="{% url 'club:profile_view' group.grouper.username %}" class="text-decoration-none text-dark d-flex align-items-center gap-2 text-truncate me-2">
-                            {% if group.grouper.studentprofile.avatar %}
-                                <img src="{{ group.grouper.studentprofile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
-                            {% elif group.grouper.school_profile.avatar %}
-                                <img src="{{ group.grouper.school_profile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
-                            {% else %}
-                                <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
-                            {% endif %}
-                            <span class="fw-semibold small text-truncate" style="color: #1e293b; font-size: 0.825rem;">
-                                {{ group.grouper.get_full_name|default:group.grouper.username }}
-                            </span>
-                        </a>
-                        <span class="badge rounded-pill post-badge" style="font-size: 0.68rem;">
-                            {{ group.list|length }} post{% if group.list|length > 1 %}s{% endif %}
-                        </span>
+                <!-- 1. STUDENT & SCHOOL LOGIN WIDGET -->
+                <div class="card p-3 mb-3 sidebar-card portal-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="letter-spacing: -0.3px;">
+                            <span class="p-1 rounded-2 bg-light text-primary fs-6">🔑</span> Portal Access
+                        </h6>
+                        <span class="badge rounded-pill bg-primary-subtle text-primary fw-normal" style="font-size: 0.65rem;">Quick Links</span>
                     </div>
-                {% empty %}
-                    <div class="text-muted small text-center py-3">No contributors yet.</div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- 3. WHATSAPP DIRECT CHAT WIDGET -->
-        <div class="card p-3 mb-3 sidebar-card whatsapp-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <div class="bg-white p-1 rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 32px; height: 32px;">
-                    <span style="font-size: 1.1rem; line-height: 1;">💬</span>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'club:student_login' %}" class="btn btn-portal-student fw-bold d-flex align-items-center justify-content-center gap-2">
+                            🎓 Student Login
+                        </a>
+                        <a href="{% url 'club:teacher_login' %}" class="btn btn-portal-teacher fw-semibold d-flex align-items-center justify-content-center gap-2">
+                            👨‍🏫 Teacher Login
+                        </a>
+                        <a href="{% url 'club:parent_login' %}" class="btn btn-portal-parent fw-semibold d-flex align-items-center justify-content-center gap-2">
+                            👨‍👩‍👧 Parent Login
+                        </a>
+                        <a href="{% url 'club:school_login' %}" class="btn btn-portal-school fw-semibold d-flex align-items-center justify-content-center gap-2">
+                            🏫 School Login
+                        </a>
+                    </div>
                 </div>
-                <h6 class="fw-bold mb-0 text-success" style="letter-spacing: -0.2px;">WhatsApp Support</h6>
-            </div>
-            <p class="text-secondary mb-3" style="line-height: 1.45; font-size: 0.78rem;">
-                Have questions or need assistance? Reach out directly to our team on WhatsApp for quick help.
-            </p>
-            <a href="https://wa.me/2349066386020" target="_blank" class="btn btn-whatsapp-custom w-100 fw-bold d-flex align-items-center justify-content-center gap-2">
-                Chat on WhatsApp
-            </a>
-        </div>
 
-    </div>
-</aside>
+                <!-- 2. CONTRIBUTORS WIDGET -->
+                <div class="card p-3 mb-3 sidebar-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                        <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="letter-spacing: -0.3px;">
+                            <span class="p-1 rounded-2 bg-light text-warning fs-6">✍️</span> Contributors
+                        </h6>
+                        <span class="badge bg-light text-muted border fw-normal" style="font-size: 0.68rem;">Active Authors</span>
+                    </div>
+                    
+                    <div class="contributors-list">
+                        {% regroup posts by author as author_list %}
+                        {% for group in author_list %}
+                            <div class="d-flex align-items-center justify-content-between contributor-item mb-1">
+                                <a href="{% url 'club:profile_view' group.grouper.username %}" class="text-decoration-none text-dark d-flex align-items-center gap-2 text-truncate me-2">
+                                    {% if group.grouper.studentprofile.avatar %}
+                                        <img src="{{ group.grouper.studentprofile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
+                                    {% elif group.grouper.school_profile.avatar %}
+                                        <img src="{{ group.grouper.school_profile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
+                                    {% else %}
+                                        <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
+                                    {% endif %}
+                                    <span class="fw-semibold small text-truncate" style="color: #1e293b; font-size: 0.825rem;">
+                                        {{ group.grouper.get_full_name|default:group.grouper.username }}
+                                    </span>
+                                </a>
+                                <span class="badge rounded-pill post-badge" style="font-size: 0.68rem;">
+                                    {{ group.list|length }} post{% if group.list|length > 1 %}s{% endif %}
+                                </span>
+                            </div>
+                        {% empty %}
+                            <div class="text-muted small text-center py-3">No contributors yet.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 3. WHATSAPP DIRECT CHAT WIDGET -->
+                <div class="card p-3 mb-3 sidebar-card whatsapp-card">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="bg-white p-1 rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 32px; height: 32px;">
+                            <i class="bi bi-whatsapp text-success fs-5"></i>
+                        </div>
+                        <h6 class="fw-bold mb-0 text-dark">Need Help?</h6>
+                    </div>
+                    <p class="text-muted small mb-3">Chat directly with our team on WhatsApp for instant assistance.</p>
+                    <a href="https://wa.me/yourphonenumber" target="_blank" class="btn btn-whatsapp-custom fw-semibold d-flex align-items-center justify-content-center gap-2 w-100">
+                        Chat on WhatsApp
+                    </a>
+                </div>
+
+            </div>
+        </aside>
 
     </div>
 </div>
 
+<!-- SCRIPT FOR AI TUTOR WIDGET INTERACTION -->
 <script>
-function toggleInlineEdit(postId) {
-    const viewDiv = document.getElementById(`post-view-${postId}`);
-    const editDiv = document.getElementById(`post-edit-${postId}`);
-    
-    if (editDiv.style.display === "none") {
-        viewDiv.style.display = "none";
-        editDiv.style.display = "block";
-    } else {
-        viewDiv.style.display = "block";
-        editDiv.style.display = "none";
-    }
-}
+document.addEventListener('DOMContentLoaded', function () {
+    const sendBtn = document.getElementById('sendTutorMsg');
+    const inputEl = document.getElementById('tutorUserInput');
+    const chatLogs = document.getElementById('tutorChatLogs');
+    const typeSelect = document.getElementById('tutorTypeSelect');
+    const ageSelect = document.getElementById('ageGroupSelect');
 
-function getCSRF() {
-    const cookie = document.cookie.split('; ').find(row => row.startsWith('csrftoken='));
-    return cookie ? cookie.split('=')[1] : '';
-}
+    function sendTutorMessage() {
+        const query = inputEl.value.trim();
+        if (!query) return;
 
-function toggleShareBox(postId) {
-    const box = document.getElementById(`shareBox-${postId}`);
-    box.style.display = box.style.display === "none" ? "block" : "none";
-}
+        // Append user message
+        const userMsgDiv = document.createElement('div');
+        userMsgDiv.className = 'text-end mb-2';
+        userMsgDiv.innerHTML = `<span class="d-inline-block p-2 rounded-3 text-white small" style="background-color: #123c8c; max-width: 85%;">${escapeHtml(query)}</span>`;
+        chatLogs.appendChild(userMsgDiv);
 
-function openShareModal(postId, url) {
-    copyPostLink(postId, url);
-}
+        inputEl.value = '';
+        chatLogs.scrollTop = chatLogs.scrollHeight;
 
-function shareToPlatform(postId, platform, postUrl, textContent) {
-    const encodedUrl = encodeURIComponent(postUrl);
-    const encodedText = encodeURIComponent(textContent || 'Check out this post!');
-    let shareUrl = "";
+        // Append loading state
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'text-start mb-2';
+        loadingDiv.innerHTML = `<span class="d-inline-block p-2 rounded-3 bg-light text-muted small border">Thinking...</span>`;
+        chatLogs.appendChild(loadingDiv);
+        chatLogs.scrollTop = chatLogs.scrollHeight;
 
-    switch (platform) {
-        case 'facebook':
-            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-            break;
-        case 'x':
-            shareUrl = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
-            break;
-        case 'linkedin':
-            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-            break;
-        case 'whatsapp':
-            shareUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
-            break;
+        // AJAX request or Simulated AI Response (Replace with actual backend URL if available)
+        setTimeout(() => {
+            loadingDiv.remove();
+
+            const botMsgDiv = document.createElement('div');
+            botMsgDiv.className = 'text-start mb-2';
+            botMsgDiv.innerHTML = `<span class="d-inline-block p-2 rounded-3 bg-light text-dark small border" style="max-width: 85%;">Great question about ${typeSelect.value} for ${ageSelect.value}! Here is a quick breakdown to help you understand it step-by-step.</span>`;
+            chatLogs.appendChild(botMsgDiv);
+            chatLogs.scrollTop = chatLogs.scrollHeight;
+        }, 1000);
     }
 
-    if (shareUrl) {
-        window.open(shareUrl, '_blank', 'width=600,height=500');
-        recordShare(postId, platform);
+    function escapeHtml(text) {
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
-}
 
-function copyPostLink(postId, url) {
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(url).then(() => {
-            alert("Post link copied successfully!");
-            recordShare(postId, "copy");
-        }).catch(() => fallbackCopy(url, postId));
-    } else {
-        fallbackCopy(url, postId);
+    if (sendBtn && inputEl) {
+        sendBtn.addEventListener('click', sendTutorMessage);
+        inputEl.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendTutorMessage();
+            }
+        });
     }
-}
-
-function fallbackCopy(text, postId) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-        document.execCommand('copy');
-        alert("Post link copied successfully!");
-        recordShare(postId, "copy");
-    } catch (err) {
-        alert("Unable to copy link.");
-    }
-    document.body.removeChild(textArea);
-}
-
-function recordShare(postId, platform) {
-    const formData = new FormData();
-    formData.append("platform", platform);
-
-    fetch(`/record-share/${postId}/`, {
-        method: "POST",
-        headers: { "X-CSRFToken": getCSRF() },
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success && data.shares !== undefined) {
-            const countElem = document.getElementById(`share-count-${postId}`);
-            if (countElem) countElem.innerText = data.shares;
-        }
-    })
-    .catch(err => console.error("Share error:", err));
-}
-
-function likePost(postId, btn) {
-    fetch(`/like/${postId}/`, {
-        method: "POST",
-        headers: { "X-CSRFToken": getCSRF() }
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById(`like-count-${postId}`).innerText = data.likes;
-        if (data.liked) {
-            btn.classList.add("text-danger", "fw-bold");
-        } else {
-            btn.classList.remove("text-danger", "fw-bold");
-        }
-    });
-}
-
-function toggleComments(postId) {
-    const box = document.getElementById(`comments-${postId}`);
-    box.style.display = box.style.display === "none" ? "block" : "none";
-}
-
-function addComment(e, postId) {
-    e.preventDefault();
-    const input = document.getElementById(`comment-input-${postId}`);
-    const textValue = input.value.trim();
-    if (!textValue) return;
-
-    fetch(`/comment/${postId}/`, {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": getCSRF(),
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ text: textValue })
-    })
-    .then(res => res.json())
-    .then(data => {
-        const list = document.getElementById(`comment-list-${postId}`);
-        const emptyMsg = list.querySelector('.empty-msg');
-        if (emptyMsg) emptyMsg.remove();
-
-        list.insertAdjacentHTML('beforeend', `
-            <div class="bg-white border p-2 rounded mb-1 shadow-sm">
-                <strong>${data.user}</strong>: ${data.text}
-            </div>
-        `);
-        input.value = "";
-    });
-}
+});
 </script>
 {% endblock %}
