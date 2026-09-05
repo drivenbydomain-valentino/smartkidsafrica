@@ -121,23 +121,24 @@ TEMPLATES = [
 
 # -----------------------------------------------------------------------------
 # Database Configuration
-# -----------------------------------------------------------------------------
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=60,
-        ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
-    )
-}
-
-
+# # -----------------------------------------------------------------------------
 # DATABASES = {
 #     'default': dj_database_url.config(
-#         default=os.environ.get('DATABASE_URL'),
-#         conn_max_age=600,
-#         conn_health_checks=True,
+#         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+#         conn_max_age=60,
+#         ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
 #     )
 # }
+
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,  # Force SSL for production database providers
+    )
+}
 
 # DATABASE_URL = "https://console.aiven.io/account/a5db89b87a31/project/drivenbydomain-smartkidsafrica/services/pg-a4344c7"
 
