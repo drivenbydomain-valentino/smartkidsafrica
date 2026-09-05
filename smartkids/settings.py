@@ -140,7 +140,7 @@ DATABASES = {
     )
 }
 
-# DATABASE_URL = "https://console.aiven.io/account/a5db89b87a31/project/drivenbydomain-smartkidsafrica/services/pg-a4344c7"
+# DATABASE_URL = "postgresql://smartkids_db_1p45_user:tWaWhu7ZKkY1CnSI8F0W5hUJ2GHhd38o@dpg-da627s6417fc73942et0-a.oregon-postgres.render.com/smartkids_db_1p45"
 
 # -----------------------------------------------------------------------------
 # Password Validation & Localization

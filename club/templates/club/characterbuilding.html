@@ -63,11 +63,155 @@ body {
     margin-bottom: 30px;
 }
 
-/* ===== CAROUSEL HEIGHT & STYLING ===== */
-.hero-carousel .carousel-item img {
-    height: 75vh;
-    min-height: 500px;
+/* ===== RETRO TV SHOW GUI STYLING ===== */
+.tv-container {
+    max-width: 960px;
+    margin: 0 auto 3rem auto;
+    background: #1e222d;
+    border: 12px solid #2d3241;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0,0,0,0.8);
+    padding: 20px;
+    position: relative;
+}
+
+/* TV Screen Display Frame */
+.tv-screen-frame {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 4px solid #111;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
+}
+
+.tv-screen-frame img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* TV Scanline Overlay Effect */
+.tv-scanlines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* CRT Screen Glow Effect */
+.tv-glow {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    box-shadow: inset 0 0 80px rgba(77, 166, 255, 0.2);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* TV Overlay Headers & Status */
+.tv-hud-overlay {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 4;
+}
+
+.tv-live-badge {
+    background: #ff0055;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    animation: blinker 1.5s infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0.4; }
+}
+
+.tv-channel-info {
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    color: #4da6ff;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(77, 166, 255, 0.3);
+}
+
+.tv-caption-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    color: #fff;
+    padding: 20px;
+    z-index: 4;
+}
+
+/* TV Control Panel Bar */
+.tv-controls-panel {
+    background: #151821;
+    border-radius: 12px;
+    margin-top: 15px;
+    padding: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border: 1px solid #2a2e3d;
+}
+
+.tv-btn {
+    background: #252a37;
+    color: #a0aec0;
+    border: 1px solid #363c4e;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.tv-btn:hover, .tv-btn.active {
+    background: #4da6ff;
+    color: #fff;
+    border-color: #4da6ff;
+    box-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
+}
+
+.tv-dials {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.tv-dial-knob {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #444 30%, #111 100%);
+    border: 2px solid #555;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
 /* ===== SHOWCASE & NAVIGATION STYLING ===== */
@@ -124,47 +268,46 @@ body {
 
 <main>
 
-    <!-- FULL-WIDTH IMAGE CAROUSEL -->
-    <div id="characterCarousel" class="carousel slide hero-carousel mb-5 shadow-sm" data-bs-ride="carousel" aria-label="Youth Character Building Highlights">
-        
-        <!-- Indicators -->
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#characterCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1: Early Youth Development"></button>
-            <button type="button" data-bs-target="#characterCarousel" data-bs-slide-to="1" aria-label="Slide 2: Child Character Building"></button>
-            <button type="button" data-bs-target="#characterCarousel" data-bs-slide-to="2" aria-label="Slide 3: Cognitive & Social Growth"></button>
-            <button type="button" data-bs-target="#characterCarousel" data-bs-slide-to="3" aria-label="Slide 4: Youth Leadership"></button>
-            <button type="button" data-bs-target="#characterCarousel" data-bs-slide-to="4" aria-label="Slide 5: Holistic Development"></button>
-        </div>
+    <!-- TV SHOW VIDEO PLAY GUI (REPLACES CAROUSEL) -->
+    <section class="tv-container shadow-lg" aria-label="Smartkids TV Show Video Player">
+        <div class="tv-screen-frame">
+            <div class="tv-scanlines"></div>
+            <div class="tv-glow"></div>
+            
+            <!-- TV HUD Overlay -->
+            <div class="tv-hud-overlay">
+                <span class="tv-live-badge"><i class="bi bi-circle-fill me-1"></i> SMARTKIDS TEENS AFRIQUE TV LIVE</span>
+                <span class="tv-channel-info" id="tvChannelBadge">CH 01 // EARLY YOUTH</span>
+            </div>
 
-        <!-- Images -->
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{% static 'image/character_1 (1).jpg' %}" class="d-block w-100" alt="Youth Development and Character Building Workshops in Africa" width="1200" height="700">
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'image/character_1 (3).jpg' %}" class="d-block w-100" alt="Children Participating in Interactive Leadership Activities" width="1200" height="700">
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'image/chara4.jpg' %}" class="d-block w-100" alt="Youth Learning Strategic Reasoning and Social Skills" width="1200" height="700">
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'image/chara4.jpg' %}" class="d-block w-100" alt="Empowering Young Minds with Essential Life Skills" width="1200" height="700">
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'image/chara5.jpg' %}" class="d-block w-100" alt="Holistic Child Growth and Educational Development Showcase" width="1200" height="700">
+            <!-- Active Video Frame / Image Stream -->
+            <img id="tvScreenImage" src="{% static 'image/character_1 (1).jpg' %}" alt="Youth Development and Character Building Workshops in Africa">
+
+            <!-- Dynamic Caption Overlay -->
+            <div class="tv-caption-bar">
+                <h2 class="h6 mb-1 text-warning fw-bold" id="tvCaptionTitle">Broadcast Highlight 1</h2>
+                <p class="small mb-0 text-light opacity-75" id="tvCaptionText">Youth Development and Character Building Workshops in Africa</p>
             </div>
         </div>
 
-        <!-- Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#characterCarousel" data-bs-slide="prev" aria-label="Previous Slide">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#characterCarousel" data-bs-slide="next" aria-label="Next Slide">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+        <!-- TV GUI Controls & Channel Selector -->
+        <div class="tv-controls-panel">
+            <div class="d-flex gap-2 flex-wrap align-items-center">
+                <span class="text-uppercase small fw-bold text-muted me-1"><i class="bi bi-tv me-1"></i> Channels:</span>
+                <button type="button" class="tv-btn active" onclick="switchTvChannel(0, '{% static "image/character_1 (1).jpg" %}', 'CH 01 // EARLY YOUTH', 'Early Youth Development', 'Youth Development and Character Building Workshops in Africa')">CH 1</button>
+                <button type="button" class="tv-btn" onclick="switchTvChannel(1, '{% static "image/character_1 (3).jpg" %}', 'CH 02 // CHARACTER', 'Child Character Building', 'Children Participating in Interactive Leadership Activities')">CH 2</button>
+                <button type="button" class="tv-btn" onclick="switchTvChannel(2, '{% static "image/chara4.jpg" %}', 'CH 03 // COGNITIVE', 'Cognitive & Social Growth', 'Youth Learning Strategic Reasoning and Social Skills')">CH 3</button>
+                <button type="button" class="tv-btn" onclick="switchTvChannel(3, '{% static "image/chara4.jpg" %}', 'CH 04 // LEADERSHIP', 'Youth Leadership', 'Empowering Young Minds with Essential Life Skills')">CH 4</button>
+                <button type="button" class="tv-btn" onclick="switchTvChannel(4, '{% static "image/chara5.jpg" %}', 'CH 05 // HOLISTIC', 'Holistic Development', 'Holistic Child Growth and Educational Development Showcase')">CH 5</button>
+            </div>
+
+            <div class="tv-dials d-none d-md-flex">
+                <span class="text-uppercase micro-text fw-bold text-muted small">TUNER</span>
+                <div class="tv-dial-knob" title="Frequency Dial"></div>
+                <div class="tv-dial-knob" title="Volume Dial"></div>
+            </div>
+        </div>
+    </section>
 
     <!-- FULL-WIDTH CONTENT SECTION -->
     <div class="container-fluid px-4 px-md-5">
@@ -397,5 +540,33 @@ body {
     </div>
 
 </main>
+
+<!-- SCRIPT TO CONTROL TV SHOW CHANNEL SWITCHING -->
+<script>
+function switchTvChannel(index, imageSrc, channelCode, title, altText) {
+    // Fade screen out briefly for CRT static/switch effect
+    const screenImg = document.getElementById('tvScreenImage');
+    screenImg.style.opacity = '0.3';
+    
+    setTimeout(() => {
+        screenImg.src = imageSrc;
+        screenImg.alt = altText;
+        document.getElementById('tvChannelBadge').innerText = channelCode;
+        document.getElementById('tvCaptionTitle').innerText = title;
+        document.getElementById('tvCaptionText').innerText = altText;
+        screenImg.style.opacity = '1';
+    }, 200);
+
+    // Update button active state
+    const buttons = document.querySelectorAll('.tv-btn');
+    buttons.forEach((btn, idx) => {
+        if (idx === index) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+</script>
 
 {% endblock %}
