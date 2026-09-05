@@ -122,11 +122,20 @@ TEMPLATES = [
 # -----------------------------------------------------------------------------
 # Database Configuration
 # -----------------------------------------------------------------------------
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+#         conn_max_age=60,
+#         ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
+#     )
+# }
+
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=60,
-        ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
     )
 }
 
