@@ -122,23 +122,23 @@ TEMPLATES = [
 # -----------------------------------------------------------------------------
 # Database Configuration
 # # -----------------------------------------------------------------------------
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-#         conn_max_age=60,
-#         ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
-#     )
-# }
-
-
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,  # Force SSL for production database providers
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=60,
+        ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
     )
 }
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.environ.get('DATABASE_URL'),
+#         conn_max_age=600,
+#         conn_health_checks=True,
+#         ssl_require=True,  # Force SSL for production database providers
+#     )
+# }
 
 # DATABASE_URL = "postgresql://smartkids_db_1p45_user:tWaWhu7ZKkY1CnSI8F0W5hUJ2GHhd38o@dpg-da627s6417fc73942et0-a.oregon-postgres.render.com/smartkids_db_1p45"
 
