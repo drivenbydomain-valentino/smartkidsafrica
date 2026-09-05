@@ -13,21 +13,21 @@
         <img src="{% static book.static_cover_path %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
       {% else %}
         <!-- Automatic fallback based on Book ID or Title if cover_image is empty in DB -->
-        {% if book.id == 1 or "stroke" in book.title|lower %}
+        {% if book.id == 1 or book.pk == 1 or "stroke" in book.title|lower %}
           <img src="{% static 'image/book_covers/strokes.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
-        {% elif book.id == 2 or "pattern" in book.title|lower %}
+        {% elif book.id == 2 or book.pk == 2 or "pattern" in book.title|lower %}
           <img src="{% static 'image/book_covers/patterns.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
-        {% elif book.id == 3 or "10" in book.title|lower %}
+        {% elif book.id == 3 or book.pk == 3 or "10" in book.title|lower %}
           <img src="{% static 'image/book_covers/123_10_vol1.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
-        {% elif book.id == 4 or "20" in book.title|lower %}
+        {% elif book.id == 4 or book.pk == 4 or "20" in book.title|lower %}
           <img src="{% static 'image/book_covers/123_20_vol2.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
-        {% elif book.id == 5 or "m vol" in book.title|lower %}
+        {% elif book.id == 5 or book.pk == 5 or "m vol" in book.title|lower %}
           <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
-        {% elif book.id == 6 or "z vol" in book.title|lower %}
+        {% elif book.id == 6 or book.pk == 6 or "z vol" in book.title|lower %}
           <img src="{% static 'image/book_covers/abc_z_vol2.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
-        {% elif book.id == 7 or "capital" in book.title|lower %}
+        {% elif book.id == 7 or book.pk == 7 or "capital" in book.title|lower %}
           <img src="{% static 'image/book_covers/CAPITAL_ABC_Z.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
-        {% elif book.id == 8 or "drawing" in book.title|lower %}
+        {% elif book.id == 8 or book.pk == 8 or "drawing" in book.title|lower %}
           <img src="{% static 'image/book_covers/drawing_colouring.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
         {% else %}
           <img src="{% static 'image/book_covers/default_book.jpg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
@@ -123,7 +123,13 @@
       {% empty %}
         <div class="col-12 text-center py-5">
           <p class="text-muted fs-5">No authorized marketers found for this area or query.</p>
-          <a href="{% if book.pk %}{% url 'club:book_detail' pk=book.pk %}{% else %}#{% endif %}" class="btn btn-link">Reset Search</a>
+          {% if book.id %}
+            <a href="{% url 'club:book_detail' pk=book.id %}" class="btn btn-link">Reset Search</a>
+          {% elif book.pk %}
+            <a href="{% url 'club:book_detail' pk=book.pk %}" class="btn btn-link">Reset Search</a>
+          {% else %}
+            <a href="{% url 'club:books' %}" class="btn btn-link">Return to Bookshop</a>
+          {% endif %}
         </div>
       {% endfor %}
     </div>

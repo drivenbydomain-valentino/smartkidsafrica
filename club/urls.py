@@ -46,8 +46,11 @@ urlpatterns = [
     path('profile/', views.self_profile_view, name='my_profile'),
     
     # EDUCATIONAL SECTIONS
-    path('books/', views.books, name='books'),
+    # Match integer IDs: /books/3/
     path('books/<int:pk>/', views.book_detail, name='book_detail'),
+    
+    # Or if you are using slugs: /books/strokes/
+    path('books/<slug:slug>/', views.book_detail, name='book_detail'),
     path('careers/', views.careers, name='careers'),
     path('financeliteracy/savings/', views.savings, name='savings'),
     path('financeliteracy/investment/', views.investment, name='investment'),

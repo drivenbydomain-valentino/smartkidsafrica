@@ -141,25 +141,69 @@ def partner_application(request):
 from django.shortcuts import render
 from .models import Book, Marketer
 
+from django.shortcuts import render
+from .models import Book, Marketer  # Adjust model imports as needed
+
+from django.shortcuts import render
+from .models import Book, Marketer  # Adjust model imports as needed
+
+from django.shortcuts import render
+from .models import Book, Marketer  # Adjust imports based on your app models
+
+# club/views.py
+
+from django.shortcuts import render
+from .models import Book, Marketer
+
 def book_detail(request, pk):
-    try:
-        book = Book.objects.get(pk=pk)
-    except Book.DoesNotExist:
-        # Fallback dummy object if book is not in DB yet
+    STATIC_BOOKS = {
+        1: {'title': 'Strokes', 'image': 'image/book_covers/strokes.jpeg'},
+        2: {'title': 'Patterns', 'image': 'image/book_covers/patterns.jpeg'},
+        3: {'title': '123 to 10 Vol. 1', 'image': 'image/book_covers/123_10_vol1.jpeg'},
+        4: {'title': '123 to 20 Vol. 2', 'image': 'image/book_covers/123_20_vol2.jpeg'},
+        5: {'title': 'abc to m Vol. 1', 'image': 'image/book_covers/abc_m_vol1.jpeg'},
+        6: {'title': 'abc to z Vol. 2', 'image': 'image/book_covers/abc_z_vol2.jpeg'},
+        7: {'title': 'Capital ABC to Z', 'image': 'image/book_covers/CAPITAL_ABC_Z.jpeg'},
+        8: {'title': 'Drawing & Colouring', 'image': 'image/book_covers/drawing_colouring.jpeg'},
+    }
+
+    # CRITICAL: Use .first() instead of get_object_or_404 or .get()
+    book = Book.objects.filter(pk=pk).first()
+
+    if not book:
+        fallback_info = STATIC_BOOKS.get(pk, {
+            'title': 'Smartkids Stencil Book',
+            'image': 'image/book_covers/default_book.jpg'
+        })
         book = {
+            'id': pk,
             'pk': pk,
-            'title': 'Stencil Book',
+            'title': fallback_info['title'],
             'author': 'Murphy A. Rich',
             'description': 'A foundational workbook designed for structured skill development.',
             'cover_image': None,
+            'static_cover_path': fallback_info['image'],
         }
 
-    marketers = Marketer.objects.all() # Adjust according to your query/filter logic
+    query = request.GET.get('q', '').strip()
+    ref_code = request.GET.get('ref', '').strip()
+
+    marketers = Marketer.objects.all()
+    if query:
+        marketers = marketers.filter(region__icontains=query) | marketers.filter(name__icontains=query)
+
+    selected_marketer = None
+    if ref_code:
+        selected_marketer = Marketer.objects.filter(referral_code__iexact=ref_code).first()
 
     return render(request, 'club/book_detail.html', {
         'book': book,
         'marketers': marketers,
+        'selected_marketer': selected_marketer,
+        'query': query,
+        'ref_code': ref_code,
     })
+    
 
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
