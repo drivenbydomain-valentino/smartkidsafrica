@@ -28,6 +28,10 @@ urlpatterns = [
     path('student_logout/', views.signout, name='student_logout'),
     path("school_dashboard/", views.school_dashboard, name="school_dashboard"),
     path("logout/", views.school_logout, name="school_logout"),
+    path('teacherregister/', views.teacherregister, name='teacher_register'),
+    path('teacher_login/', views.teacher_login, name='teacher_login'),
+    path('parentregister/', views.parentregister, name='parent_register'),
+    path('parent_login/', views.parent_login, name='parent_login'),
 
     # CORE PAGES
     path('', views.home, name='home'),

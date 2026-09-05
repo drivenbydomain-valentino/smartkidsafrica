@@ -18,6 +18,8 @@ class User(AbstractUser):
     USER_TYPE_CHOICES = (
         ('student', 'Student'),
         ('school', 'School'),
+        ('teacher', 'Teacher'),
+        ('parent', 'Parent'),
         ('admin', 'Admin'),
     )
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='student')
@@ -48,6 +50,10 @@ class User(AbstractUser):
             return self.school_profile
         elif hasattr(self, 'schoolprofile'):
             return self.schoolprofile
+        elif hasattr(self, 'teacherprofile'):
+            return self.teacherprofile
+        elif hasattr(self, 'parentprofile'):
+            return self.parentprofile
         elif hasattr(self, 'adminprofile'):
             return self.adminprofile
         return None
@@ -63,6 +69,91 @@ class User(AbstractUser):
                 return None
         return None
 
+
+class TeacherProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacherprofile"
+    )
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
+    whatsapp_number = models.CharField(max_length=20, blank=True, null=True)
+    school_name = models.CharField(max_length=255, blank=True, null=True, help_text="Current school where teaching")
+    subject_specialization = models.CharField(max_length=255, help_text="e.g., Mathematics, English, Sciences")
+    years_of_experience = models.PositiveIntegerField(default=0)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    bio = models.TextField(blank=True)
+    
+    state = models.CharField(max_length=100, blank=True, null=True)
+    lga = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100, default="Nigeria")
+
+    created_at = models.DateTimeField(default=now, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.user.username:
+            base_slug = slugify(self.user.username)
+            slug = base_slug
+            counter = 1
+            while TeacherProfile.objects.filter(slug=slug).exclude(id=self.id).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Teacher: {self.full_name or self.user.username}"
+
+
+# ================= PARENT PROFILE ================= #
+
+class ParentProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="parentprofile"
+    )
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
+    whatsapp_number = models.CharField(max_length=20, blank=True, null=True)
+    occupation = models.CharField(max_length=150, blank=True, null=True)
+    number_of_children = models.PositiveIntegerField(default=1)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    
+    address = models.TextField(blank=True, null=True)
+    lga = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100, default="Nigeria")
+
+    created_at = models.DateTimeField(default=now, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.user.username:
+            base_slug = slugify(self.user.username)
+            slug = base_slug
+            counter = 1
+            while ParentProfile.objects.filter(slug=slug).exclude(id=self.id).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Parent: {self.full_name or self.user.username}"
+
+
+# ================= SIGNALS UPDATE ================= #
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.user_type == 'student':
+            StudentProfile.objects.get_or_create(user=instance)
+        elif instance.user_type == 'teacher':
+            TeacherProfile.objects.get_or_create(user=instance)
+        elif instance.user_type == 'parent':
+            ParentProfile.objects.get_or_create(user=instance)
+        elif instance.user_type == 'parent':
+            SchoolProfile.objects.get_or_create(user=instance)
 
 # ================= ADMIN ================= #
 

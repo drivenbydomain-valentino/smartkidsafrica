@@ -444,21 +444,27 @@
 
         <!-- 1. STUDENT & SCHOOL LOGIN WIDGET -->
         <div class="card p-3 mb-3 sidebar-card portal-card">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="letter-spacing: -0.3px;">
-                    <span class="p-1 rounded-2 bg-light text-primary fs-6">🔑</span> Portal Access
-                </h6>
-                <span class="badge rounded-pill bg-primary-subtle text-primary fw-normal" style="font-size: 0.65rem;">Quick Links</span>
-            </div>
-            <div class="d-grid gap-2">
-                <a href="{% url 'club:student_login' %}" class="btn btn-portal-student fw-bold d-flex align-items-center justify-content-center gap-2">
-                    🎓 Student Login
-                </a>
-                <a href="{% url 'club:school_login' %}" class="btn btn-portal-school fw-semibold d-flex align-items-center justify-content-center gap-2">
-                    🏫 School Login
-                </a>
-            </div>
-        </div>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="letter-spacing: -0.3px;">
+            <span class="p-1 rounded-2 bg-light text-primary fs-6">🔑</span> Portal Access
+        </h6>
+        <span class="badge rounded-pill bg-primary-subtle text-primary fw-normal" style="font-size: 0.65rem;">Quick Links</span>
+    </div>
+    <div class="d-grid gap-2">
+        <a href="{% url 'club:student_login' %}" class="btn btn-portal-student fw-bold d-flex align-items-center justify-content-center gap-2">
+            🎓 Student Login
+        </a>
+        <a href="{% url 'club:teacher_login' %}" class="btn btn-portal-teacher fw-semibold d-flex align-items-center justify-content-center gap-2">
+            👨‍🏫 Teacher Login
+        </a>
+        <a href="{% url 'club:parent_login' %}" class="btn btn-portal-parent fw-semibold d-flex align-items-center justify-content-center gap-2">
+            👨‍👩‍👧 Parent Login
+        </a>
+        <a href="{% url 'club:school_login' %}" class="btn btn-portal-school fw-semibold d-flex align-items-center justify-content-center gap-2">
+            🏫 School Login
+        </a>
+    </div>
+</div>
 
         <!-- 2. CONTRIBUTORS WIDGET -->
         <div class="card p-3 mb-3 sidebar-card">
