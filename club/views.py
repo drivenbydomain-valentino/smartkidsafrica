@@ -19,7 +19,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import Http404
-from .models import Book, CartItem
+from .models import Book
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
@@ -52,7 +52,7 @@ from django.urls import reverse
 
 from .models import Post, Share
 
-from .forms import ProfileForm
+# from .forms import ProfileForm
 from .models import (
     AdminProfile,
     Book,
@@ -63,6 +63,103 @@ from .models import (
     Share,
     StudentProfile,
 )
+
+from django.shortcuts import render
+from django.db.models import Q
+from .models import Marketer, Book
+
+def marketer_list(request):
+    """
+    Directory listing of active marketers with region and referral code filtering.
+    """
+    query = request.GET.get('q', '').strip()
+    ref_code = request.GET.get('ref', '').strip()
+    
+    # Base queryset: only show active marketers
+    marketers = Marketer.objects.filter(is_active=True)
+    selected_marketer = None
+
+    # Handle direct referral lookup
+    if ref_code:
+        selected_marketer = Marketer.objects.filter(referral_code__iexact=ref_code, is_active=True).first()
+
+    # Search filter (region, name, business name)
+    if query:
+        marketers = marketers.filter(
+            Q(name__icontains=query) |
+            Q(business_name__icontains=query) |
+            Q(region__icontains=query) |
+            Q(referral_code__iexact=query)
+        )
+
+    context = {
+        'marketers': marketers,
+        'selected_marketer': selected_marketer,
+        'query': query,
+        'ref_code': ref_code,
+    }
+    return render(request, 'club/marketer_list.html', context)
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Marketer
+
+def partner_application(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        business_name = request.POST.get('business_name')
+        phone_number = request.POST.get('phone_number')
+        whatsapp_number = request.POST.get('whatsapp_number')
+        email = request.POST.get('email')
+        region = request.POST.get('region')
+        requested_code = request.POST.get('referral_code', '').strip().upper()
+
+        # Fallback or auto-generation for referral code if blank
+        if not requested_code:
+            clean_name = "".join(filter(str.isalnum, name)).upper()[:5]
+            requested_code = f"REF-{clean_name}"
+
+        # Create inactive marketer pending review
+        Marketer.objects.create(
+            name=name,
+            business_name=business_name,
+            phone_number=phone_number,
+            whatsapp_number=whatsapp_number,
+            email=email,
+            region=region,
+            referral_code=requested_code,
+            is_active=False  # Requires admin activation
+        )
+
+        messages.success(request, "Your partner application has been submitted! We will review and contact you shortly.")
+        return redirect('club:partner_application')
+
+    return render(request, 'club/partner_application.html')
+
+    
+from django.shortcuts import render
+from .models import Book, Marketer
+
+def book_detail(request, pk):
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        # Fallback dummy object if book is not in DB yet
+        book = {
+            'pk': pk,
+            'title': 'Stencil Book',
+            'author': 'Murphy A. Rich',
+            'description': 'A foundational workbook designed for structured skill development.',
+            'cover_image': None,
+        }
+
+    marketers = Marketer.objects.all() # Adjust according to your query/filter logic
+
+    return render(request, 'club/book_detail.html', {
+        'book': book,
+        'marketers': marketers,
+    })
 
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
@@ -355,38 +452,68 @@ def search_users(request):
     })
 
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+# Redirects /profile/ to /profile/<logged_in_username>/
+@login_required
+def self_profile_view(request):
+    return redirect('club:profile_view', username=request.user.username)
+
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+from .forms import StudentProfileForm, SchoolProfileForm, AdminProfileForm
 
 User = get_user_model()
 
+def get_profile_form_class(user):
+    """Helper function to pick the correct ModelForm based on profile instance."""
+    if hasattr(user, 'studentprofile'):
+        return StudentProfileForm, user.studentprofile
+    elif hasattr(user, 'schoolprofile'): # adjust related_name if needed (e.g. school_profile)
+        return SchoolProfileForm, user.schoolprofile
+    elif hasattr(user, 'adminprofile'):
+        return AdminProfileForm, user.adminprofile
+    return None, None
+
 @login_required
 def profile_view(request, username=None):
-    if username:
-        profile_user = get_object_or_404(User, username=username)
-    else:
+    # 1. If no username is provided in URL, load the logged-in user's profile
+    if username is None:
+        if not request.user.is_authenticated:
+            return redirect('login')  # Replace 'login' with your login view name
         profile_user = request.user
-
-    # POST Handling: Update profile picture / avatar
-    if request.method == 'POST' and request.user == profile_user:
-        profile = getattr(profile_user, 'studentprofile', None) or getattr(profile_user, 'school_profile', None)
-
-        if profile and 'avatar' in request.FILES:
-            profile.avatar = request.FILES['avatar']
-            profile.save()
-            return redirect('profile_view', username=profile_user.username)
-
-    # Fetch user posts safely
-    if hasattr(profile_user, 'posts'):
-        posts = profile_user.posts.all().order_by('-created_at')
     else:
-        posts = []
+        profile_user = get_object_or_404(User, username=username)
 
-    return render(request, 'club/profile.html', {
+    # 2. Get correct profile instance (Student, School, or Admin)
+    FormClass, profile_instance = get_profile_form_class(profile_user)
+
+    # 3. Handle avatar/profile updates
+    if request.method == 'POST' and request.user == profile_user:
+        if 'avatar' in request.FILES and not FormClass:
+            if profile_instance:
+                profile_instance.avatar = request.FILES['avatar']
+                profile_instance.save()
+                return redirect('club:profile_view', username=profile_user.username)
+
+        if FormClass and profile_instance:
+            form = FormClass(request.POST, request.FILES, instance=profile_instance)
+            if form.is_valid():
+                form.save()
+                return redirect('club:profile_view', username=profile_user.username)
+    else:
+        form = FormClass(instance=profile_instance) if FormClass and profile_instance else None
+
+    # 4. Fetch user posts
+    posts = getattr(profile_user, 'posts', None)
+    posts = posts.all() if posts else []
+
+    context = {
         'profile_user': profile_user,
+        'profile_instance': profile_instance,
+        'form': form,
         'posts': posts,
-    })
+    }
+    return render(request, 'club/profile.html', context)
 
 @login_required
 def share_post(request, post_id):
@@ -451,8 +578,6 @@ def share_post(request, post_id):
         "title": post.title,
         "content": post.content[:200],
     })
-
-
 
 @require_GET
 def get_post_share_url(request, post_id):

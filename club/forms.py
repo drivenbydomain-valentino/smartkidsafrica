@@ -1,63 +1,6 @@
 from django import forms
 from .models import AdminProfile, StudentProfile, SchoolProfile
 
-# =========================
-# Generic/Student Profile Form (Solves the ImportError)
-# =========================
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = StudentProfile
-        fields = [
-            'user_type',
-            'parent_name',
-            'parent_phone',
-            'parent_whatsapp',
-            'avatar',  # This matches the model field name for the image
-            'bio',
-            'age',
-            'user_class',
-            'school',
-        ]
-
-        widgets = {
-            'user_type': forms.Select(attrs={'class': 'form-control'}),
-            'parent_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Parent's Name"}),
-            'parent_phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Parent's Phone"}),
-            'parent_whatsapp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Parent's WhatsApp"}),
-            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Write something about yourself...'}),
-            'age': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Age'}),
-            'user_class': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Class'}),
-            'school': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'School Name'}),
-            'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-        }
-
-
-# =========================
-# Admin Profile Form
-# =========================
-class AdminProfileForm(forms.ModelForm):
-    class Meta:
-        model = AdminProfile
-        fields = [
-            'role',
-            'can_manage_users',
-            'can_manage_posts',
-            'can_manage_schools',
-            'can_view_reports',
-        ]
-
-        widgets = {
-            'role': forms.Select(attrs={'class': 'form-control'}),
-            'can_manage_users': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'can_manage_posts': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'can_manage_schools': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'can_view_reports': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        }
-
-
-# =========================
-# Student Profile Form
-# =========================
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
@@ -72,7 +15,6 @@ class StudentProfileForm(forms.ModelForm):
             'user_class',
             'school',
         ]
-
         widgets = {
             'user_type': forms.Select(attrs={'class': 'form-control'}),
             'parent_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Parent's Name"}),
@@ -86,9 +28,6 @@ class StudentProfileForm(forms.ModelForm):
         }
 
 
-# =========================
-# School Profile Form
-# =========================
 class SchoolProfileForm(forms.ModelForm):
     class Meta:
         model = SchoolProfile
@@ -108,7 +47,6 @@ class SchoolProfileForm(forms.ModelForm):
             'school_type',
             'website',
         ]
-
         widgets = {
             'school_name': forms.TextInput(attrs={'class': 'form-control'}),
             'director_name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -124,4 +62,23 @@ class SchoolProfileForm(forms.ModelForm):
             'school_type': forms.TextInput(attrs={'class': 'form-control'}),
             'website': forms.URLInput(attrs={'class': 'form-control'}),
             'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+
+
+class AdminProfileForm(forms.ModelForm):
+    class Meta:
+        model = AdminProfile
+        fields = [
+            'role',
+            'can_manage_users',
+            'can_manage_posts',
+            'can_manage_schools',
+            'can_view_reports',
+        ]
+        widgets = {
+            'role': forms.Select(attrs={'class': 'form-control'}),
+            'can_manage_users': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'can_manage_posts': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'can_manage_schools': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'can_view_reports': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

@@ -1,0 +1,118 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+
+  <!-- HERO SECTION -->
+  <div class="row align-items-center mb-5 p-4 border rounded shadow-sm bg-light">
+    <div class="col-md-4 text-center mb-3 mb-md-0">
+      <div class="p-4 bg-primary text-white rounded shadow d-flex flex-column justify-content-center align-items-center" style="min-height: 280px;">
+        <i class="bi bi-people-fill display-1 mb-2"></i>
+        <h3 class="fw-bold mb-0">Authorized Network</h3>
+        <p class="small text-white-50 mb-0">Verified Educational Partners</p>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h1 class="fw-bold">Find a Marketer Near You</h1>
+      <p class="text-muted fs-5">Connect directly with accredited distributors and book sellers in your region.</p>
+      
+      <div class="mb-3">
+        <span class="badge bg-info text-dark fs-6">Verified Representatives</span>
+      </div>
+
+      <p>Our network of regional marketers provides fast local delivery, school bulk orders, and direct support for all our titles and educational resources.</p>
+
+      <blockquote class="border-start border-3 border-warning ps-3 my-3 text-muted">
+        <em>Note: Contact any authorized marketer directly via WhatsApp or Phone to place your order or request local delivery.</em>
+      </blockquote>
+
+      <a href="#where-to-buy" class="btn btn-primary btn-lg mt-2">
+        Browse Marketers Directory
+      </a>
+    </div>
+  </div>
+
+  <!-- AUTO-SELECTED MARKETER BANNER (IF ?ref=CODE IS USED) -->
+  {% if selected_marketer %}
+  <div class="alert alert-success d-flex justify-content-between align-items-center mb-5 shadow-sm" role="alert">
+    <div>
+      <h5 class="alert-heading mb-1">Recommended Seller: {{ selected_marketer.name }}</h5>
+      <p class="mb-0">Covering <strong>{{ selected_marketer.region }}</strong> (Code: {{ selected_marketer.referral_code }})</p>
+    </div>
+    <a href="https://wa.me/{{ selected_marketer.whatsapp_number }}?text=Hello%20{{ selected_marketer.name|urlencode }},%20I%20found%20your%20contact%20on%20the%20Marketers%20directory." 
+       target="_blank" class="btn btn-success fw-bold">
+      Contact on WhatsApp
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- SECTION: REFERRAL CODE INPUT & DIRECTORY -->
+  <div id="where-to-buy" class="pt-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Marketer Directory</h2>
+        <p class="text-muted mb-0">Select an authorized marketer in your region to make your purchase.</p>
+      </div>
+
+      <!-- Search & Code Lookup Form -->
+      <form method="GET" action="#where-to-buy" class="d-flex gap-2 mt-3 mt-md-0">
+        <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search region or marketer...">
+        <input type="text" name="ref" value="{{ ref_code }}" class="form-control" style="width: 150px;" placeholder="Referral Code">
+        <button type="submit" class="btn btn-outline-primary">Filter</button>
+      </form>
+    </div>
+
+    <!-- MARKETERS LISTING -->
+    <div class="row g-4">
+      {% for marketer in marketers %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm border-0 bg-body-tertiary">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="card-title fw-bold mb-0">{{ marketer.name }}</h5>
+                <span class="badge bg-light text-dark border">{{ marketer.referral_code }}</span>
+              </div>
+              
+              {% if marketer.business_name %}
+                <p class="text-muted small mb-2">{{ marketer.business_name }}</p>
+              {% endif %}
+
+              <p class="card-text small mb-3">
+                <strong>Coverage Area:</strong> {{ marketer.region }}
+              </p>
+
+              <div class="mt-auto d-grid gap-2">
+                <!-- Direct WhatsApp Link -->
+                <a href="https://wa.me/{{ marketer.whatsapp_number }}?text=Hello%20{{ marketer.name|urlencode }},%20I%20am%20interested%20in%20purchasing%20books%20from%20your%20region%20(Ref:%20{{ marketer.referral_code }})" 
+                   target="_blank" 
+                   class="btn btn-success btn-sm">
+                   Buy via WhatsApp
+                </a>
+                
+                <!-- Direct Phone Link -->
+                <a href="tel:{{ marketer.phone_number }}" class="btn btn-outline-secondary btn-sm">
+                   Call {{ marketer.phone_number }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12 text-center py-5">
+          <p class="text-muted fs-5">No authorized marketers found matching your query.</p>
+          <a href="{% url 'club:marketer_list' %}" class="btn btn-link">Reset Search</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- SECTION: BECOME A MARKETER CTA -->
+  <div class="bg-primary text-white text-center p-5 rounded mt-5">
+    <h3 class="fw-bold">Want to distribute or sell our books?</h3>
+    <p class="lead">Join our network of accredited educational marketers and supply schools in your area.</p>
+    <a href="{% url 'club:partner_application' %}" class="btn btn-light btn-lg text-primary fw-bold">Apply as a Partner</a>
+  </div>
+
+</div>
+{% endblock %}

@@ -561,7 +561,7 @@
         <form class="oracle-form"
               method="post"
               enctype="multipart/form-data"
-              action="{% url 'studentregister' %}">
+              action="{% url 'club:studentregister' %}">
 
           {% csrf_token %}
 
@@ -847,7 +847,7 @@
               Already have an account?
             </span>
 
-            <a href="{% url 'student_login' %}"
+            <a href="{% url 'club:student_login' %}"
                class="oracle-login-link">
 
               Login

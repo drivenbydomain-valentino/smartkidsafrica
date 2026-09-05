@@ -1,6 +1,28 @@
 {% extends 'club/base.html' %}
 {% load static %}
+
 {% block content %}
+
+<!-- STRUCTURED DATA (JSON-LD FOR SEO RICH SNIPPETS) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Digital Entrepreneurship, Coding & Robotics",
+  "description": "A 12-week intensive program by Smartkids Africa teaching Python programming, robotics, UI/UX, IoT, and business launch strategies for young innovators.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Smartkids Africa",
+    "sameAs": "https://smartkidsafrica.com"
+  },
+  "educationalLevel": "Secondary School Students & Young Adults (Ages 12–18)",
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "Blended",
+    "duration": "P12W"
+  }
+}
+</script>
 
 <style>
 body {
@@ -96,351 +118,353 @@ body {
 }
 </style>
 
-<!-- FULL-WIDTH IMAGE CAROUSEL -->
-<div id="digitalCarousel" class="carousel slide hero-carousel mb-5 shadow-sm" data-bs-ride="carousel">
-    
-    <!-- Indicators -->
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="2"></button>
-        <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="3"></button>
-    </div>
-
-    <!-- Images -->
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{% static 'image/digital02.jpeg' %}" class="d-block w-100" alt="Digital Entrepreneurship 1">
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'image/digital03.jpeg' %}" class="d-block w-100" alt="Digital Entrepreneurship 2">
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'image/digital04.jpeg' %}" class="d-block w-100" alt="Digital Entrepreneurship 3">
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'image/digital05.jpeg' %}" class="d-block w-100" alt="Digital Entrepreneurship 4">
-        </div>
-    </div>
-
-    <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#digitalCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#digitalCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-
-<!-- FULL-WIDTH CONTENT SECTION -->
-<div class="container-fluid px-4 px-md-5">
-    
-    <!-- PAGE HEADER -->
-    <div class="about-header text-center shadow-sm">
-        <h2 class="mb-0 fw-bold">Digital Entrepreneurship, Coding & Robotics</h2>
-    </div>
-
-    <!-- MAIN OVERVIEW -->
-    <div class="mb-5 text-center">
-        <h2 class="text-primary mb-3 fw-bold">Empowering the Next Generation of Tech Innovators</h2>
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <p class="lead fs-6 text-secondary">
-                    Financial literacy and digital competence go beyond traditional education. Smartkids Africa equips young minds with practical software development, robotics prototyping, product design, and startup business strategies. We bridge the gap between technical creativity and sustainable wealth creation.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- SECTION 1: CORE ACADEMIC MODULES (TABBED SHOWCASE) -->
-    <div class="my-5">
-        <h3 class="text-center fw-bold text-dark mb-4">Core Knowledge & Technical Pillars</h3>
+<main>
+    <!-- FULL-WIDTH IMAGE CAROUSEL -->
+    <div id="digitalCarousel" class="carousel slide hero-carousel mb-5 shadow-sm" data-bs-ride="carousel" aria-label="Digital Entrepreneurship Showcase Carousel">
         
-        <!-- Tab Navigation -->
-        <ul class="nav nav-pills justify-content-center gap-2 mb-4" id="entrepreneurshipTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="showcase-tab-btn active" id="tab-1" data-bs-toggle="pill" data-bs-target="#pillar-1" type="button" role="tab">
-                    1. Programming & Software
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="showcase-tab-btn" id="tab-2" data-bs-toggle="pill" data-bs-target="#pillar-2" type="button" role="tab">
-                    2. Robotics & Hardware
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="showcase-tab-btn" id="tab-3" data-bs-toggle="pill" data-bs-target="#pillar-3" type="button" role="tab">
-                    3. Product & AI
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="showcase-tab-btn" id="tab-4" data-bs-toggle="pill" data-bs-target="#pillar-4" type="button" role="tab">
-                    4. Business Strategy
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="showcase-tab-btn" id="tab-5" data-bs-toggle="pill" data-bs-target="#pillar-5" type="button" role="tab">
-                    5. Growth & Execution
-                </button>
-            </li>
-        </ul>
-
-        <!-- Tab Content -->
-        <div class="tab-content pt-2" id="entrepreneurshipTabContent">
-
-            <!-- PILLAR 1: PROGRAMMING & SOFTWARE ENGINEERING -->
-            <div class="tab-pane fade show active" id="pillar-1" role="tabpanel">
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-programming shadow-sm h-100">
-                            <span class="pillar-badge badge-blue">Frontend & Web</span>
-                            <h5 class="fw-bold text-primary mb-2">Web Development</h5>
-                            <p class="text-secondary small mb-0">HTML5, CSS3, JavaScript, and backend frameworks (Python/Django, Node.js) for building scalable web platforms.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-programming shadow-sm h-100">
-                            <span class="pillar-badge badge-blue">Engineering</span>
-                            <h5 class="fw-bold text-primary mb-2">Full-Stack & Mobile</h5>
-                            <p class="text-secondary small mb-0">Building database-driven applications using REST APIs, cloud databases, and cross-platform mobile tools (Flutter/React Native).</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-programming shadow-sm h-100">
-                            <span class="pillar-badge badge-blue">Infrastructure</span>
-                            <h5 class="fw-bold text-primary mb-2">Git, Databases & Cloud</h5>
-                            <p class="text-secondary small mb-0">Version control using Git/GitHub, software testing, relational/NoSQL databases, and cloud hosting (Render, AWS).</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PILLAR 2: ROBOTICS & EMBEDDED SYSTEMS -->
-            <div class="tab-pane fade" id="pillar-2" role="tabpanel">
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-robotics shadow-sm h-100">
-                            <span class="pillar-badge badge-green">Hardware</span>
-                            <h5 class="fw-bold text-success mb-2">Robotics & C/C++</h5>
-                            <p class="text-secondary small mb-0">Core electronics, circuit layout, and C/C++ micro-controller programming for Arduino and ESP32 hardware.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-robotics shadow-sm h-100">
-                            <span class="pillar-badge badge-green">Connected Tech</span>
-                            <h5 class="fw-bold text-success mb-2">Internet of Things (IoT)</h5>
-                            <p class="text-secondary small mb-0">Linking physical sensors to cloud servers for real-time telemetry, remote monitoring, and smart automation.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-robotics shadow-sm h-100">
-                            <span class="pillar-badge badge-green">Prototyping</span>
-                            <h5 class="fw-bold text-success mb-2">Raspberry Pi & CAD</h5>
-                            <p class="text-secondary small mb-0">Autonomous devices with Python computer vision, alongside 3D CAD design and printing for physical product casings.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PILLAR 3: PRODUCT DEVELOPMENT & EMERGING TECH -->
-            <div class="tab-pane fade" id="pillar-3" role="tabpanel">
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-product shadow-sm h-100">
-                            <span class="pillar-badge badge-cyan">Innovation</span>
-                            <h5 class="fw-bold text-info mb-2">No-Code & Rapid MVPs</h5>
-                            <p class="text-secondary small mb-0">Leveraging low-code tools and visual app builders to validate market ideas and launch functional MVPs fast.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-product shadow-sm h-100">
-                            <span class="pillar-badge badge-cyan">Design</span>
-                            <h5 class="fw-bold text-info mb-2">UI/UX & Prototyping</h5>
-                            <p class="text-secondary small mb-0">User research, wireframing, and interactive design tools like Figma to design intuitive user experiences.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-product shadow-sm h-100">
-                            <span class="pillar-badge badge-cyan">AI & Workflows</span>
-                            <h5 class="fw-bold text-info mb-2">AI Integration & Automation</h5>
-                            <p class="text-secondary small mb-0">Integrating machine learning models, natural language processing, APIs, and webhooks to automate systems.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PILLAR 4: DIGITAL BUSINESS STRATEGY & MONETIZATION -->
-            <div class="tab-pane fade" id="pillar-4" role="tabpanel">
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-strategy shadow-sm h-100">
-                            <span class="pillar-badge badge-gold">Startups</span>
-                            <h5 class="fw-bold text-warning mb-2">Lean Startup Validation</h5>
-                            <p class="text-secondary small mb-0">Identifying core market challenges, mapping value propositions, and running low-cost validation experiments.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-strategy shadow-sm h-100">
-                            <span class="pillar-badge badge-gold">Monetization</span>
-                            <h5 class="fw-bold text-warning mb-2">Business Models & Finance</h5>
-                            <p class="text-secondary small mb-0">Designing revenue streams (SaaS, subscriptions, marketplaces) combined with financial forecasting and accounting.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-strategy shadow-sm h-100">
-                            <span class="pillar-badge badge-gold">Legal</span>
-                            <h5 class="fw-bold text-warning mb-2">IP, Privacy & Ethics</h5>
-                            <p class="text-secondary small mb-0">Protecting intellectual property, copyrighting source code, managing trade secrets, and adhering to global privacy laws.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PILLAR 5: DIGITAL GROWTH & MARKET EXECUTION -->
-            <div class="tab-pane fade" id="pillar-5" role="tabpanel">
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-growth shadow-sm h-100">
-                            <span class="pillar-badge badge-pink">Marketing</span>
-                            <h5 class="fw-bold text-danger mb-2">Growth Hacking & SEO</h5>
-                            <p class="text-secondary small mb-0">Search engine optimization, targeted ads, social media strategies, and data-driven customer acquisition.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-growth shadow-sm h-100">
-                            <span class="pillar-badge badge-pink">E-Commerce</span>
-                            <h5 class="fw-bold text-danger mb-2">Online Stores & Analytics</h5>
-                            <p class="text-secondary small mb-0">Operating online storefronts, integrating payment gateways, and tracking product analytics (CAC, LTV, churn).</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-4 tech-card border-growth shadow-sm h-100">
-                            <span class="pillar-badge badge-pink">Fundraising</span>
-                            <h5 class="fw-bold text-danger mb-2">Investor Pitching</h5>
-                            <p class="text-secondary small mb-0">Crafting pitch decks, mastering public speaking, negotiating equity, and navigating startup fundraising.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#digitalCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
         </div>
-    </div>
 
-    <!-- SECTION 2: PROGRAM SYLLABUS OVERVIEW CARD -->
-    <div class="my-5 p-4 bg-white rounded-3 shadow-sm border-start border-4 border-primary">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <h3 class="fw-bold text-primary mb-2">Course Syllabus: NextGen Digital Entrepreneurs</h3>
-                <p class="text-muted mb-2"><strong>Focus Area:</strong> Coding, Robotics & Digital Venture Building</p>
-                <p class="text-secondary small mb-0">
-                    <strong>Target Audience:</strong> Secondary School Students & Young Adults (Ages 12–18)<br>
-                    <strong>Duration:</strong> 12 Weeks (3 Hours per Week: 1.5h Theory & Applied Coding / 1.5h Hands-on Lab)<br>
-                    <strong>Prerequisites:</strong> Basic computer literacy (typing, web browsing)
-                </p>
+        <!-- Images -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'image/digital02.jpeg' %}" class="d-block w-100" alt="Students learning digital entrepreneurship and coding at Smartkids Africa" loading="eager">
             </div>
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">12-Week Intensive</span>
+            <div class="carousel-item">
+                <img src="{% static 'image/digital03.jpeg' %}" class="d-block w-100" alt="Hands-on robotics kit building and hardware prototyping" loading="lazy">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/digital04.jpeg' %}" class="d-block w-100" alt="Youth tech innovators working on web design and app development" loading="lazy">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/digital05.jpeg' %}" class="d-block w-100" alt="Startup business strategy and pitch deck presentation training" loading="lazy">
             </div>
         </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#digitalCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#digitalCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
-    <!-- SECTION 3: 12-WEEK ROADMAP TIMELINE -->
-    <div class="my-5">
-        <h3 class="text-center fw-bold text-primary mb-4">12-Week Curriculum Roadmap</h3>
+    <!-- FULL-WIDTH CONTENT SECTION -->
+    <div class="container-fluid px-4 px-md-5">
         
-        <div class="row g-4">
-            <!-- PHASE 1 -->
-            <div class="col-lg-6">
-                <div class="p-4 timeline-card shadow-sm h-100">
-                    <span class="badge bg-primary mb-2">Weeks 1–3</span>
-                    <h5 class="fw-bold text-dark">Phase 1: Core Software Engineering Foundations</h5>
-                    <ul class="list-unstyled small text-secondary mt-3">
-                        <li class="mb-2"><strong>Week 1: Computational Thinking & Python</strong> — Variables, control flow, financial calculator project.</li>
-                        <li class="mb-2"><strong>Week 2: Data Structures & Modularity</strong> — Functions, inventory tracker build, unit economics.</li>
-                        <li class="mb-1"><strong>Week 3: Version Control & Git</strong> — GitHub repositories, pull requests, collaborative dev flow.</li>
-                    </ul>
+        <!-- PAGE HEADER -->
+        <header class="about-header text-center shadow-sm">
+            <h1 class="mb-0 fw-bold h2">Digital Entrepreneurship, Coding & Robotics</h1>
+        </header>
+
+        <!-- MAIN OVERVIEW -->
+        <section class="mb-5 text-center">
+            <h2 class="text-primary mb-3 fw-bold">Empowering the Next Generation of Tech Innovators</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <p class="lead fs-6 text-secondary">
+                        Financial literacy and digital competence go beyond traditional education. Smartkids Africa equips young minds with practical software development, robotics prototyping, product design, and startup business strategies. We bridge the gap between technical creativity and sustainable wealth creation.
+                    </p>
                 </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: CORE ACADEMIC MODULES (TABBED SHOWCASE) -->
+        <section class="my-5" aria-labelledby="pillars-heading">
+            <h2 id="pillars-heading" class="text-center fw-bold text-dark mb-4 h3">Core Knowledge & Technical Pillars</h2>
+            
+            <!-- Tab Navigation -->
+            <ul class="nav nav-pills justify-content-center gap-2 mb-4" id="entrepreneurshipTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="showcase-tab-btn active" id="tab-1" data-bs-toggle="pill" data-bs-target="#pillar-1" type="button" role="tab" aria-controls="pillar-1" aria-selected="true">
+                        1. Programming & Software
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="showcase-tab-btn" id="tab-2" data-bs-toggle="pill" data-bs-target="#pillar-2" type="button" role="tab" aria-controls="pillar-2" aria-selected="false">
+                        2. Robotics & Hardware
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="showcase-tab-btn" id="tab-3" data-bs-toggle="pill" data-bs-target="#pillar-3" type="button" role="tab" aria-controls="pillar-3" aria-selected="false">
+                        3. Product & AI
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="showcase-tab-btn" id="tab-4" data-bs-toggle="pill" data-bs-target="#pillar-4" type="button" role="tab" aria-controls="pillar-4" aria-selected="false">
+                        4. Business Strategy
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="showcase-tab-btn" id="tab-5" data-bs-toggle="pill" data-bs-target="#pillar-5" type="button" role="tab" aria-controls="pillar-5" aria-selected="false">
+                        5. Growth & Execution
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content pt-2" id="entrepreneurshipTabContent">
+
+                <!-- PILLAR 1: PROGRAMMING & SOFTWARE ENGINEERING -->
+                <div class="tab-pane fade show active" id="pillar-1" role="tabpanel" aria-labelledby="tab-1">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-programming shadow-sm h-100">
+                                <span class="pillar-badge badge-blue">Frontend & Web</span>
+                                <h3 class="fw-bold text-primary mb-2 h5">Web Development</h3>
+                                <p class="text-secondary small mb-0">HTML5, CSS3, JavaScript, and backend frameworks (Python/Django, Node.js) for building scalable web platforms.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-programming shadow-sm h-100">
+                                <span class="pillar-badge badge-blue">Engineering</span>
+                                <h3 class="fw-bold text-primary mb-2 h5">Full-Stack & Mobile</h3>
+                                <p class="text-secondary small mb-0">Building database-driven applications using REST APIs, cloud databases, and cross-platform mobile tools (Flutter/React Native).</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-programming shadow-sm h-100">
+                                <span class="pillar-badge badge-blue">Infrastructure</span>
+                                <h3 class="fw-bold text-primary mb-2 h5">Git, Databases & Cloud</h3>
+                                <p class="text-secondary small mb-0">Version control using Git/GitHub, software testing, relational/NoSQL databases, and cloud hosting (Render, AWS).</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PILLAR 2: ROBOTICS & EMBEDDED SYSTEMS -->
+                <div class="tab-pane fade" id="pillar-2" role="tabpanel" aria-labelledby="tab-2">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-robotics shadow-sm h-100">
+                                <span class="pillar-badge badge-green">Hardware</span>
+                                <h3 class="fw-bold text-success mb-2 h5">Robotics & C/C++</h3>
+                                <p class="text-secondary small mb-0">Core electronics, circuit layout, and C/C++ micro-controller programming for Arduino and ESP32 hardware.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-robotics shadow-sm h-100">
+                                <span class="pillar-badge badge-green">Connected Tech</span>
+                                <h3 class="fw-bold text-success mb-2 h5">Internet of Things (IoT)</h3>
+                                <p class="text-secondary small mb-0">Linking physical sensors to cloud servers for real-time telemetry, remote monitoring, and smart automation.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-robotics shadow-sm h-100">
+                                <span class="pillar-badge badge-green">Prototyping</span>
+                                <h3 class="fw-bold text-success mb-2 h5">Raspberry Pi & CAD</h3>
+                                <p class="text-secondary small mb-0">Autonomous devices with Python computer vision, alongside 3D CAD design and printing for physical product casings.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PILLAR 3: PRODUCT DEVELOPMENT & EMERGING TECH -->
+                <div class="tab-pane fade" id="pillar-3" role="tabpanel" aria-labelledby="tab-3">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-product shadow-sm h-100">
+                                <span class="pillar-badge badge-cyan">Innovation</span>
+                                <h3 class="fw-bold text-info mb-2 h5">No-Code & Rapid MVPs</h3>
+                                <p class="text-secondary small mb-0">Leveraging low-code tools and visual app builders to validate market ideas and launch functional MVPs fast.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-product shadow-sm h-100">
+                                <span class="pillar-badge badge-cyan">Design</span>
+                                <h3 class="fw-bold text-info mb-2 h5">UI/UX & Prototyping</h3>
+                                <p class="text-secondary small mb-0">User research, wireframing, and interactive design tools like Figma to design intuitive user experiences.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-product shadow-sm h-100">
+                                <span class="pillar-badge badge-cyan">AI & Workflows</span>
+                                <h3 class="fw-bold text-info mb-2 h5">AI Integration & Automation</h3>
+                                <p class="text-secondary small mb-0">Integrating machine learning models, natural language processing, APIs, and webhooks to automate systems.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PILLAR 4: DIGITAL BUSINESS STRATEGY & MONETIZATION -->
+                <div class="tab-pane fade" id="pillar-4" role="tabpanel" aria-labelledby="tab-4">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-strategy shadow-sm h-100">
+                                <span class="pillar-badge badge-gold">Startups</span>
+                                <h3 class="fw-bold text-warning mb-2 h5">Lean Startup Validation</h3>
+                                <p class="text-secondary small mb-0">Identifying core market challenges, mapping value propositions, and running low-cost validation experiments.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-strategy shadow-sm h-100">
+                                <span class="pillar-badge badge-gold">Monetization</span>
+                                <h3 class="fw-bold text-warning mb-2 h5">Business Models & Finance</h3>
+                                <p class="text-secondary small mb-0">Designing revenue streams (SaaS, subscriptions, marketplaces) combined with financial forecasting and accounting.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-strategy shadow-sm h-100">
+                                <span class="pillar-badge badge-gold">Legal</span>
+                                <h3 class="fw-bold text-warning mb-2 h5">IP, Privacy & Ethics</h3>
+                                <p class="text-secondary small mb-0">Protecting intellectual property, copyrighting source code, managing trade secrets, and adhering to global privacy laws.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PILLAR 5: DIGITAL GROWTH & MARKET EXECUTION -->
+                <div class="tab-pane fade" id="pillar-5" role="tabpanel" aria-labelledby="tab-5">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-growth shadow-sm h-100">
+                                <span class="pillar-badge badge-pink">Marketing</span>
+                                <h3 class="fw-bold text-danger mb-2 h5">Growth Hacking & SEO</h3>
+                                <p class="text-secondary small mb-0">Search engine optimization, targeted ads, social media strategies, and data-driven customer acquisition.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-growth shadow-sm h-100">
+                                <span class="pillar-badge badge-pink">E-Commerce</span>
+                                <h3 class="fw-bold text-danger mb-2 h5">Online Stores & Analytics</h3>
+                                <p class="text-secondary small mb-0">Operating online storefronts, integrating payment gateways, and tracking product analytics (CAC, LTV, churn).</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="p-4 tech-card border-growth shadow-sm h-100">
+                                <span class="pillar-badge badge-pink">Fundraising</span>
+                                <h3 class="fw-bold text-danger mb-2 h5">Investor Pitching</h3>
+                                <p class="text-secondary small mb-0">Crafting pitch decks, mastering public speaking, negotiating equity, and navigating startup fundraising.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: PROGRAM SYLLABUS OVERVIEW CARD -->
+        <section class="my-5 p-4 bg-white rounded-3 shadow-sm border-start border-4 border-primary">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="fw-bold text-primary mb-2 h3">Course Syllabus: NextGen Digital Entrepreneurs</h2>
+                    <p class="text-muted mb-2"><strong>Focus Area:</strong> Coding, Robotics & Digital Venture Building</p>
+                    <p class="text-secondary small mb-0">
+                        <strong>Target Audience:</strong> Secondary School Students & Young Adults (Ages 12–18)<br>
+                        <strong>Duration:</strong> 12 Weeks (3 Hours per Week: 1.5h Theory & Applied Coding / 1.5h Hands-on Lab)<br>
+                        <strong>Prerequisites:</strong> Basic computer literacy (typing, web browsing)
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">12-Week Intensive</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: 12-WEEK ROADMAP TIMELINE -->
+        <section class="my-5" aria-labelledby="roadmap-heading">
+            <h2 id="roadmap-heading" class="text-center fw-bold text-primary mb-4 h3">12-Week Curriculum Roadmap</h2>
+            
+            <div class="row g-4">
+                <!-- PHASE 1 -->
+                <div class="col-lg-6">
+                    <article class="p-4 timeline-card shadow-sm h-100">
+                        <span class="badge bg-primary mb-2">Weeks 1–3</span>
+                        <h3 class="fw-bold text-dark h5">Phase 1: Core Software Engineering Foundations</h3>
+                        <ul class="list-unstyled small text-secondary mt-3">
+                            <li class="mb-2"><strong>Week 1: Computational Thinking & Python</strong> — Variables, control flow, financial calculator project.</li>
+                            <li class="mb-2"><strong>Week 2: Data Structures & Modularity</strong> — Functions, inventory tracker build, unit economics.</li>
+                            <li class="mb-1"><strong>Week 3: Version Control & Git</strong> — GitHub repositories, pull requests, collaborative dev flow.</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <!-- PHASE 2 -->
+                <div class="col-lg-6">
+                    <article class="p-4 timeline-card shadow-sm h-100" style="border-left-color: #28a745;">
+                        <span class="badge bg-success mb-2">Weeks 4–6</span>
+                        <h3 class="fw-bold text-dark h5">Phase 2: Robotics, Hardware & IoT Prototyping</h3>
+                        <ul class="list-unstyled small text-secondary mt-3">
+                            <li class="mb-2"><strong>Week 4: Circuits & Microcontrollers</strong> — Arduino/ESP32, C++, proximity sensor arrays.</li>
+                            <li class="mb-2"><strong>Week 5: Internet of Things (IoT)</strong> — Streaming hardware data to online cloud dashboards.</li>
+                            <li class="mb-1"><strong>Week 6: Physical Robotics</strong> — Motor drivers, 2WD autonomous chassis assembly, CAD basics.</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <!-- PHASE 3 -->
+                <div class="col-lg-6">
+                    <article class="p-4 timeline-card shadow-sm h-100" style="border-left-color: #17a2b8;">
+                        <span class="badge bg-info text-white mb-2">Weeks 7–9</span>
+                        <h3 class="fw-bold text-dark h5">Phase 3: Web Product Development & UI/UX</h3>
+                        <ul class="list-unstyled small text-secondary mt-3">
+                            <li class="mb-2"><strong>Week 7: UI/UX & Responsive Web</strong> — HTML5/CSS3, landing page wireframing in Figma.</li>
+                            <li class="mb-2"><strong>Week 8: Backend Services & APIs</strong> — RESTful APIs, database forms, user onboarding.</li>
+                            <li class="mb-1"><strong>Week 9: MVP Integration</strong> — Linking IoT hardware streams directly to live web platforms.</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <!-- PHASE 4 -->
+                <div class="col-lg-6">
+                    <article class="p-4 timeline-card shadow-sm h-100" style="border-left-color: #ffc107;">
+                        <span class="badge bg-warning text-dark mb-2">Weeks 10–12</span>
+                        <h3 class="fw-bold text-dark h5">Phase 4: Business Strategy & Launch</h3>
+                        <ul class="list-unstyled small text-secondary mt-3">
+                            <li class="mb-2"><strong>Week 10: Digital Business & Growth</strong> — SaaS models, Lean Canvas, CAC/LTV tracking.</li>
+                            <li class="mb-2"><strong>Week 11: Financials, IP & Legal</strong> — Revenue forecasting, copyrighting code, NDPR privacy.</li>
+                            <li class="mb-1"><strong>Week 12: Pitching & Demo Day</strong> — 5-minute live product pitch to mentors and investors.</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: HARDWARE KIT & GRADING -->
+        <section class="row g-4 my-5">
+            <div class="col-md-6">
+                <article class="p-4 bg-white rounded-3 shadow-sm h-100">
+                    <h2 class="fw-bold text-primary mb-3 h5">🛠️ Required Hardware Kit</h2>
+                    <ul class="small text-secondary mb-0">
+                        <li class="mb-1"><strong>Microcontroller:</strong> Arduino Uno or ESP32 Wi-Fi Module</li>
+                        <li class="mb-1"><strong>Sensors:</strong> Ultrasonic distance, DHT11 Temp/Humidity, IR sensors</li>
+                        <li class="mb-1"><strong>Actuators:</strong> Servos, DC Motors, L298N Motor Driver, Buzzer</li>
+                        <li class="mb-0"><strong>Tools:</strong> Breadboard, jumper wires, resistors, LEDs, 2WD Chassis</li>
+                    </ul>
+                </article>
             </div>
 
-            <!-- PHASE 2 -->
-            <div class="col-lg-6">
-                <div class="p-4 timeline-card shadow-sm h-100" style="border-left-color: #28a745;">
-                    <span class="badge bg-success mb-2">Weeks 4–6</span>
-                    <h5 class="fw-bold text-dark">Phase 2: Robotics, Hardware & IoT Prototyping</h5>
-                    <ul class="list-unstyled small text-secondary mt-3">
-                        <li class="mb-2"><strong>Week 4: Circuits & Microcontrollers</strong> — Arduino/ESP32, C++, proximity sensor arrays.</li>
-                        <li class="mb-2"><strong>Week 5: Internet of Things (IoT)</strong> — Streaming hardware data to online cloud dashboards.</li>
-                        <li class="mb-1"><strong>Week 6: Physical Robotics</strong> — Motor drivers, 2WD autonomous chassis assembly, CAD basics.</li>
-                    </ul>
-                </div>
+            <div class="col-md-6">
+                <article class="p-4 bg-white rounded-3 shadow-sm h-100">
+                    <h2 class="fw-bold text-primary mb-3 h5">📊 Assessment & Certification</h2>
+                    <div class="progress mb-2" style="height: 22px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">Lab Deliverables (40%)</div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">MVP Prototype (30%)</div>
+                        <div class="progress-bar bg-warning text-dark" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Demo Pitch (30%)</div>
+                    </div>
+                    <p class="small text-muted mt-3 mb-0">
+                        Graduation requires completion of all weekly lab projects, a fully integrated MVP prototype, and a live presentation during Demo Day.
+                    </p>
+                </article>
             </div>
+        </section>
 
-            <!-- PHASE 3 -->
-            <div class="col-lg-6">
-                <div class="p-4 timeline-card shadow-sm h-100" style="border-left-color: #17a2b8;">
-                    <span class="badge bg-info text-white mb-2">Weeks 7–9</span>
-                    <h5 class="fw-bold text-dark">Phase 3: Web Product Development & UI/UX</h5>
-                    <ul class="list-unstyled small text-secondary mt-3">
-                        <li class="mb-2"><strong>Week 7: UI/UX & Responsive Web</strong> — HTML5/CSS3, landing page wireframing in Figma.</li>
-                        <li class="mb-2"><strong>Week 8: Backend Services & APIs</strong> — RESTful APIs, database forms, user onboarding.</li>
-                        <li class="mb-1"><strong>Week 9: MVP Integration</strong> — Linking IoT hardware streams directly to live web platforms.</li>
-                    </ul>
-                </div>
-            </div>
+        <!-- SUMMARY SECTION -->
+        <section class="my-5 p-4 bg-white rounded-3 shadow-sm">
+            <p class="text-justify lead fs-6 mb-0 text-secondary">
+                Equipping youth across Nigeria and Africa with digital entrepreneurship, robotics, and coding skills transforms young learners into proactive problem solvers and job creators capable of leading sustainable tech ventures.
+            </p>
+        </section>
 
-            <!-- PHASE 4 -->
-            <div class="col-lg-6">
-                <div class="p-4 timeline-card shadow-sm h-100" style="border-left-color: #ffc107;">
-                    <span class="badge bg-warning text-dark mb-2">Weeks 10–12</span>
-                    <h5 class="fw-bold text-dark">Phase 4: Business Strategy & Launch</h5>
-                    <ul class="list-unstyled small text-secondary mt-3">
-                        <li class="mb-2"><strong>Week 10: Digital Business & Growth</strong> — SaaS models, Lean Canvas, CAC/LTV tracking.</li>
-                        <li class="mb-2"><strong>Week 11: Financials, IP & Legal</strong> — Revenue forecasting, copyrighting code, NDPR privacy.</li>
-                        <li class="mb-1"><strong>Week 12: Pitching & Demo Day</strong> — 5-minute live product pitch to mentors and investors.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
-
-    <!-- SECTION 4: HARDWARE KIT & GRADING -->
-    <div class="row g-4 my-5">
-        <div class="col-md-6">
-            <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                <h5 class="fw-bold text-primary mb-3">🛠️ Required Hardware Kit</h5>
-                <ul class="small text-secondary mb-0">
-                    <li class="mb-1"><strong>Microcontroller:</strong> Arduino Uno or ESP32 Wi-Fi Module</li>
-                    <li class="mb-1"><strong>Sensors:</strong> Ultrasonic distance, DHT11 Temp/Humidity, IR sensors</li>
-                    <li class="mb-1"><strong>Actuators:</strong> Servos, DC Motors, L298N Motor Driver, Buzzer</li>
-                    <li class="mb-0"><strong>Tools:</strong> Breadboard, jumper wires, resistors, LEDs, 2WD Chassis</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                <h5 class="fw-bold text-primary mb-3">📊 Assessment & Certification</h5>
-                <div class="progress mb-2" style="height: 22px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 40%;">Lab Deliverables (40%)</div>
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 30%;">MVP Prototype (30%)</div>
-                    <div class="progress-bar bg-warning text-dark" role="progressbar" style="width: 30%;">Demo Pitch (30%)</div>
-                </div>
-                <p class="small text-muted mt-3 mb-0">
-                    Graduation requires completion of all weekly lab projects, a fully integrated MVP prototype, and a live presentation during Demo Day.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUMMARY SECTION -->
-    <div class="my-5 p-4 bg-white rounded-3 shadow-sm">
-        <p class="text-justify lead fs-6 mb-0 text-secondary">
-            Equipping youth across Nigeria and Africa with digital entrepreneurship, robotics, and coding skills transforms young learners into proactive problem solvers and job creators capable of leading sustainable tech ventures.
-        </p>
-    </div>
-
-</div>
+</main>
 
 {% endblock %}

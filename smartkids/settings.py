@@ -4,6 +4,12 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
+# settings.py
+
+# settings.py
+
+AUTH_USER_MODEL = 'club.User'  # Replace 'club' with your exact app_name if different'
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -124,6 +130,8 @@ DATABASES = {
     )
 }
 
+DATABASE_URL = "https://console.aiven.io/account/a5db89b87a31/project/drivenbydomain-smartkidsafrica/services/pg-a4344c7"
+
 # -----------------------------------------------------------------------------
 # Password Validation & Localization
 # -----------------------------------------------------------------------------
@@ -154,6 +162,8 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 CLOUDINARY_STORAGE = {
     'SECURE': True,

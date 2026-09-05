@@ -1,0 +1,124 @@
+{% extends 'club/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+
+  <!-- HERO SECTION -->
+  <div class="row align-items-center mb-5 p-4 border rounded shadow-sm bg-light">
+    <div class="col-md-4 text-center mb-3 mb-md-0">
+      <div class="p-4 bg-primary text-white rounded shadow d-flex flex-column justify-content-center align-items-center" style="min-height: 280px;">
+        <i class="bi bi-handbag-fill display-1 mb-2"></i>
+        <h3 class="fw-bold mb-0">Become a Partner</h3>
+        <p class="small text-white-50 mb-0">Join Our Educational Distribution Network</p>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h1 class="fw-bold">Apply as an Accredited Marketer</h1>
+      <p class="text-muted fs-5">Partner with us to distribute high-quality educational books to schools, learning hubs, and retailers in your region.</p>
+      
+      <div class="mb-3">
+        <span class="badge bg-success fs-6">Direct Wholesaler Access</span>
+        <span class="badge bg-info text-dark fs-6 ms-2">Exclusive Referral Code</span>
+      </div>
+
+      <p>As an accredited marketer, you get listed on our direct buyer portal, receive local client leads, and purchase stock at competitive partner discount rates.</p>
+
+      <blockquote class="border-start border-3 border-warning ps-3 my-3 text-muted">
+        <em>Note: Applications are reviewed within 24–48 hours. Upon approval, your custom referral code and contact details will be added to our public directory.</em>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- APPLICATION FORM SECTION -->
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3 border-bottom">
+          <h3 class="fw-bold mb-0 text-primary">Partner Application Form</h3>
+          <p class="text-muted small mb-0">Please fill in your details accurately. All fields marked with * are required.</p>
+        </div>
+        
+        <div class="card-body p-4 p-md-5">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="POST" action="{% url 'club:partner_application' %}" class="needs-validation">
+            {% csrf_token %}
+
+            <!-- SECTION 1: PERSONAL & BUSINESS DETAILS -->
+            <h5 class="fw-bold border-bottom pb-2 mb-3 text-secondary">1. Personal & Business Information</h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="id_name" class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
+                <input type="text" name="name" id="id_name" class="form-control" placeholder="e.g. John Doe" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="id_business_name" class="form-label fw-semibold">Business / Company Name</label>
+                <input type="text" name="business_name" id="id_business_name" class="form-control" placeholder="e.g. Bright Minds Bookshop (Optional)">
+              </div>
+            </div>
+
+            <!-- SECTION 2: CONTACT INFORMATION -->
+            <h5 class="fw-bold border-bottom pb-2 mb-3 text-secondary">2. Contact Information</h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-4">
+                <label for="id_phone_number" class="form-label fw-semibold">Phone Number <span class="text-danger">*</span></label>
+                <input type="tel" name="phone_number" id="id_phone_number" class="form-control" placeholder="e.g. 08012345678" required>
+              </div>
+
+              <div class="col-md-4">
+                <label for="id_whatsapp_number" class="form-label fw-semibold">WhatsApp Number <span class="text-danger">*</span></label>
+                <input type="text" name="whatsapp_number" id="id_whatsapp_number" class="form-control" placeholder="e.g. 2348012345678" required>
+                <div class="form-text">Include country code without '+' (e.g. 234...).</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="id_email" class="form-label fw-semibold">Email Address</label>
+                <input type="email" name="email" id="id_email" class="form-control" placeholder="e.g. partner@example.com">
+              </div>
+            </div>
+
+            <!-- SECTION 3: COVERAGE & REFERRAL -->
+            <h5 class="fw-bold border-bottom pb-2 mb-3 text-secondary">3. Coverage Area & Preferences</h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-8">
+                <label for="id_region" class="form-label fw-semibold">Target Coverage Region <span class="text-danger">*</span></label>
+                <input type="text" name="region" id="id_region" class="form-control" placeholder="e.g. Ikeja, Lagos / Abuja FCT / Port Harcourt" required>
+                <div class="form-text">Specify the city, state, or districts where you plan to supply schools and buyers.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="id_referral_code" class="form-label fw-semibold">Preferred Referral Code</label>
+                <input type="text" name="referral_code" id="id_referral_code" class="form-control text-uppercase" placeholder="e.g. MKT-LAGOS-01">
+                <div class="form-text">Leave blank for auto-generated code.</div>
+              </div>
+            </div>
+
+            <!-- SECTION 4: ADDITIONAL INFO -->
+            <div class="mb-4">
+              <label for="id_notes" class="form-label fw-semibold">Tell us briefly about your marketing network or experience</label>
+              <textarea name="notes" id="id_notes" rows="3" class="form-control" placeholder="Mention schools, bookshops, or networks you currently serve..."></textarea>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end pt-3 border-top">
+              <a href="{% url 'club:marketer_list' %}" class="btn btn-outline-secondary btn-lg px-4 me-md-2">View Directory</a>
+              <button type="submit" class="btn btn-primary btn-lg px-5">Submit Application</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

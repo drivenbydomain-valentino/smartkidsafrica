@@ -9,10 +9,29 @@
     <div class="col-md-4 text-center mb-3 mb-md-0">
       {% if book.cover_image %}
         <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+      {% elif book.static_cover_path %}
+        <img src="{% static book.static_cover_path %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
       {% else %}
-        <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded shadow mx-auto" style="height: 380px; max-width: 250px;">
-          <span>No Cover Available</span>
-        </div>
+        <!-- Automatic fallback based on Book ID or Title if cover_image is empty in DB -->
+        {% if book.id == 1 or "stroke" in book.title|lower %}
+          <img src="{% static 'image/book_covers/strokes.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% elif book.id == 2 or "pattern" in book.title|lower %}
+          <img src="{% static 'image/book_covers/patterns.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% elif book.id == 3 or "10" in book.title|lower %}
+          <img src="{% static 'image/book_covers/123_10_vol1.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% elif book.id == 4 or "20" in book.title|lower %}
+          <img src="{% static 'image/book_covers/123_20_vol2.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% elif book.id == 5 or "m vol" in book.title|lower %}
+          <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% elif book.id == 6 or "z vol" in book.title|lower %}
+          <img src="{% static 'image/book_covers/abc_z_vol2.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% elif book.id == 7 or "capital" in book.title|lower %}
+          <img src="{% static 'image/book_covers/CAPITAL_ABC_Z.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% elif book.id == 8 or "drawing" in book.title|lower %}
+          <img src="{% static 'image/book_covers/drawing_colouring.jpeg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% else %}
+          <img src="{% static 'image/book_covers/default_book.jpg' %}" alt="{{ book.title }}" class="img-fluid rounded shadow" style="max-height: 380px;">
+        {% endif %}
       {% endif %}
     </div>
     <div class="col-md-8">
@@ -20,7 +39,6 @@
       <p class="text-muted fs-5">By {{ book.author }}</p>
       
       <div class="mb-3">
-        <span class="badge bg-secondary fs-6">RRP: ${{ book.rrp_price }}</span>
         <span class="badge bg-info text-dark fs-6 ms-2">Marketer Direct Sales</span>
       </div>
 
@@ -30,7 +48,8 @@
         <em>Note: This book is sold exclusively through our network of accredited marketers and educational partners.</em>
       </blockquote>
 
-      <a href="#where-to-buy" class="btn btn-primary btn-lg mt-2">
+      <!-- LINKED BUTTON: Points to the Marketers Directory -->
+      <a href="{% url 'club:marketer_list' %}" class="btn btn-primary btn-lg mt-2">
         Find a Marketer Near You
       </a>
     </div>
@@ -43,7 +62,7 @@
       <h5 class="alert-heading mb-1">Recommended Seller: {{ selected_marketer.name }}</h5>
       <p class="mb-0">Covering <strong>{{ selected_marketer.region }}</strong> (Code: {{ selected_marketer.referral_code }})</p>
     </div>
-    <a href="https://wa.me/{{ selected_marketer.whatsapp_number }}?text=Hello%20{{ selected_marketer.name }},%20I%20want%20to%20buy%20'{{ book.title|urlencode }}'" 
+    <a href="https://wa.me/{{ selected_marketer.whatsapp_number }}?text=Hello%20{{ selected_marketer.name|urlencode }},%20I%20want%20to%20buy%20'{{ book.title|urlencode }}'" 
        target="_blank" class="btn btn-success fw-bold">
       Contact on WhatsApp
     </a>
@@ -87,7 +106,7 @@
 
               <div class="mt-auto d-grid gap-2">
                 <!-- Direct WhatsApp Link -->
-                <a href="https://wa.me/{{ marketer.whatsapp_number }}?text=Hello%20{{ marketer.name }},%20I%20am%20interested%20in%20buying%20'{{ book.title|urlencode }}'%20(Ref:%20{{ marketer.referral_code }})" 
+                <a href="https://wa.me/{{ marketer.whatsapp_number }}?text=Hello%20{{ marketer.name|urlencode }},%20I%20am%20interested%20in%20buying%20'{{ book.title|urlencode }}'%20(Ref:%20{{ marketer.referral_code }})" 
                    target="_blank" 
                    class="btn btn-success btn-sm">
                    Buy via WhatsApp
@@ -104,7 +123,7 @@
       {% empty %}
         <div class="col-12 text-center py-5">
           <p class="text-muted fs-5">No authorized marketers found for this area or query.</p>
-          <a href="{% url 'club:book_detail' pk=book.pk %}" class="btn btn-link">Reset Search</a>
+          <a href="{% if book.pk %}{% url 'club:book_detail' pk=book.pk %}{% else %}#{% endif %}" class="btn btn-link">Reset Search</a>
         </div>
       {% endfor %}
     </div>
@@ -114,7 +133,8 @@
   <div class="bg-primary text-white text-center p-5 rounded mt-5">
     <h3 class="fw-bold">Want to distribute or sell this book?</h3>
     <p class="lead">Join our network of accredited educational marketers and supply schools in your area.</p>
-    <a href="/become-a-marketer/" class="btn btn-light btn-lg text-primary font-weight-bold">Apply as a Partner</a>
+    <!-- LINKED BUTTON: Points to Partner Application Form -->
+    <a href="{% url 'club:partner_application' %}" class="btn btn-light btn-lg text-primary fw-bold">Apply as a Partner</a>
   </div>
 
 </div>

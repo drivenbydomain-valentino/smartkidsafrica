@@ -2,13 +2,66 @@ import datetime
 from decimal import Decimal
 
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage, MediaCloudinaryStorage
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from django.db import models, IntegrityError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.timezone import now
+
+
+class User(AbstractUser):
+    USER_TYPE_CHOICES = (
+        ('student', 'Student'),
+        ('school', 'School'),
+        ('admin', 'Admin'),
+    )
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='student')
+
+    groups = models.ManyToManyField(
+        'auth.Group',
+        verbose_name='groups',
+        blank=True,
+        help_text='The groups this user belongs to.',
+        related_name='club_user_set',  # Custom related_name prevents collision
+        related_query_name='club_user',
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        verbose_name='user permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_name='club_user_permissions_set',  # Custom related_name prevents collision
+        related_query_name='club_user_permission',
+    )
+
+    @property
+    def profile(self):
+        """Returns the specific profile instance associated with this user."""
+        if hasattr(self, 'studentprofile'):
+            return self.studentprofile
+        elif hasattr(self, 'school_profile'):
+            return self.school_profile
+        elif hasattr(self, 'schoolprofile'):
+            return self.schoolprofile
+        elif hasattr(self, 'adminprofile'):
+            return self.adminprofile
+        return None
+
+    @property
+    def avatar_url(self):
+        """Returns the avatar URL regardless of profile type."""
+        prof = self.profile
+        if prof and hasattr(prof, 'avatar') and prof.avatar:
+            try:
+                return prof.avatar.url
+            except ValueError:
+                return None
+        return None
 
 
 # ================= ADMIN ================= #
@@ -21,7 +74,7 @@ class AdminProfile(models.Model):
     )
 
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="adminprofile"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="adminprofile"
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     can_manage_users = models.BooleanField(default=False)
@@ -34,11 +87,11 @@ class AdminProfile(models.Model):
         return f"{self.user.username} ({self.role})"
 
 
-# ✅ Basic Post Model (needed for sharing)
+# ✅ Basic Post Model (enhanced with full SEO integration for Smart Kids Africa)
 class Post(models.Model):
 
     author = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="posts"
     )
@@ -70,6 +123,81 @@ class Post(models.Model):
         auto_now=True
     )
 
+    # --- SEO INTEGRATIONS ---
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True, db_index=True)
+    meta_description = models.CharField(
+        max_length=160, 
+        blank=True, 
+        null=True, 
+        help_text="Optimal length: 150-160 characters for search snippet previews."
+    )
+    meta_keywords = models.CharField(
+        max_length=255, 
+        blank=True, 
+        null=True, 
+        help_text="Comma-separated keywords (e.g., kids education, Africa, learning)"
+    )
+    is_indexable = models.BooleanField(default=True, help_text="Allow search engines to index this post")
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.title:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            while Post.objects.filter(slug=slug).exclude(id=self.id).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+            
+        if not self.meta_description and self.content:
+            # Auto-generate meta description if missing
+            clean_content = " ".join(self.content.split())
+            self.meta_description = clean_content[:155] + "..." if len(clean_content) > 155 else clean_content
+
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'slug': self.slug or self.id})
+
+    @property
+    def seo_title(self):
+        return f"{self.title} | Smart Kids Africa"
+
+    @property
+    def seo_description(self):
+        return self.meta_description or (self.content[:150] + "..." if self.content else "Read more on Smart Kids Africa")
+
+    @property
+    def seo_image_url(self):
+        if self.image:
+            return self.image.url
+        return "https://smartkidsafrica.com/static/images/default-post-og.jpg"
+
+    def get_schema_json(self):
+        """Schema.org Article JSON-LD for Search Engine Rich Snippets"""
+        return {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": self.title,
+            "description": self.seo_description,
+            "image": [self.seo_image_url] if self.seo_image_url else [],
+            "datePublished": self.created_at.isoformat() if self.created_at else "",
+            "dateModified": self.updated_at.isoformat() if self.updated_at else "",
+            "author": {
+                "@type": "Person",
+                "name": self.author.get_full_name() or self.author.username
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Smart Kids Africa",
+                "url": "https://smartkidsafrica.com",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://smartkidsafrica.com/static/images/logo.png"
+                }
+            }
+        }
+
     def total_likes(self):
         return self.likes.count()
 
@@ -89,7 +217,7 @@ class SocialAccount(models.Model):
     )
 
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="social_accounts"
     )
@@ -142,7 +270,7 @@ class Share(models.Model):
     )
 
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="shares"
     )
@@ -161,7 +289,7 @@ class Share(models.Model):
 
     # Internal sharing
     shared_with = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -210,7 +338,7 @@ class Share(models.Model):
 
 class Like(models.Model):
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="likes"
     )
@@ -243,7 +371,7 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
 
     text = models.TextField()
@@ -265,7 +393,7 @@ class StudentProfile(models.Model):
         ('school', 'School'),
     )
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="studentprofile")
     user_type = models.CharField(max_length=10, choices=USER_TYPES, blank=True, null=True)
 
     parent_name = models.CharField(max_length=100, blank=True, null=True)
@@ -281,12 +409,23 @@ class StudentProfile(models.Model):
 
     created_at = models.DateTimeField(default=now, db_index=True)
 
+    # --- SEO INTEGRATIONS ---
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.user.username:
+            self.slug = slugify(self.user.username)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('student_profile_detail', kwargs={'slug': self.slug or self.id})
+
     def __str__(self):
         return f"{self.user.username} Profile"
 
 
 class SchoolProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="school_profile")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="school_profile")
 
     school_name = models.CharField(max_length=255, db_index=True)
     director_name = models.CharField(max_length=255)
@@ -313,11 +452,63 @@ class SchoolProfile(models.Model):
 
     created_at = models.DateTimeField(default=now, db_index=True)
 
+    # --- SEO INTEGRATIONS ---
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True, db_index=True)
+    meta_description = models.CharField(
+        max_length=160, 
+        blank=True, 
+        null=True,
+        help_text="Search engine summary for school profile."
+    )
+    is_indexable = models.BooleanField(default=True, help_text="Allow indexing on school directory")
+
     class Meta:
         ordering = ['school_name']
         indexes = [
-            models.Index(fields=['country','state', 'lga']),
+            models.Index(fields=['country', 'state', 'lga']),
         ]
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.school_name:
+            base_slug = slugify(f"{self.school_name}-{self.state}-{self.lga}")
+            slug = base_slug
+            counter = 1
+            while SchoolProfile.objects.filter(slug=slug).exclude(id=self.id).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+
+        if not self.meta_description:
+            self.meta_description = f"{self.school_name} in {self.lga}, {self.state}, {self.country}. Top rated {self.school_type} on Smart Kids Africa."
+
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('school_detail', kwargs={'slug': self.slug or self.id})
+
+    @property
+    def seo_title(self):
+        return f"{self.school_name} - {self.state}, {self.country} | Smart Kids Africa"
+
+    def get_schema_json(self):
+        """Schema.org School JSON-LD for Local SEO and Google Search Directory"""
+        return {
+            "@context": "https://schema.org",
+            "@type": "School",
+            "name": self.school_name,
+            "description": self.meta_description,
+            "url": f"https://smartkidsafrica.com{self.get_absolute_url()}",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": f"{self.address}, Near {self.nearest_bus_stop}",
+                "addressLocality": self.lga,
+                "addressRegion": self.state,
+                "addressCountry": self.country
+            },
+            "telephone": self.whatsapp_number or self.contact_number,
+            "email": self.email,
+            "image": self.avatar.url if self.avatar else "https://smartkidsafrica.com/static/images/default-school.jpg"
+        }
 
     def __str__(self):
         return self.school_name
@@ -325,7 +516,7 @@ class SchoolProfile(models.Model):
 
 # # ================= SIGNALS ================= #
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         StudentProfile.objects.get_or_create(user=instance)
@@ -371,7 +562,7 @@ class Marketer(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, null=True, blank=True)
+    slug = models.SlugField(max_length=255, null=True, blank=True, unique=True, db_index=True)
     author = models.CharField(max_length=200)
     description = models.TextField()
     cover_image = models.ImageField(upload_to='book_covers/')
@@ -388,25 +579,64 @@ class Book(models.Model):
         help_text="Authorized marketers for this book"
     )
 
+    # --- SEO INTEGRATIONS ---
+    meta_description = models.CharField(
+        max_length=160, 
+        blank=True, 
+        null=True,
+        help_text="Meta summary of book for Google Search"
+    )
+    is_indexable = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.title:
+            base_slug = slugify(f"{self.title}-{self.author}")
+            slug = base_slug
+            counter = 1
+            while Book.objects.filter(slug=slug).exclude(id=self.id).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+
+        if not self.meta_description and self.description:
+            clean_desc = " ".join(self.description.split())
+            self.meta_description = clean_desc[:155] + "..." if len(clean_desc) > 155 else clean_desc
+
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('book_detail', kwargs={'slug': self.slug or self.id})
+
+    @property
+    def seo_title(self):
+        return f"{self.title} by {self.author} | Smart Kids Africa Books"
+
+    def get_schema_json(self):
+        """Schema.org Book JSON-LD for Search Engine Shopping/Book listings"""
+        return {
+            "@context": "https://schema.org",
+            "@type": "Book",
+            "name": self.title,
+            "author": {
+                "@type": "Person",
+                "name": self.author
+            },
+            "description": self.meta_description or self.description,
+            "image": self.cover_image.url if self.cover_image else "",
+            "offers": {
+                "@type": "Offer",
+                "price": str(self.rrp_price),
+                "priceCurrency": "NGN",
+                "availability": "https://schema.org/InStock"
+            }
+        }
+
     def __str__(self):
         return self.title
 
 
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
-
-class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart_items")
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    def get_total_price(self):
-        return self.book.rrp_price * self.quantity
-
-    def __str__(self):
-        return f"{self.quantity}x {self.book.title} for {self.user.username}"
 
 
 # Helper function to safely populate seed data AFTER Django has loaded

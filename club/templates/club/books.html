@@ -122,8 +122,28 @@
               <div class="img-box">
                 {% if book.cover_image %}
                   <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+                {% elif book.static_cover_path %}
+                  <img src="{% static book.static_cover_path %}" alt="{{ book.title }}">
                 {% else %}
-                  <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=300&q=80" alt="Sample Book Cover">
+                  {% if book.id == 1 or "stroke" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/strokes.jpeg' %}" alt="{{ book.title }}">
+                  {% elif book.id == 2 or "pattern" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/patterns.jpeg' %}" alt="{{ book.title }}">
+                  {% elif book.id == 3 or "10" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/123_10_vol1.jpeg' %}" alt="{{ book.title }}">
+                  {% elif book.id == 4 or "20" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/123_20_vol2.jpeg' %}" alt="{{ book.title }}">
+                  {% elif book.id == 5 or "m vol" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/abc_m_vol1.jpeg' %}" alt="{{ book.title }}">
+                  {% elif book.id == 6 or "z vol" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/abc_z_vol2.jpeg' %}" alt="{{ book.title }}">
+                  {% elif book.id == 7 or "capital" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/CAPITAL_ABC_Z.jpeg' %}" alt="{{ book.title }}">
+                  {% elif book.id == 8 or "drawing" in book.title|lower %}
+                    <img src="{% static 'image/book_covers/drawing_colouring.jpeg' %}" alt="{{ book.title }}">
+                  {% else %}
+                    <img src="{% static 'image/book_covers/default_book.jpg' %}" alt="No Book Cover">
+                  {% endif %}
                 {% endif %}
               </div>
 
@@ -137,14 +157,14 @@
                 {% else %}
                   <p class="description-text mb-0" style="font-style: italic;">No description available.</p>
                 {% endif %}
-                
-                {% if book.price %}
-                  <h6 class="text-primary font-monospace mt-2 fw-bold">${{ book.price }}</h6>
-                {% endif %}
 
                 <!-- View Detail Button -->
                 <div class="mt-3 w-100">
-                  <a href="{% url 'book_detail' slug=book.slug %}" class="btn-detail text-center w-100">View Detail</a>
+                  {% if book.slug %}
+                    <a href="{% url 'club:book_detail' slug=book.slug %}" class="btn-detail text-center w-100">View Detail</a>
+                  {% else %}
+                    <a href="{% url 'club:book_detail' pk=book.id %}" class="btn-detail text-center w-100">View Detail</a>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -204,7 +224,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to strokes skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 1 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 1 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>
@@ -221,7 +241,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to patterns skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 2 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 2 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>
@@ -238,7 +258,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to number skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 3 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 3 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>
@@ -255,7 +275,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to number skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 4 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 4 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>
@@ -272,7 +292,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to letter skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 5 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 5 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>
@@ -289,7 +309,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to letter skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 6 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 6 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>
@@ -306,7 +326,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to letter skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 7 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 7 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>
@@ -323,7 +343,7 @@
               <div class="book-author">By Murphy A. Rich</div>
               <p class="description-text mb-0">A foundational workbook to art skills building.</p>
               <div class="mt-3 w-100">
-                <a href="{% url 'book_detail' 8 %}" class="btn-detail text-center w-100">View Detail</a>
+                <a href="{% url 'club:book_detail' 8 %}" class="btn-detail text-center w-100">View Detail</a>
               </div>
             </div>
           </div>

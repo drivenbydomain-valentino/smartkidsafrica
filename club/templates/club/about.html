@@ -1,5 +1,105 @@
 {% extends 'club/base.html' %}
 {% load static %}
+
+{% block extra_head %}
+<!-- Primary Meta Tags -->
+<title>About Us | Smart Kids Africa - Youth Financial Literacy & Investment Coaching</title>
+<meta name="title" content="About Us | Smart Kids Africa - Youth Financial Literacy & Investment Coaching">
+<meta name="description" content="Discover how Smart Kids Africa (Smartkids Investment Club) empowers elementary and secondary school students across Nigeria with essential skills in budgeting, saving, investing, and entrepreneurship.">
+<meta name="keywords" content="Smart Kids Africa, Smartkids Investment Club, financial literacy for children, youth financial education Nigeria, kids investment club, money management for kids, entrepreneurship for students, school investment club, financial education curriculum Africa">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+
+<!-- Open Graph / Facebook / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Smart Kids Africa">
+<meta property="og:title" content="About Us | Smart Kids Africa - Building Financially Intelligent Youth">
+<meta property="og:description" content="Empowering school children across Africa with practical financial coaching, investment tools, and entrepreneurship skills for a secure future.">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/present_award.jpg' %}">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@SmartKidsAfrica">
+<meta name="twitter:title" content="About Us | Smart Kids Africa">
+<meta name="twitter:description" content="Raising a new generation of financially intelligent Africans through practical money management skills and school investment clubs.">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/present_award.jpg' %}">
+
+<!-- Schema.org Structured Data (JSON-LD for Educational Organization & FAQ) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}#organization",
+      "name": "Smart Kids Africa",
+      "alternateName": "Smartkids Investment Club",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'image/logo.png' %}",
+      "description": "A premier financial literacy club coaching primary and secondary school students in saving, budgeting, investing, and entrepreneurship.",
+      "knowsAbout": [
+        "Financial Literacy for Kids",
+        "Youth Investment Coaching",
+        "Savings Culture",
+        "Early Entrepreneurship",
+        "Personal Finance for Students"
+      ],
+      "founder": [
+        {
+          "@type": "Person",
+          "name": "Murphy Adebayo Oniyide",
+          "jobTitle": "CEO & Founder"
+        }
+      ],
+      "employee": [
+        {
+          "@type": "Person",
+          "name": "Murphy Adebayo Oniyide",
+          "jobTitle": "CEO"
+        },
+        {
+          "@type": "Person",
+          "name": "Valentino Osondu Alfred",
+          "jobTitle": "CTO"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Smart Kids Africa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Smart Kids Africa (Smartkids Investment Club) is an educational initiative dedicated to providing financial literacy and entrepreneurship coaching to elementary and secondary school students across Nigeria and Africa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do schools partner with Smart Kids Africa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Schools can register through our portal to launch a Smartkids Investment Club on campus, providing students with structured financial toolkits, workshops, and learning resources."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "At what age can children join Smart Kids Africa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our practical financial literacy curriculum is designed for children and young adults in primary and secondary schools, typically ranging from ages 5 to 18."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 <style>
@@ -13,15 +113,30 @@ body {
     background: linear-gradient(90deg, #ff4da6, #4da6ff);
     color: white;
     border-radius: 12px;
-    padding: 20px 30px;
+    padding: 25px 30px;
     margin-bottom: 30px;
 }
 
 /* ===== CAROUSEL HEIGHT & STYLING ===== */
 .hero-carousel .carousel-item img {
-    height: 75vh; /* Increased height to 75% of screen height */
+    height: 75vh;
     min-height: 500px;
     object-fit: cover;
+}
+
+/* ===== ENHANCED STYLING ===== */
+.content-link {
+    color: #4da6ff;
+    text-decoration: underline;
+    font-weight: 600;
+}
+.content-link:hover {
+    color: #ff4da6;
+}
+.cta-banner {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #ffffff;
+    border-radius: 12px;
 }
 </style>
 
@@ -30,173 +145,269 @@ body {
     
     <!-- Indicators -->
     <div class="carousel-indicators">
-        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="2"></button>
-        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="3"></button>
-        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="4"></button>
+        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Award Presentation at Smart Kids Africa Financial Literacy Event"></button>
+        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="1" aria-label="Smart Kids Africa Recognition Award"></button>
+        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="2" aria-label="Financial Literacy Workshop for School Children"></button>
+        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="3" aria-label="Murphy Adebayo Oniyide - CEO of Smart Kids Africa"></button>
+        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="4" aria-label="Valentino Osondu Alfred - CTO of Smart Kids Africa"></button>
     </div>
 
     <!-- Images -->
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="{% static 'image/present_award.jpg' %}" class="d-block w-100" alt="Award Presentation">
+            <img src="{% static 'image/present_award.jpg' %}" class="d-block w-100" alt="Award Presentation at Smart Kids Africa Financial Literacy Event">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'image/lone_award.jpg' %}" class="d-block w-100" alt="Award">
+            <img src="{% static 'image/lone_award.jpg' %}" class="d-block w-100" alt="Smart Kids Africa Recognition Award for Excellence in Youth Education">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'image/finliteracy3.jpg' %}" class="d-block w-100" alt="Financial Literacy Event">
+            <img src="{% static 'image/finliteracy3.jpg' %}" class="d-block w-100" alt="Practical Financial Literacy Workshop for School Children in Nigeria">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'image/ceo.jpg' %}" class="d-block w-100" alt="CEO">
+            <img src="{% static 'image/ceo.jpg' %}" class="d-block w-100" alt="Murphy Adebayo Oniyide - CEO and Founder of Smart Kids Africa">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'image/coo.png' %}" class="d-block w-100" alt="CTO">
+            <img src="{% static 'image/coo.png' %}" class="d-block w-100" alt="Valentino Osondu Alfred - CTO of Smart Kids Africa">
         </div>
     </div>
 
     <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
+    <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev" aria-label="Previous Slide">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
+    <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next" aria-label="Next Slide">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
 
 <!-- FULL-WIDTH CONTENT SECTION -->
-<div class="container-fluid px-4 px-md-5">
+<main class="container-fluid px-4 px-md-5">
     
     <!-- PAGE HEADER -->
-    <div class="about-header text-center shadow-sm">
-        <h2 class="mb-0 fw-bold">About Smartkids Africa</h2>
-    </div>
+    <header class="about-header text-center shadow-sm">
+        <h1 class="h2 mb-2 fw-bold">About Smartkids Africa</h1>
+        <p class="mb-0 fs-6">Empowering the Next Generation of Financially Intelligent African Youth</p>
+    </header>
 
     <!-- OUR STORY -->
-    <div class="mb-5">
-        <h2 class="text-center mb-4 text-primary">Our Story</h2>
-        <p class="text-justify lead fs-6">
-            One of the most silent yet damaging challenges we face is the lack of financial literacy from childhood to adulthood.
-            Many people are never taught how money truly works — to save intentionally, spend wisely, invest strategically, or plan for the future.
-            This gap has contributed significantly to persistent poverty, poor money management, and the inability of many families to build generational wealth.
-            In Nigeria and across Africa, our formal education system focuses largely on academic achievement but gives little attention to practical financial education.
-            Children graduate without understanding savings culture, budgeting, compound interest, entrepreneurship, or investment planning early enough in life.
-            As a result, many young people enter adulthood financially unprepared and vulnerable to debt and poor financial decisions.
-            <br><br>
-            Smartkids Investment Club was born in response to this urgent need — introducing structured, age-appropriate financial coaching at an early stage.
-            Our goal is to equip children with lifelong money skills and raise a new generation of financially intelligent Africans
-            who can build sustainable wealth and drive economic progress.
-        </p>
-    </div>
-
-    <!-- LEADERSHIP SECTION -->
-    <div class="my-5">
-        <h2 class="text-center mb-4 text-primary">Leadership Team</h2>
-        <div class="row align-items-center">
-            <!-- CEO -->
-            <div class="col-md-6 text-center mb-4">
-                <img src="{% static 'image/ceo.jpg' %}" 
-                     alt="CEO - Murphy Adebayo Oniyide" 
-                     class="img-fluid rounded-circle shadow mb-3" 
-                     width="220" height="220" style="object-fit: cover;">
-                <h4 class="fw-bold">Murphy Adebayo Oniyide</h4>
-                <p class="text-muted fs-5">CEO, SmartKids Africa</p>
-            </div>
-
-            <!-- COO -->
-            <div class="col-md-6 text-center mb-4">
-                <img src="{% static 'image/coo.png' %}" 
-                     alt="COO - Valentino Osondu Alfred" 
-                     class="img-fluid rounded-circle shadow mb-3" 
-                     width="220" height="220" style="object-fit: cover;">
-                <h4 class="fw-bold">Valentino Osondu Alfred</h4>
-                <p class="text-muted fs-5">CTO, SmartKids Africa</p>
+    <section class="mb-5 bg-white p-4 p-md-5 rounded-3 shadow-sm">
+        <h2 class="text-center mb-4 text-primary fw-bold">Our Story & Narrative</h2>
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="text-justify lead fs-6 lh-lg">
+                    One of the most persistent yet overlooked challenges in modern society is the lack of practical financial education during childhood. Millions of children grow into adulthood without learning how money works—how to save intentionally, manage a budget, invest strategically, or plan for long-term independence. In Nigeria and across Africa, traditional academic systems focus heavily on theoretical knowledge while neglecting crucial life skills like personal finance management.
+                </p>
+                <p class="text-justify fs-6 lh-lg">
+                    As a result, students leave school unprepared to navigate real-world financial choices, often falling into debt, poor spending habits, and economic vulnerability. <strong>Smartkids Investment Club</strong> was founded to bridge this systemic gap. We believe that financial literacy should be as fundamental as reading or writing. By introducing age-appropriate, interactive financial coaching early in life, we equip students with practical habits that foster economic self-reliance, innovation, and generational wealth creation.
+                </p>
+                <p class="text-justify fs-6 lh-lg">
+                    Through our custom learning modules, school partnerships, and <a href="{% url 'club:books' %}" class="content-link">educational books</a>, Smart Kids Africa serves as an essential companion for schools and families dedicated to raising confident, money-smart leaders. Whether through our interactive <a href="{% url 'club:student_login' %}" class="content-link">Student Portal</a> or our dedicated <a href="{% url 'club:school_login' %}" class="content-link">School Dashboard</a>, we make financial learning engaging, structured, and impactful.
+                </p>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- WHAT WE TEACH / OUR ECOSYSTEM -->
+    <section class="my-5">
+        <h2 class="text-center mb-4 text-primary fw-bold">Our Core Pillars of Learning</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100 border-top border-4 border-primary">
+                    <h3 class="fw-bold h5 text-primary">1. Smart Savings</h3>
+                    <p class="small text-muted mb-0">Teaching children to set clear savings goals, understand the value of patience, and cultivate disciplined habits early.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100 border-top border-4 border-success">
+                    <h3 class="fw-bold h5 text-primary">2. Strategic Budgeting</h3>
+                    <p class="small text-muted mb-0">Helping students differentiate between needs and wants while allocating resources wisely for maximum personal growth.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100 border-top border-4 border-warning">
+                    <h3 class="fw-bold h5 text-primary">3. Basic Investing</h3>
+                    <p class="small text-muted mb-0">Demystifying investment fundamentals, compound interest, and asset accumulation in clear, age-appropriate formats.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100 border-top border-4 border-info">
+                    <h3 class="fw-bold h5 text-primary">4. Youth Entrepreneurship</h3>
+                    <p class="small text-muted mb-0">Inspiring young minds to identify community problems, create value, and build sustainable business ventures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEADERSHIP SECTION -->
+    <section class="my-5">
+        <h2 class="text-center mb-4 text-primary fw-bold">Executive Leadership</h2>
+        <div class="row align-items-center justify-content-center">
+            <!-- CEO -->
+            <div class="col-md-5 text-center mb-4">
+                <div class="bg-white p-4 rounded-3 shadow-sm h-100">
+                    <img src="{% static 'image/ceo.jpg' %}" 
+                         alt="Murphy Adebayo Oniyide - CEO and Founder of Smart Kids Africa" 
+                         class="img-fluid rounded-circle shadow mb-3" 
+                         width="200" height="200" style="object-fit: cover;">
+                    <h3 class="fw-bold h4 mb-1">Murphy Adebayo Oniyide</h3>
+                    <p class="text-muted fs-6 fw-semibold mb-2">Chief Executive Officer & Founder</p>
+                    <p class="small text-secondary">Passionate about democratizing financial education across African schools and empowering the next generation with sustainable economic skills.</p>
+                </div>
+            </div>
+
+            <!-- CTO -->
+            <div class="col-md-5 text-center mb-4">
+                <div class="bg-white p-4 rounded-3 shadow-sm h-100">
+                    <img src="{% static 'image/coo.png' %}" 
+                         alt="Valentino Osondu Alfred - CTO of Smart Kids Africa" 
+                         class="img-fluid rounded-circle shadow mb-3" 
+                         width="200" height="200" style="object-fit: cover;">
+                    <h3 class="fw-bold h4 mb-1">Valentino Osondu Alfred</h3>
+                    <p class="text-muted fs-6 fw-semibold mb-2">Chief Technology Officer</p>
+                    <p class="small text-secondary">Leading digital innovation and building scalable technological infrastructure to deliver seamless financial coaching tools to schools and students.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- CORE VALUES -->
-    <div class="my-5">
-        <h2 class="text-center mb-4 text-primary">Our Core Values</h2>
+    <section class="my-5">
+        <h2 class="text-center mb-4 text-primary fw-bold">Our Core Values</h2>
         <div class="row g-4">
             <div class="col-md-6">
-                <div class="p-3 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Financial Responsibility</h5>
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
+                    <h3 class="fw-bold text-primary h5">Financial Responsibility</h3>
                     <p class="text-justify mb-0">
-                        We promote wise money management, savings culture, and disciplined spending habits.
+                        We promote intentional money management, strong savings habits, and prudent decision-making that serve as the foundation for lifelong success.
                     </p>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-3 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Teamwork & Collaboration</h5>
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
+                    <h3 class="fw-bold text-primary h5">Teamwork & Collaboration</h3>
                     <p class="text-justify mb-0">
-                        We foster cooperation, peer learning, and collective problem-solving.
+                        We encourage peer-to-peer learning, collaborative problem solving, and collective investment thinking within structured club environments.
                     </p>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-3 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Discipline & Consistency</h5>
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
+                    <h3 class="fw-bold text-primary h5">Discipline & Consistency</h3>
                     <p class="text-justify mb-0">
-                        We encourage regular saving, patience, and long-term thinking as keys to financial growth.
+                        We instill patience, regular saving practices, and long-term vision, showing students how incremental actions yield substantial future returns.
                     </p>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-3 bg-white rounded-3 shadow-sm h-100">
-                    <h5 class="fw-bold text-primary">Future-Focused Mindset</h5>
+                <div class="p-4 bg-white rounded-3 shadow-sm h-100">
+                    <h3 class="fw-bold text-primary h5">Future-Focused Mindset</h3>
                     <p class="text-justify mb-0">
-                        We coach students to set goals, plan ahead, and prepare for lifelong success.
+                        We guide students to establish clear financial goals, plan proactively, and approach economic opportunities with confidence and independence.
                     </p>
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="p-3 bg-white rounded-3 shadow-sm">
-                    <h5 class="fw-bold text-primary">Creativity & Innovation</h5>
+                <div class="p-4 bg-white rounded-3 shadow-sm">
+                    <h3 class="fw-bold text-primary h5">Creativity & Entrepreneurial Innovation</h3>
                     <p class="text-justify mb-0">
-                        We inspire students to think creatively about entrepreneurship and value creation.
+                        We nurture problem-solving skills, encouraging members to turn innovative ideas into practical business models that generate real community value.
                     </p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- ABOUT SUMMARY -->
-    <div class="my-5 p-4 bg-white rounded-3 shadow-sm">
-        <p class="text-justify lead fs-6 mb-0">
-            Smartkids Investment Club is a financial literacy club designed to coach young people in elementary and secondary schools
-            about saving, budgeting, investing, and entrepreneurship in a fun and easy-to-understand way.
-            We help members make smart financial decisions early in life, set financial goals,
-            work as a team, and understand how money grows over time.
+    <section class="my-5 p-4 p-md-5 bg-white rounded-3 shadow-sm">
+        <h2 class="h4 text-primary fw-bold mb-3">Empowering Students Everywhere</h2>
+        <p class="text-justify lead fs-6 mb-3">
+            Smartkids Investment Club is a specialized financial literacy initiative crafted to guide primary and secondary school students through saving, budgeting, investing, and entrepreneurship in a practical, easy-to-understand manner.
         </p>
-    </div>
+        <p class="text-justify fs-6 mb-0 text-muted">
+            By combining interactive learning modules with practical club activities, 
+            we empower young people to make sound financial choices early in life, 
+            establish long-term economic goals, work collaboratively, and master the 
+            fundamentals of wealth accumulation over time. Explore our upcoming 
+            <a href="{% url 'club:home' %}" class="content-link">Workshops & Events</a> or explore our <a href="{% url 'club:books' %}" class="content-link">Financial Literacy Books</a> to learn more.
+        </p>
+    </section>
 
     <!-- VISION & MISSION -->
-    <div class="row my-5 g-4">
+    <section class="row my-5 g-4">
         <div class="col-md-6">
-            <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                <h3 class="fw-bold text-primary">Our Vision</h3>
-                <p class="text-justify mb-0">
-                    To continually raise a generation of financially literate, disciplined, and innovative young people
-                    who understand the value of money and make informed financial decisions that positively impact their lives and communities.
+            <div class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100 border-start border-5 border-primary">
+                <h2 class="fw-bold text-primary h3 mb-3">Our Vision</h2>
+                <p class="text-justify mb-0 fs-6 lh-lg">
+                    To continuously nurture a generation of financially intelligent, disciplined, and innovative young Africans who master money management early and make informed economic decisions that transform their lives, families, and communities.
                 </p>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                <h3 class="fw-bold text-primary">Our Mission</h3>
-                <p class="text-justify mb-0">
-                    To educate and empower students with practical savings and investment knowledge,
-                    helping them develop responsible money habits, financial confidence,
-                    and life skills that prepare them for a successful and independent future.
+            <div class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100 border-start border-5 border-success">
+                <h2 class="fw-bold text-primary h3 mb-3">Our Mission</h2>
+                <p class="text-justify mb-0 fs-6 lh-lg">
+                    To educate and empower students with practical money skills, fostering responsible saving and investment habits, financial self-confidence, and critical life skills that ensure long-term independence and economic leadership.
                 </p>
             </div>
         </div>
-    </div>
+    </section>
 
-</div>
+    <!-- FREQUENTLY ASKED QUESTIONS (SEO Rich Snippets) -->
+    <section class="my-5 bg-white p-4 p-md-5 rounded-3 shadow-sm">
+        <h2 class="text-center mb-4 text-primary fw-bold">Frequently Asked Questions</h2>
+        <div class="accordion" id="aboutFaqAccordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Smart Kids Africa?
+                    </button>
+                </h3>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#aboutFaqAccordion">
+                    <div class="accordion-body">
+                        Smart Kids Africa (Smartkids Investment Club) is an educational initiative dedicated to providing financial literacy and entrepreneurship coaching to elementary and secondary school students across Nigeria and Africa.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can our school partner with Smart Kids Africa?
+                    </button>
+                </h3>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#aboutFaqAccordion">
+                    <div class="accordion-body">
+                        Schools can register through our <a href="{% url 'club:school_login' %}" class="content-link">School Portal</a> to establish an official Smartkids Investment Club on campus, unlocking curated learning kits, mentorship support, and student activities.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How do individual students join the club?
+                    </button>
+                </h3>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#aboutFaqAccordion">
+                    <div class="accordion-body">
+                        Students can sign up via our <a href="{% url 'club:student_login' %}" class="content-link">Student Login</a> or through participating school chapters to access learning resources, financial challenges, and investment workshops.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="my-5 p-5 cta-banner text-center shadow-sm">
+        <h2 class="fw-bold mb-3">Ready to Build a Financially Intelligent Future?</h2>
+        <p class="lead mb-4">Partner with Smart Kids Africa today to bring financial literacy to your school or child.</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{% url 'club:schoolregister' %}" class="btn btn-light btn-lg fw-bold px-4">Register Your School</a>
+            <a href="{% url 'club:contact' %}" class="btn btn-outline-light btn-lg fw-bold px-4">Get in Touch</a>
+        </div>
+    </section>
+
+</main>
 
 {% endblock %}

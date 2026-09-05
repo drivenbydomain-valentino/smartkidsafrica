@@ -1,6 +1,59 @@
 {% extends 'club/base.html' %}
-
 {% load static %}
+
+{% block meta %}
+    <!-- SEO Meta Tags -->
+    <title>Contact Smartkids Africa | Get in Touch with Us</title>
+    <meta name="description" content="Have a question or need assistance? Contact Smartkids Africa via email, phone, or WhatsApp, or visit our headquarters in Lagos, Nigeria.">
+    <meta name="keywords" content="Smartkids Africa, Contact Smartkids Africa, Smartkids Lagos, Education Africa contact">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Contact Smartkids Africa | Get in Touch">
+    <meta property="og:description" content="Reach out to the Smartkids Africa team for support, inquiries, and information.">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Smartkids Africa">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact Smartkids Africa">
+    <meta name="twitter:description" content="Reach out to the Smartkids Africa team for support, inquiries, and information.">
+
+    <!-- Structured Data (JSON-LD) for Local SEO & Business Profile -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "Smartkids Africa",
+      "url": "https://smartkidsafrica.com",
+      "email": "mgt@smartkidsafrica.com",
+      "telephone": "+2347049000171",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "3 Dele Osuntuyi Street, Even Estate, Sunny Villa, Addo-Badore, Ajah",
+        "addressLocality": "Lagos Island",
+        "addressRegion": "Lagos",
+        "addressCountry": "NG"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+2347049000171",
+          "contactType": "customer service",
+          "availableLanguage": "English"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "+2349066386020",
+          "contactType": "WhatsApp Support",
+          "availableLanguage": "English"
+        }
+      ]
+    }
+    </script>
+{% endblock %}
 
 {% block content %}
 
@@ -323,6 +376,13 @@
         line-height: 1.6;
     }
 
+    .oracle-info-value address {
+
+        font-style: normal;
+
+        margin-bottom: 0;
+    }
+
 
     .oracle-info-value a {
 
@@ -473,6 +533,7 @@
        SECTION TITLES
     ========================================== */
 
+    .oracle-contact-card h2,
     .oracle-contact-card h3 {
 
         color:
@@ -480,6 +541,7 @@
     }
 
 
+    .oracle-info-card h2,
     .oracle-info-card h4 {
 
         color:
@@ -536,20 +598,17 @@
 
 
 <!-- =====================================================
-     CONTACT PAGE
+     CONTACT PAGE MAIN
 ====================================================== -->
 
-<div
-    class="container contact-page-container"
-    style="max-width: 1100px;"
->
+<main class="container contact-page-container" style="max-width: 1100px;">
 
 
     <!-- ================================================
          CONTACT PAGE HEADER
     ================================================= -->
 
-    <div class="oracle-contact-hero">
+    <header class="oracle-contact-hero">
 
         <h1>
             Contact Smartkids Africa
@@ -562,7 +621,7 @@
 
         </p>
 
-    </div>
+    </header>
 
 
     <!-- ================================================
@@ -578,37 +637,37 @@
 
         <div class="col-lg-7">
 
-            <div class="oracle-contact-card">
+            <section class="oracle-contact-card" aria-labelledby="contact-heading">
 
-                <h3 class="h4 mb-4 fw-bold">
+                <h2 id="contact-heading" class="h4 mb-4 fw-bold">
                     Send a Message
-                </h3>
+                </h2>
 
 
-       <form method="post" action="" class="oracle-form">
-        {% csrf_token %}
+                <form method="post" action="" class="oracle-form" aria-label="Contact Form">
+                    {% csrf_token %}
 
-        <div class="mb-3">
-            <label class="form-label">Full Name</label>
-            <input type="text" class="form-control" name="name" placeholder="Enter your full name" required>
-        </div>
+                    <div class="mb-3">
+                        <label for="id_name" class="form-label">Full Name</label>
+                        <input type="text" id="id_name" class="form-control" name="name" placeholder="Enter your full name" autocomplete="name" required aria-required="true">
+                    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Email Address</label>
-            <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
-        </div>
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email Address</label>
+                        <input type="email" id="id_email" class="form-control" name="email" placeholder="name@example.com" autocomplete="email" required aria-required="true">
+                    </div>
 
-        <div class="mb-4">
-            <label class="form-label">Message</label>
-            <textarea class="form-control" name="message" rows="5" placeholder="How can we help you?" required></textarea>
-        </div>
+                    <div class="mb-4">
+                        <label for="id_message" class="form-label">Message</label>
+                        <textarea id="id_message" class="form-control" name="message" rows="5" placeholder="How can we help you?" required aria-required="true"></textarea>
+                    </div>
 
-        <div>
-            <button type="submit" class="btn btn-oracle">Submit Inquiry</button>
-        </div>
-</form>
+                    <div>
+                        <button type="submit" class="btn btn-oracle">Submit Inquiry</button>
+                    </div>
+                </form>
 
-            </div>
+            </section>
 
         </div>
 
@@ -619,11 +678,11 @@
 
         <div class="col-lg-5">
 
-            <div class="oracle-info-card">
+            <section class="oracle-info-card" aria-labelledby="directory-heading">
 
-                <h4 class="h5 mb-4 fw-bold">
+                <h2 id="directory-heading" class="h5 mb-4 fw-bold">
                     Corporate Directory
-                </h4>
+                </h2>
 
 
                 <!-- ADDRESS -->
@@ -636,12 +695,14 @@
 
                     <div class="oracle-info-value">
 
-                        3 Dele Osuntuyi Street,
-                        Even Estate,<br>
+                        <address>
+                            3 Dele Osuntuyi Street,
+                            Even Estate,<br>
 
-                        Sunny Villa, Addo-Badore, Ajah,<br>
+                            Sunny Villa, Addo-Badore, Ajah,<br>
 
-                        Lagos Island, Nigeria.
+                            Lagos Island, Nigeria.
+                        </address>
 
                     </div>
 
@@ -658,7 +719,7 @@
 
                     <div class="oracle-info-value">
 
-                        <a href="mailto:mgt@smartkidsafrica.com">
+                        <a href="mailto:mgt@smartkidsafrica.com" aria-label="Email Smartkids Africa Support">
 
                             mgt@smartkidsafrica.com
 
@@ -679,7 +740,7 @@
 
                     <div class="oracle-info-value">
 
-                        <a href="tel:+2347049000171">
+                        <a href="tel:+2347049000171" aria-label="Call Smartkids Africa Phone Enquiries">
 
                             +234 704 900 0171
 
@@ -704,6 +765,7 @@
                             href="https://wa.me/2349066386020"
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label="Chat with Smartkids Africa on WhatsApp"
                         >
 
                             +234 906 638 6020
@@ -729,6 +791,7 @@
                             href="https://smartkidsafrica.com"
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label="Visit Smartkids Africa Official Portal"
                         >
 
                             smartkidsafrica.com
@@ -740,14 +803,14 @@
                 </div>
 
 
-            </div>
+            </section>
 
         </div>
 
 
     </div>
 
-</div>
+</main>
 
 
 {% endblock %}

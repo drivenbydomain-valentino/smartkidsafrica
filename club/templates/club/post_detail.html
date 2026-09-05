@@ -2,16 +2,70 @@
 {% load static %}
 
 {% block extra_head %}
-<!-- Specific post Open Graph tags for social crawlers -->
-<meta property="og:title" content="{{ post.title|default:'Social Feed Post' }}" />
-<meta property="og:description" content="{{ post.content|truncatewords:30 }}" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}" />
+{% if post %}
+<!-- Primary Meta Tags for Search Engines -->
+<title>{{ post.seo_title|default:post.title|default:"Smart Kids Africa Community Post" }}</title>
+<meta name="title" content="{{ post.seo_title|default:post.title|default:'Smart Kids Africa' }}">
+<meta name="description" content="{{ post.seo_description|default:post.content|truncatewords:25 }}">
+{% if post.meta_keywords %}
+<meta name="keywords" content="{{ post.meta_keywords }}">
+{% else %}
+<meta name="keywords" content="Smart Kids Africa, kids education, community, posts, learning Africa">
+{% endif %}
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ post.get_absolute_url|default:request.path }}">
 
+<!-- Open Graph / Facebook / WhatsApp -->
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Smart Kids Africa" />
+<meta property="og:title" content="{{ post.seo_title|default:post.title|default:'Social Feed Post' }}" />
+<meta property="og:description" content="{{ post.seo_description|default:post.content|truncatewords:30 }}" />
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ post.get_absolute_url|default:request.path }}" />
 {% if post.image %}
   <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}" />
+  <meta property="og:image:alt" content="{{ post.title|default:'Post image on Smart Kids Africa' }}" />
 {% else %}
   <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/logo.png' %}" />
+{% endif %}
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@SmartKidsAfrica">
+<meta name="twitter:title" content="{{ post.seo_title|default:post.title }}">
+<meta name="twitter:description" content="{{ post.seo_description|default:post.content|truncatewords:25 }}">
+{% if post.image %}
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}">
+{% else %}
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/logo.png' %}">
+{% endif %}
+
+<!-- Schema.org Structured Data (JSON-LD for Google Rich Results) -->
+<script type="application/ld+json">
+{% if post.get_schema_json %}
+  {{ post.get_schema_json|safe }}
+{% else %}
+{
+  "@context": "https://schema.org",
+  "@type": "SocialMediaPosting",
+  "headline": "{{ post.title|default:'Community Post'|escapejs }}",
+  "articleBody": "{{ post.content|truncatewords:50|escapejs }}",
+  "datePublished": "{{ post.created_at|date:'c' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.author.get_full_name|default:post.author.username|escapejs }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Smart Kids Africa",
+    "url": "https://smartkidsafrica.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'image/logo.png' %}"
+    }
+  }
+}
+{% endif %}
+</script>
 {% endif %}
 {% endblock %}
 
@@ -56,7 +110,7 @@
 
         <!-- HEADER -->
         <div class="feed-header shadow-sm mb-4">
-            <h5 class="mb-0 fw-bold">📄 Post Details</h5>
+            <h1 class="h5 mb-0 fw-bold">📄 Post Details</h1>
             <div class="d-flex gap-2">
                 <a href="{% url 'club:home' %}" class="btn btn-light btn-sm fw-semibold">🏠 Feed</a>
                 <a href="{% url 'club:newpost' %}" class="btn btn-light btn-sm fw-semibold">➕ New Post</a>
@@ -69,22 +123,22 @@
             <div class="col-md-12">
 
                 {% if post %}
-                <div class="card mb-4 shadow-sm post-card" id="post-card-{{ post.id }}">
+                <article class="card mb-4 shadow-sm post-card" id="post-card-{{ post.id }}">
 
                     <!-- AUTHOR INFO & ACTIONS (EDIT / DELETE) -->
                     <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center pt-3 px-3">
                         <div class="d-flex align-items-center">
                             <a href="{% url 'club:profile_view' post.author.username %}" class="text-decoration-none text-dark d-flex align-items-center">
                                 {% if post.author.studentprofile.avatar %}
-                                    <img src="{{ post.author.studentprofile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <img src="{{ post.author.studentprofile.avatar.url }}" alt="{{ post.author.username }} avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                                 {% elif post.author.school_profile.avatar %}
-                                    <img src="{{ post.author.school_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <img src="{{ post.author.school_profile.avatar.url }}" alt="{{ post.author.username }} school logo" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                                 {% else %}
-                                    <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar for {{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                                 {% endif %}
 
                                 <div>
-                                    <h6 class="mb-0 fw-bold small">{{ post.author.get_full_name|default:post.author.username }}</h6>
+                                    <h2 class="mb-0 fw-bold h6">{{ post.author.get_full_name|default:post.author.username }}</h2>
                                     <span class="text-muted" style="font-size: 0.75rem;">{{ post.created_at|date:"F d, Y h:i A" }}</span>
                                 </div>
                             </a>
@@ -110,7 +164,7 @@
 
                     <!-- POST DISPLAY VIEW -->
                     <div class="px-3 pt-2" id="post-view-{{ post.id }}">
-                        {% if post.title %}<h5 class="fw-bold mb-2">{{ post.title }}</h5>{% endif %}
+                        {% if post.title %}<h3 class="fw-bold mb-2 h5">{{ post.title }}</h3>{% endif %}
                         {% if post.content %}
                         <div class="text-secondary mb-3" style="line-height: 1.6; white-space: pre-line;">{{ post.content|linebreaksbr }}</div>
                         {% endif %}
@@ -140,7 +194,7 @@
                     <!-- ATTACHMENTS -->
                     {% if post.image %}
                     <div class="px-3 pb-2">
-                        <img src="{{ post.image.url }}" class="img-fluid rounded border w-100" style="max-height: 450px; object-fit: cover;">
+                        <img src="{{ post.image.url }}" alt="{{ post.title|default:'Smart Kids Africa Post Media' }}" class="img-fluid rounded border w-100" style="max-height: 450px; object-fit: cover;">
                     </div>
                     {% endif %}
 
@@ -156,7 +210,7 @@
                     <div class="px-3 pb-2 text-muted border-bottom" style="font-size: 0.8rem;">
                         ❤️ <span id="like-count-{{ post.id }}">{{ post.total_likes }}</span> &nbsp;•&nbsp; 
                         🔗 <span id="share-count-{{ post.id }}">{{ post.total_shares|default:0 }}</span> shares &nbsp;•&nbsp; 
-                        👁 <span id="view-count-{{ post.id }}">{{ post.views }}</span> views
+                        👁 <span id="view-count-{{ post.id }}">{{ post.views|default:0 }}</span> views
                     </div>
 
                     <!-- ACTIONS -->
@@ -198,7 +252,7 @@
                         </div>
                     </div>
 
-                </div>
+                </article>
                 {% else %}
                 <div class="alert alert-warning text-center shadow-sm">
                     This post could not be found or has been deleted.

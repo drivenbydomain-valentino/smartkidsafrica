@@ -1,8 +1,54 @@
 {% extends 'club/base.html' %}
 {% load static %}
+
+{% block meta %}
+    <!-- SEO Meta Tags -->
+    <title>Financial Literacy & Wealth Building | Smartkids Investment Club</title>
+    <meta name="description" content="Empowering the next generation in Nigeria and across Africa with essential money management, investment mechanisms, compound growth, and strategic saving skills.">
+    <meta name="keywords" content="Smartkids Investment Club, Financial Literacy for Youth, Youth Investment Education, Money Management for Kids, Financial Education Nigeria">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Financial Literacy & Wealth Building | Smartkids Investment Club">
+    <meta property="og:description" content="Empowering youth with essential money management and investment skills for long-term financial independence.">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Smartkids Investment Club">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Financial Literacy & Wealth Building | Smartkids Investment Club">
+    <meta name="twitter:description" content="Empowering youth with essential money management and investment skills for long-term financial independence.">
+
+    <!-- Structured Data (JSON-LD) for Search Engine Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Smartkids Investment Club",
+          "url": "https://smartkidsafrica.com",
+          "description": "Providing financial education, investment strategies, and money management skills for youth."
+        },
+        {
+          "@type": "Course",
+          "name": "Youth Financial Literacy & Wealth Building",
+          "description": "Comprehensive curriculum covering strategic saving, investment mechanisms, compound growth, behavioral finance, and entrepreneurship.",
+          "provider": {
+            "@type": "Organization",
+            "name": "Smartkids Investment Club"
+          }
+        }
+      ]
+    }
+    </script>
+{% endblock %}
+
 {% block content %}
 
-<!-- Bootstrap Icons CDN (If not already included in base.html) -->
+<!-- Bootstrap Icons CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
@@ -90,232 +136,237 @@ body {
 }
 </style>
 
-<!-- ================= FULL-WIDTH IMAGE CAROUSEL ================= -->
-<div id="financeCarousel"
-     class="carousel slide hero-carousel mb-5 shadow-sm"
-     data-bs-ride="carousel">
+<main>
 
-    <!-- Indicators -->
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
-    </div>
+    <!-- ================= FULL-WIDTH IMAGE CAROUSEL ================= -->
+    <div id="financeCarousel"
+         class="carousel slide hero-carousel mb-5 shadow-sm"
+         data-bs-ride="carousel"
+         aria-label="Financial Literacy Visual Highlights">
 
-    <!-- Images -->
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{% static 'image/finliteracy1.jpg' %}" class="d-block w-100" alt="Financial Literacy for Young People">
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1: Financial Literacy for Young People"></button>
+            <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="1" aria-label="Slide 2: Teaching Children About Money"></button>
+            <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="2" aria-label="Slide 3: Investment Education"></button>
+            <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="3" aria-label="Slide 4: Smartkids Financial Education"></button>
+            <button type="button" data-bs-target="#financeCarousel" data-bs-slide-to="4" aria-label="Slide 5: Building Financially Smart Young People"></button>
         </div>
-        <div class="carousel-item">
-            <img src="{% static 'image/finliteracy2.jpg' %}" class="d-block w-100" alt="Teaching Children About Money">
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'image/finliteracy3.jpg' %}" class="d-block w-100" alt="Investment Education">
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'image/about1.jpg' %}" class="d-block w-100" alt="Smartkids Financial Education">
-        </div>
-        <div class="carousel-item">
-            <img src="{% static 'image/about2.jpg' %}" class="d-block w-100" alt="Building Financially Smart Young People">
-        </div>
-    </div>
 
-    <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#financeCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#financeCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
+        <!-- Images -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'image/finliteracy1.jpg' %}" class="d-block w-100" alt="Financial Literacy Workshops for Young People - Smartkids Investment Club" width="1200" height="700">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/finliteracy2.jpg' %}" class="d-block w-100" alt="Teaching Children and Youth About Money Management Skills" width="1200" height="700">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/finliteracy3.jpg' %}" class="d-block w-100" alt="Youth Investment Education and Asset Building Principles" width="1200" height="700">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/about1.jpg' %}" class="d-block w-100" alt="Smartkids Financial Education Training and Interactive Seminars" width="1200" height="700">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'image/about2.jpg' %}" class="d-block w-100" alt="Building Financially Smart Young People Across African Markets" width="1200" height="700">
+            </div>
+        </div>
 
-
-<!-- ================= FULL-WIDTH CONTENT SECTION ================= -->
-<div class="container-fluid px-4 px-md-5">
-
-    <!-- PAGE HEADER -->
-    <div class="about-header text-center shadow-sm">
-        <h1 class="h4 mb-2 fw-bold text-uppercase tracking-wide">Financial Literacy & Wealth Building</h1>
-        <p class="mb-0 opacity-90 small">Empowering the Next Generation with Essential Money Management & Investment Skills</p>
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#financeCarousel" data-bs-slide="prev" aria-label="Previous Slide">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#financeCarousel" data-bs-slide="next" aria-label="Next Slide">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
 
-    <!-- ================= MAIN OVERVIEW ================= -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-lg-10">
-            <h2 class="text-center mb-4 text-gradient fw-bold">Investing for the Future</h2>
-            
-            <p class="text-secondary leading-relaxed fs-5 mb-4">
-                Financial literacy encompasses far more than the basic instinct to save money. At its core, true financial intelligence is the ability to understand how capital operates in the real world, how macroeconomic forces impact purchasing power, and how strategic investments compound into sustainable, long-term wealth. Equipping young minds with these concepts early transforms money from an abstract concept into a practical tool for personal growth and security.
-            </p>
+    <!-- ================= FULL-WIDTH CONTENT SECTION ================= -->
+    <div class="container-fluid px-4 px-md-5">
 
-            <p class="text-secondary leading-relaxed fs-6 mb-4">
-                Historically, children and teenagers are taught to consume rather than build. Without structured guidance on capital allocation, budget management, and investment mechanisms, young adults often enter the workforce unprepared to navigate complex financial landscapes. This persistent knowledge gap leaves individuals vulnerable to inflationary pressures, impulsive spending habits, and high-risk speculative ventures.
-            </p>
-
-            <p class="text-secondary leading-relaxed fs-6 mb-0">
-                In Nigeria and across broader African markets, formal educational curricula lean heavily toward academic theory while offering limited practical exposure to wealth creation. <strong>Smartkids Investment Club</strong> bridges this critical educational divide. We introduce age-appropriate, highly engaging financial concepts that demystify economic principles, cultivate critical thinking, and instill lifelong financial confidence.
-            </p>
-        </div>
-    </div>
+        <!-- PAGE HEADER -->
+        <header class="about-header text-center shadow-sm">
+            <h1 class="h4 mb-2 fw-bold text-uppercase tracking-wide">Financial Literacy & Wealth Building</h1>
+            <p class="mb-0 opacity-90 small">Empowering the Next Generation with Essential Money Management & Investment Skills</p>
+        </header>
 
 
-    <!-- ================= KEY FINANCIAL LITERACY PILLARS ================= -->
-    <div class="my-5">
-        <div class="text-center mb-5">
-            <h2 class="text-gradient fw-bold mb-2">Core Pillars of Financial Education</h2>
-            <p class="text-muted">The foundational framework governing the Smartkids curriculum</p>
-        </div>
+        <!-- ================= MAIN OVERVIEW ================= -->
+        <section class="row justify-content-center mb-5" aria-labelledby="overview-heading">
+            <div class="col-lg-10">
+                <h2 id="overview-heading" class="text-center mb-4 text-gradient fw-bold">Investing for the Future</h2>
+                
+                <p class="text-secondary leading-relaxed fs-5 mb-4">
+                    Financial literacy encompasses far more than the basic instinct to save money. At its core, true financial intelligence is the ability to understand how capital operates in the real world, how macroeconomic forces impact purchasing power, and how strategic investments compound into sustainable, long-term wealth. Equipping young minds with these concepts early transforms money from an abstract concept into a practical tool for personal growth and security.
+                </p>
 
-        <div class="row g-4">
+                <p class="text-secondary leading-relaxed fs-6 mb-4">
+                    Historically, children and teenagers are taught to consume rather than build. Without structured guidance on capital allocation, budget management, and investment mechanisms, young adults often enter the workforce unprepared to navigate complex financial landscapes. This persistent knowledge gap leaves individuals vulnerable to inflationary pressures, impulsive spending habits, and high-risk speculative ventures.
+                </p>
 
-            <!-- SAVING -->
-            <div class="col-md-6">
-                <div class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
-                    <div class="icon-wrapper">
-                        <i class="bi bi-wallet2"></i>
-                    </div>
-                    <h4 class="fw-bold text-dark mb-3">1. Strategic Saving & Resource Management</h4>
-                    <p class="text-secondary flex-grow-1">
-                        Saving is the gateway to financial independence, but saving without a defined strategy often leads to depleted funds. We teach students how to distinguish between needs, wants, and long-term goals using structured budgeting frameworks (such as the 50/30/20 rule modified for youth). 
-                    </p>
-                    <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Understanding opportunity cost and emergency reserves</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Budgeting allocations for short-term and long-term targets</li>
-                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>Navigating inflation and preserving purchasing power</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- INVESTING -->
-            <div class="col-md-6">
-                <div class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
-                    <div class="icon-wrapper">
-                        <i class="bi bi-graph-up-arrow"></i>
-                    </div>
-                    <h4 class="fw-bold text-dark mb-3">2. Investment Mechanisms & Compound Growth</h4>
-                    <p class="text-secondary flex-grow-1">
-                        Transitioning from a consumer mindset to an investor mindset requires understanding how money earns money. We introduce young minds to asset classes—including equities (stocks), fixed-income instruments (bonds/treasury bills), and mutual funds—demystifying how public companies operate and create value.
-                    </p>
-                    <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>The mathematics of compound interest over multi-decade horizons</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Risk diversification, asset allocation, and portfolio balance</li>
-                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>How stock markets work and how businesses generate dividends</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- DISCIPLINE -->
-            <div class="col-md-6">
-                <div class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
-                    <div class="icon-wrapper">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                    <h4 class="fw-bold text-dark mb-3">3. Behavioral Finance & Emotional Discipline</h4>
-                    <p class="text-secondary flex-grow-1">
-                        Successful investing is driven more by temperament than intellect. Our curriculum places strong emphasis on behavioral finance, training students to master impulse control, resist peer-driven consumerism, and navigate economic volatility without panic.
-                    </p>
-                    <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Delayed gratification and long-term horizon thinking</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Identifying predatory financial schemes and high-risk traps</li>
-                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>Establishing emotional resilience during market downturns</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- ENTREPRENEURSHIP -->
-            <div class="col-md-6">
-                <div class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
-                    <div class="icon-wrapper">
-                        <i class="bi bi-lightbulb"></i>
-                    </div>
-                    <h4 class="fw-bold text-dark mb-3">4. Entrepreneurship & Value Creation</h4>
-                    <p class="text-secondary flex-grow-1">
-                        Wealth is a natural byproduct of solving problems for others. We foster an entrepreneurial mindset by encouraging students to identify community needs, formulate business models, manage operational costs, and understand the mechanics of ethical revenue generation.
-                    </p>
-                    <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Problem-solving frameworks and business idea validation</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Basic unit economics, pricing strategies, and profit margins</li>
-                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>Ethical leadership, customer relations, and value delivery</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- ================= WHY FINANCIAL EDUCATION MATTERS ================= -->
-    <div class="my-5">
-        <div class="text-center mb-5">
-            <h2 class="text-gradient fw-bold mb-2">The Long-Term Impact</h2>
-            <p class="text-muted">How early financial literacy shapes lifetime outcomes</p>
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="finance-card p-4 bg-white rounded-3 shadow-sm h-100">
-                    <div class="icon-wrapper">
-                        <i class="bi bi-compass"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-3">Informed Decision-Making</h5>
-                    <p class="text-secondary small mb-0">
-                        Financially literate youth make conscious, calculated choices regarding loans, higher education costs, career paths, and daily expenses. This knowledge drastically reduces student debt burdens and prevents costly financial missteps early in adulthood.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="finance-card p-4 bg-white rounded-3 shadow-sm h-100">
-                    <div class="icon-wrapper">
-                        <i class="bi bi-person-badge"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-3">Autonomy & Independence</h5>
-                    <p class="text-secondary small mb-0">
-                        Understanding how capital works breeds confidence and self-reliance. Students learn to rely on personal financial planning, income diversification, and disciplined investment strategies rather than depending solely on traditional employment safety nets.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="finance-card p-4 bg-white rounded-3 shadow-sm h-100">
-                    <div class="icon-wrapper">
-                        <i class="bi bi-diagram-3"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-3">Building Generational Wealth</h5>
-                    <p class="text-secondary small mb-0">
-                        Financial literacy creates a ripple effect. When young people master capital accumulation and asset retention, they break cycles of financial instability and pass actionable wealth-building principles to future generations and immediate communities.
-                    </p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- ================= SUMMARY SECTION ================= -->
-    <div class="my-5 p-4 p-md-5 bg-white rounded-3 shadow-sm border-start border-4 border-pink" style="border-left-color: #ff4da6 !important;">
-        <div class="row align-items-center">
-            <div class="col-lg-9">
-                <h4 class="fw-bold text-dark mb-2">Investing in Tomorrow’s Leaders Today</h4>
-                <p class="text-secondary mb-0 leading-relaxed">
-                    Africa boasts the youngest population demographic in the world—a tremendous catalyst for economic growth. By equipping youth with practical investment strategies and money management skills today, Smartkids Investment Club is fostering a resilient generation of business leaders, ethical investors, and economic innovators ready to drive sustainable development.
+                <p class="text-secondary leading-relaxed fs-6 mb-0">
+                    In Nigeria and across broader African markets, formal educational curricula lean heavily toward academic theory while offering limited practical exposure to wealth creation. <strong>Smartkids Investment Club</strong> bridges this critical educational divide. We introduce age-appropriate, highly engaging financial concepts that demystify economic principles, cultivate critical thinking, and instill lifelong financial confidence.
                 </p>
             </div>
-            <div class="col-lg-3 text-lg-end mt-4 mt-lg-0">
-                <a href="#financeCarousel" class="btn btn-gradient btn-lg px-4 fs-6 rounded-pill shadow-sm">
-                    Back to Top <i class="bi bi-arrow-up-short ms-1"></i>
-                </a>
+        </section>
+
+
+        <!-- ================= KEY FINANCIAL LITERACY PILLARS ================= -->
+        <section class="my-5" aria-labelledby="pillars-heading">
+            <div class="text-center mb-5">
+                <h2 id="pillars-heading" class="text-gradient fw-bold mb-2">Core Pillars of Financial Education</h2>
+                <p class="text-muted">The foundational framework governing the Smartkids curriculum</p>
             </div>
-        </div>
+
+            <div class="row g-4">
+
+                <!-- SAVING -->
+                <div class="col-md-6">
+                    <article class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
+                        <div class="icon-wrapper" aria-hidden="true">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
+                        <h3 class="h4 fw-bold text-dark mb-3">1. Strategic Saving & Resource Management</h3>
+                        <p class="text-secondary flex-grow-1">
+                            Saving is the gateway to financial independence, but saving without a defined strategy often leads to depleted funds. We teach students how to distinguish between needs, wants, and long-term goals using structured budgeting frameworks (such as the 50/30/20 rule modified for youth). 
+                        </p>
+                        <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Understanding opportunity cost and emergency reserves</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Budgeting allocations for short-term and long-term targets</li>
+                            <li><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Navigating inflation and preserving purchasing power</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <!-- INVESTING -->
+                <div class="col-md-6">
+                    <article class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
+                        <div class="icon-wrapper" aria-hidden="true">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h3 class="h4 fw-bold text-dark mb-3">2. Investment Mechanisms & Compound Growth</h3>
+                        <p class="text-secondary flex-grow-1">
+                            Transitioning from a consumer mindset to an investor mindset requires understanding how money earns money. We introduce young minds to asset classes—including equities (stocks), fixed-income instruments (bonds/treasury bills), and mutual funds—demystifying how public companies operate and create value.
+                        </p>
+                        <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>The mathematics of compound interest over multi-decade horizons</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Risk diversification, asset allocation, and portfolio balance</li>
+                            <li><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>How stock markets work and how businesses generate dividends</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <!-- DISCIPLINE -->
+                <div class="col-md-6">
+                    <article class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
+                        <div class="icon-wrapper" aria-hidden="true">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3 class="h4 fw-bold text-dark mb-3">3. Behavioral Finance & Emotional Discipline</h3>
+                        <p class="text-secondary flex-grow-1">
+                            Successful investing is driven more by temperament than intellect. Our curriculum places strong emphasis on behavioral finance, training students to master impulse control, resist peer-driven consumerism, and navigate economic volatility without panic.
+                        </p>
+                        <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Delayed gratification and long-term horizon thinking</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Identifying predatory financial schemes and high-risk traps</li>
+                            <li><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Establishing emotional resilience during market downturns</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <!-- ENTREPRENEURSHIP -->
+                <div class="col-md-6">
+                    <article class="finance-card p-4 bg-white rounded-3 shadow-sm h-100 d-flex flex-column">
+                        <div class="icon-wrapper" aria-hidden="true">
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+                        <h3 class="h4 fw-bold text-dark mb-3">4. Entrepreneurship & Value Creation</h3>
+                        <p class="text-secondary flex-grow-1">
+                            Wealth is a natural byproduct of solving problems for others. We foster an entrepreneurial mindset by encouraging students to identify community needs, formulate business models, manage operational costs, and understand the mechanics of ethical revenue generation.
+                        </p>
+                        <ul class="list-unstyled text-muted small mt-3 pt-3 border-top mb-0">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Problem-solving frameworks and business idea validation</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Basic unit economics, pricing strategies, and profit margins</li>
+                            <li><i class="bi bi-check-circle-fill text-primary me-2" aria-hidden="true"></i>Ethical leadership, customer relations, and value delivery</li>
+                        </ul>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= WHY FINANCIAL EDUCATION MATTERS ================= -->
+        <section class="my-5" aria-labelledby="impact-heading">
+            <div class="text-center mb-5">
+                <h2 id="impact-heading" class="text-gradient fw-bold mb-2">The Long-Term Impact</h2>
+                <p class="text-muted">How early financial literacy shapes lifetime outcomes</p>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <article class="finance-card p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="icon-wrapper" aria-hidden="true">
+                            <i class="bi bi-compass"></i>
+                        </div>
+                        <h3 class="h5 fw-bold text-dark mb-3">Informed Decision-Making</h3>
+                        <p class="text-secondary small mb-0">
+                            Financially literate youth make conscious, calculated choices regarding loans, higher education costs, career paths, and daily expenses. This knowledge drastically reduces student debt burdens and prevents costly financial missteps early in adulthood.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="col-md-4">
+                    <article class="finance-card p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="icon-wrapper" aria-hidden="true">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <h3 class="h5 fw-bold text-dark mb-3">Autonomy & Independence</h3>
+                        <p class="text-secondary small mb-0">
+                            Understanding how capital works breeds confidence and self-reliance. Students learn to rely on personal financial planning, income diversification, and disciplined investment strategies rather than depending solely on traditional employment safety nets.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="col-md-4">
+                    <article class="finance-card p-4 bg-white rounded-3 shadow-sm h-100">
+                        <div class="icon-wrapper" aria-hidden="true">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+                        <h3 class="h5 fw-bold text-dark mb-3">Building Generational Wealth</h3>
+                        <p class="text-secondary small mb-0">
+                            Financial literacy creates a ripple effect. When young people master capital accumulation and asset retention, they break cycles of financial instability and pass actionable wealth-building principles to future generations and immediate communities.
+                        </p>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= SUMMARY SECTION ================= -->
+        <aside class="my-5 p-4 p-md-5 bg-white rounded-3 shadow-sm border-start border-4 border-pink" style="border-left-color: #ff4da6 !important;">
+            <div class="row align-items-center">
+                <div class="col-lg-9">
+                    <h2 class="h4 fw-bold text-dark mb-2">Investing in Tomorrow’s Leaders Today</h2>
+                    <p class="text-secondary mb-0 leading-relaxed">
+                        Africa boasts the youngest population demographic in the world—a tremendous catalyst for economic growth. By equipping youth with practical investment strategies and money management skills today, Smartkids Investment Club is fostering a resilient generation of business leaders, ethical investors, and economic innovators ready to drive sustainable development.
+                    </p>
+                </div>
+                <div class="col-lg-3 text-lg-end mt-4 mt-lg-0">
+                    <a href="#financeCarousel" class="btn btn-gradient btn-lg px-4 fs-6 rounded-pill shadow-sm" aria-label="Return to the top of the page">
+                        Back to Top <i class="bi bi-arrow-up-short ms-1" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
     </div>
 
-</div>
+</main>
 
 {% endblock %}
