@@ -4,15 +4,8 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-# settings.py
-
-
-AUTH_USER_MODEL = 'club.User'  # Replace 'club' with your exact app_name if different'
-
 # Load environment variables from .env file
 load_dotenv()
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +13,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # -----------------------------------------------------------------------------
 # Core Security & Debug
 # -----------------------------------------------------------------------------
+
+# Load SECRET_KEY safely from environment variable with local fallback
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ym4$awhvr8!si9jfxuya7)g7xk5_fv$r(=ydzmxz_&-2lo=p-&')
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+AUTH_USER_MODEL = 'club.User'
+
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
 # Allowed Hosts
@@ -32,15 +32,6 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '[::1]',
 ]
-APPEND_SLASH = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# settings.py
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8080',
-    'http://localhost:8080',
-]
 
 env_hosts = os.environ.get('ALLOWED_HOSTS')
 if env_hosts:
@@ -49,6 +40,8 @@ if env_hosts:
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+APPEND_SLASH = True
 
 CSRF_TRUSTED_ORIGINS = [
     'https://smartkidsafrica.com',
@@ -68,6 +61,7 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 else:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
@@ -129,7 +123,7 @@ TEMPLATES = [
 
 # -----------------------------------------------------------------------------
 # Database Configuration
-# # -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -137,18 +131,6 @@ DATABASES = {
         ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
     )
 }
-
-
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.environ.get('DATABASE_URL'),
-#         conn_max_age=600,
-#         conn_health_checks=True,
-#         ssl_require=True,  # Force SSL for production database providers
-#     )
-# }
-
-# DATABASE_URL = "postgresql://smartkids_db_1p45_user:tWaWhu7ZKkY1CnSI8F0W5hUJ2GHhd38o@dpg-da627s6417fc73942et0-a.oregon-postgres.render.com/smartkids_db_1p45"
 
 # -----------------------------------------------------------------------------
 # Password Validation & Localization
@@ -167,13 +149,13 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'club:login'
 LOGIN_REDIRECT_URL = 'club:home'
+
 # -----------------------------------------------------------------------------
 # Static & Media Files (Cloudinary & WhiteNoise)
 # -----------------------------------------------------------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Source static directory for static assets
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
@@ -181,13 +163,11 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
-
 CLOUDINARY_STORAGE = {
     'SECURE': True,
-    'CLOUD_NAME': 'sywzvlna',
-    'API_KEY': '862548548812594',
-    'API_SECRET': 'lklFKOIkxMjLO_B530_yukmAe70'
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'sywzvlna'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '862548548812594'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'lklFKOIkxMjLO_B530_yukmAe70'),
 }
 
 STORAGES = {
@@ -201,9 +181,8 @@ STORAGES = {
     },
 }
 
-# Compatibility fallback
+# Compatibility fallbacks
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # -----------------------------------------------------------------------------
