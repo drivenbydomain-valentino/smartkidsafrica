@@ -262,6 +262,10 @@
                                 <img src="{{ post.author.studentprofile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                             {% elif post.author.school_profile.avatar %}
                                 <img src="{{ post.author.school_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                            {% elif post.author.teacher_profile.avatar %}
+                                <img src="{{ post.author.teacher_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                            {% elif post.author.parent_profile.avatar %}
+                                <img src="{{ post.author.parent_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                             {% else %}
                                 <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
                             {% endif %}
@@ -393,7 +397,7 @@
 
         </main>
 
-        <!-- RIGHT SIDEBAR (NEW WIDGETS) -->
+        <!-- RIGHT SIDEBAR -->
         <aside class="col-lg-3 col-md-12 order-3">
             <div class="sticky-top" style="top: 20px;">
 
@@ -411,33 +415,55 @@
                         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
                     }
 
-                    /* Portal Access Card Styling */
                     .portal-card {
                         background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
                         border-top: 4px solid #123c8c;
                     }
-                    .btn-portal-student {
-                        background-color: #123c8c;
-                        color: #ffffff;
-                        border: none;
+
+                    .btn-portal-common {
                         border-radius: 10px;
                         padding: 0.55rem 1rem;
                         font-size: 0.825rem;
                         transition: all 0.2s ease;
+                    }
+
+                    .btn-portal-student {
+                        background-color: #123c8c;
+                        color: #ffffff;
+                        border: none;
                     }
                     .btn-portal-student:hover {
                         background-color: #0b2559;
                         color: #ffffff;
                         box-shadow: 0 4px 12px rgba(18, 60, 140, 0.25);
                     }
+
+                    .btn-portal-teacher {
+                        background-color: #0284c7;
+                        color: #ffffff;
+                        border: none;
+                    }
+                    .btn-portal-teacher:hover {
+                        background-color: #0369a1;
+                        color: #ffffff;
+                        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+                    }
+
+                    .btn-portal-parent {
+                        background-color: #059669;
+                        color: #ffffff;
+                        border: none;
+                    }
+                    .btn-portal-parent:hover {
+                        background-color: #047857;
+                        color: #ffffff;
+                        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+                    }
+
                     .btn-portal-school {
                         background-color: #ffffff;
                         color: #1e293b;
                         border: 1px solid #cbd5e1;
-                        border-radius: 10px;
-                        padding: 0.55rem 1rem;
-                        font-size: 0.825rem;
-                        transition: all 0.2s ease;
                     }
                     .btn-portal-school:hover {
                         background-color: #f1f5f9;
@@ -445,7 +471,6 @@
                         border-color: #94a3b8;
                     }
 
-                    /* Contributors Styling */
                     .contributor-item {
                         border-radius: 10px;
                         padding: 6px 8px;
@@ -467,7 +492,6 @@
                         font-weight: 600;
                     }
 
-                    /* WhatsApp Card Styling */
                     .whatsapp-card {
                         background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
                         border: 1px solid #bbf7d0;
@@ -489,7 +513,7 @@
                     }
                 </style>
 
-                <!-- 1. STUDENT & SCHOOL LOGIN WIDGET -->
+                <!-- 1. PORTAL ACCESS WIDGET -->
                 <div class="card p-3 mb-3 sidebar-card portal-card">
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="letter-spacing: -0.3px;">
@@ -498,16 +522,16 @@
                         <span class="badge rounded-pill bg-primary-subtle text-primary fw-normal" style="font-size: 0.65rem;">Quick Links</span>
                     </div>
                     <div class="d-grid gap-2">
-                        <a href="{% url 'club:student_login' %}" class="btn btn-portal-student fw-bold d-flex align-items-center justify-content-center gap-2">
+                        <a href="{% url 'club:student_login' %}" class="btn btn-portal-student btn-portal-common fw-bold d-flex align-items-center justify-content-center gap-2">
                             🎓 Student Login
                         </a>
-                        <a href="{% url 'club:teacher_login' %}" class="btn btn-portal-teacher fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <a href="{% url 'club:teacher_login' %}" class="btn btn-portal-teacher btn-portal-common fw-semibold d-flex align-items-center justify-content-center gap-2">
                             👨‍🏫 Teacher Login
                         </a>
-                        <a href="{% url 'club:parent_login' %}" class="btn btn-portal-parent fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <a href="{% url 'club:parent_login' %}" class="btn btn-portal-parent btn-portal-common fw-semibold d-flex align-items-center justify-content-center gap-2">
                             👨‍👩‍👧 Parent Login
                         </a>
-                        <a href="{% url 'club:school_login' %}" class="btn btn-portal-school fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <a href="{% url 'club:school_login' %}" class="btn btn-portal-school btn-portal-common fw-semibold d-flex align-items-center justify-content-center gap-2">
                             🏫 School Login
                         </a>
                     </div>
@@ -531,6 +555,10 @@
                                         <img src="{{ group.grouper.studentprofile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
                                     {% elif group.grouper.school_profile.avatar %}
                                         <img src="{{ group.grouper.school_profile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
+                                    {% elif group.grouper.teacher_profile.avatar %}
+                                        <img src="{{ group.grouper.teacher_profile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
+                                    {% elif group.grouper.parent_profile.avatar %}
+                                        <img src="{{ group.grouper.parent_profile.avatar.url }}" alt="{{ group.grouper.username }}" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
                                     {% else %}
                                         <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle avatar-ring" style="width: 34px; height: 34px; object-fit: cover;">
                                     {% endif %}
@@ -557,8 +585,8 @@
                         <h6 class="fw-bold mb-0 text-dark">Need Help?</h6>
                     </div>
                     <p class="text-muted small mb-3">Chat directly with our team on WhatsApp for instant assistance.</p>
-                    <a href="https://wa.me/yourphonenumber" target="_blank" class="btn btn-whatsapp-custom fw-semibold d-flex align-items-center justify-content-center gap-2 w-100">
-                        Chat on WhatsApp
+                    <a href="https://wa.me/2348000000000" target="_blank" class="btn btn-whatsapp-custom fw-semibold d-flex align-items-center justify-content-center gap-2 w-100">
+                        <i class="bi bi-whatsapp"></i> Contact Support
                     </a>
                 </div>
 
@@ -567,61 +595,4 @@
 
     </div>
 </div>
-
-<!-- SCRIPT FOR AI TUTOR WIDGET INTERACTION -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const sendBtn = document.getElementById('sendTutorMsg');
-    const inputEl = document.getElementById('tutorUserInput');
-    const chatLogs = document.getElementById('tutorChatLogs');
-    const typeSelect = document.getElementById('tutorTypeSelect');
-    const ageSelect = document.getElementById('ageGroupSelect');
-
-    function sendTutorMessage() {
-        const query = inputEl.value.trim();
-        if (!query) return;
-
-        // Append user message
-        const userMsgDiv = document.createElement('div');
-        userMsgDiv.className = 'text-end mb-2';
-        userMsgDiv.innerHTML = `<span class="d-inline-block p-2 rounded-3 text-white small" style="background-color: #123c8c; max-width: 85%;">${escapeHtml(query)}</span>`;
-        chatLogs.appendChild(userMsgDiv);
-
-        inputEl.value = '';
-        chatLogs.scrollTop = chatLogs.scrollHeight;
-
-        // Append loading state
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'text-start mb-2';
-        loadingDiv.innerHTML = `<span class="d-inline-block p-2 rounded-3 bg-light text-muted small border">Thinking...</span>`;
-        chatLogs.appendChild(loadingDiv);
-        chatLogs.scrollTop = chatLogs.scrollHeight;
-
-        // AJAX request or Simulated AI Response (Replace with actual backend URL if available)
-        setTimeout(() => {
-            loadingDiv.remove();
-
-            const botMsgDiv = document.createElement('div');
-            botMsgDiv.className = 'text-start mb-2';
-            botMsgDiv.innerHTML = `<span class="d-inline-block p-2 rounded-3 bg-light text-dark small border" style="max-width: 85%;">Great question about ${typeSelect.value} for ${ageSelect.value}! Here is a quick breakdown to help you understand it step-by-step.</span>`;
-            chatLogs.appendChild(botMsgDiv);
-            chatLogs.scrollTop = chatLogs.scrollHeight;
-        }, 1000);
-    }
-
-    function escapeHtml(text) {
-        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    }
-
-    if (sendBtn && inputEl) {
-        sendBtn.addEventListener('click', sendTutorMessage);
-        inputEl.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                sendTutorMessage();
-            }
-        });
-    }
-});
-</script>
 {% endblock %}

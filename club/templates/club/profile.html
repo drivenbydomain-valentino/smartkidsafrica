@@ -7,47 +7,7 @@
     <!-- Profile Header Card -->
     <div class="card p-4 mb-4 text-center shadow-sm align-items-center">
         
-        <!-- Clean Avatar Rendering using user.avatar_url or user.profile.avatar -->
-        {% if profile_user.avatar_url %}
-            <img src="{{ profile_user.avatar_url }}" alt="{{ profile_user.username }}" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
-        {% else %}
-            <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
-        {% endif %}
-
-        <h4>@{{ profile_user.username }}</h4>
-        <p class="text-muted mb-3">
-            Joined {{ profile_user.date_joined|date:"F Y" }}
-        </p>
-
-        {% if request.user == profile_user %}
-            <div class="text-center mb-3">
-                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#editProfileForm" aria-expanded="false" aria-controls="editProfileForm">
-                    Edit Profile Picture
-                </button>
-            </div>
-
-            <div class="collapse w-100" id="editProfileForm">
-                <form method="POST" action="{% url 'club:profile_view' username=profile_user.username %}" enctype="multipart/form-data" class="text-start p-3 bg-light rounded border mt-2">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="id_avatar" class="form-label small fw-bold">Upload New Profile Image</label>
-                        <input type="file" name="avatar" id="id_avatar" class="form-control" accept="image/*" required>
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-sm btn-primary">Save Image</button>
-                    </div>
-                </form>
-            </div>
-        {% endif %}
-    </div>{% extends 'club/base.html' %}
-{% load static %}
-
-{% block content %}
-<div class="container mt-5" style="max-width:800px;">
-
-    <!-- Profile Header Card -->
-    <div class="card p-4 mb-4 text-center shadow-sm align-items-center">
-        
+        <!-- Clean Avatar Rendering using user.avatar_url or fallback -->
         {% if profile_user.avatar_url %}
             <img src="{{ profile_user.avatar_url }}" alt="{{ profile_user.username }}" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
         {% else %}
@@ -80,9 +40,6 @@
             </div>
         {% endif %}
     </div>
-
-</div>
-{% endblock %}
 
 </div>
 {% endblock %}

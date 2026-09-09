@@ -93,6 +93,7 @@ def tutor_chat_api(request):
 
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
+
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Marketer, Book
@@ -248,9 +249,30 @@ User = get_user_model()
 
 # ================= TEACHER VIEWS ================= #
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login, get_user_model
+from .models import TeacherProfile
+from .forms import TeacherRegistrationForm, TeacherLoginForm
+
+User = get_user_model()
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login, logout, get_user_model
+from .forms import TeacherRegistrationForm, TeacherLoginForm
+from .models import TeacherProfile
+
+User = get_user_model()
+
+
 def teacherregister(request):
+    """View to handle standalone teacher registration."""
+    # If a logged-in user hits this endpoint, log them out 
+    # so they can register a new account instead of being sent home.
     if request.user.is_authenticated:
-        return redirect('club:home')
+        logout(request)
 
     if request.method == 'POST':
         form = TeacherRegistrationForm(request.POST)
@@ -271,84 +293,319 @@ def teacherregister(request):
             login(request, user)
             messages.success(request, "Teacher account created successfully!")
             return redirect('club:home')
+        else:
+            messages.error(request, "Please correct the errors in the registration form below.")
     else:
         form = TeacherRegistrationForm()
 
+    # Match exact template path in your project directory (e.g., teacherregister.html or teacher_register.html)
     return render(request, 'club/teacherregister.html', {'form': form})
 
 
 def teacher_login(request):
+    """View to handle teacher login."""
     if request.user.is_authenticated:
         return redirect('club:home')
 
+    login_form = TeacherLoginForm(request)
+
     if request.method == 'POST':
-        form = TeacherLoginForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            if user.user_type == 'teacher':
+        login_form = TeacherLoginForm(request, data=request.POST)
+        if login_form.is_valid():
+            user = login_form.get_user()
+            if getattr(user, 'user_type', None) == 'teacher':
                 login(request, user)
                 messages.success(request, f"Welcome back, {user.username}!")
                 return redirect('club:home')
             else:
                 messages.error(request, "This account is not registered as a Teacher.")
         else:
-            messages.error(request, "Invalid credentials.")
-    else:
-        form = TeacherLoginForm()
+            messages.error(request, "Invalid login credentials.")
 
-    return render(request, 'club/teacher_login.html', {'form': form})
-
-
+    return render(request, 'club/teacher_login.html', {
+        'login_form': login_form,
+    })
 # ================= PARENT VIEWS ================= #
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.db import IntegrityError
+
+
 def parentregister(request):
-    if request.user.is_authenticated:
-        return redirect('club:home')
+    """
+    Register a new parent, automatically log them in,
+    and redirect them to the home page.
+    """
 
-    if request.method == 'POST':
-        form = ParentRegistrationForm(request.POST)
-        if form.is_valid():
-            user = User.objects.create_user(
-                username=form.cleaned_data['username'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password'],
-                user_type='parent'
+    if request.method == "POST":
+
+        # Get form data
+        full_name = request.POST.get("full_name", "").strip()
+        email = request.POST.get("email", "").strip().lower()
+        password = request.POST.get("password", "")
+        phone_number = request.POST.get("phone_number", "").strip()
+        address = request.POST.get("address", "").strip()
+
+        # Keep entered data if validation fails
+        form_data = {
+            "full_name": full_name,
+            "email": email,
+            "phone_number": phone_number,
+            "address": address,
+        }
+
+        # -----------------------------
+        # BASIC VALIDATION
+        # -----------------------------
+
+        if not full_name:
+            return render(
+                request,
+                "club/parentregister.html",
+                {
+                    "error": "Please enter your full name.",
+                    "form_data": form_data,
+                },
             )
-            profile, _ = ParentProfile.objects.get_or_create(user=user)
-            profile.full_name = form.cleaned_data['full_name']
-            profile.phone_number = form.cleaned_data['phone_number']
-            profile.number_of_children = form.cleaned_data['number_of_children']
-            profile.save()
 
-            login(request, user)
-            messages.success(request, "Parent account created successfully!")
-            return redirect('club:home')
-    else:
-        form = ParentRegistrationForm()
+        if not email:
+            return render(
+                request,
+                "club/parentregister.html",
+                {
+                    "error": "Please enter your email address.",
+                    "form_data": form_data,
+                },
+            )
 
-    return render(request, 'club/parentregister.html', {'form': form})
+        if not password:
+            return render(
+                request,
+                "club/parentregister.html",
+                {
+                    "error": "Please create a password.",
+                    "form_data": form_data,
+                },
+            )
+
+        if len(password) < 8:
+            return render(
+                request,
+                "club/parentregister.html",
+                {
+                    "error": "Password must contain at least 8 characters.",
+                    "form_data": form_data,
+                },
+            )
+
+        # -----------------------------
+        # CHECK EMAIL
+        # -----------------------------
+
+        if User.objects.filter(email__iexact=email).exists():
+            return render(
+                request,
+                "club/parentregister.html",
+                {
+                    "error": "An account with this email already exists. Please login instead.",
+                    "form_data": form_data,
+                },
+            )
+
+        # -----------------------------
+        # CREATE UNIQUE USERNAME
+        # -----------------------------
+        #
+        # Your registration form does not ask
+        # the parent to enter a username.
+        #
+        # We therefore create one automatically
+        # from the email address.
+        #
+
+        username_base = email.split("@")[0]
+
+        # Remove characters that may cause problems
+        username_base = "".join(
+            character
+            for character in username_base
+            if character.isalnum() or character in "._-"
+        )
+
+        if not username_base:
+            username_base = "parent"
+
+        username = username_base
+        counter = 1
+
+        while User.objects.filter(username=username).exists():
+            username = f"{username_base}{counter}"
+            counter += 1
+
+        # -----------------------------
+        # CREATE USER
+        # -----------------------------
+
+        try:
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+            )
+
+            # Save the parent's name in the User model
+            name_parts = full_name.split()
+
+            if len(name_parts) == 1:
+                user.first_name = name_parts[0]
+            else:
+                user.first_name = name_parts[0]
+                user.last_name = " ".join(name_parts[1:])
+
+            user.save()
+
+        except IntegrityError:
+            return render(
+                request,
+                "club/parentregister.html",
+                {
+                    "error": "Unable to create the account. Please try again.",
+                    "form_data": form_data,
+                },
+            )
+
+        # -----------------------------
+        # AUTOMATIC LOGIN
+        # -----------------------------
+
+        auth_user = authenticate(
+            request,
+            username=username,
+            password=password,
+        )
+
+        if auth_user is not None:
+            login(request, auth_user)
+
+            messages.success(
+                request,
+                f"Welcome to Smartkids Africa, {full_name}!"
+            )
+
+            # IMPORTANT:
+            # Parent goes directly to the home page
+            return redirect("club:home")
+
+        # This should rarely happen because
+        # the user was just created with the password.
+        return render(
+            request,
+            "club/parent_login.html",
+            {
+                "error": "Registration was successful, but automatic login failed. Please login manually.",
+                "username": username,
+            },
+        )
+
+    # GET request
+    return render(request, "club/parentregister.html")
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 def parent_login(request):
-    if request.user.is_authenticated:
-        return redirect('club:home')
+    """
+    Parent login using the email address and password
+    used during parent registration.
+    """
 
-    if request.method == 'POST':
-        form = ParentLoginForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            if user.user_type == 'parent':
-                login(request, user)
-                messages.success(request, f"Welcome back, {user.username}!")
-                return redirect('club:home')
-            else:
-                messages.error(request, "This account is not registered as a Parent.")
-        else:
-            messages.error(request, "Invalid credentials.")
-    else:
-        form = ParentLoginForm()
+    if request.method == "POST":
 
-    return render(request, 'club/parent_login.html', {'form': form})
+        email = request.POST.get("email", "").strip().lower()
+        password = request.POST.get("password", "")
+
+        # --------------------------------
+        # VALIDATE INPUT
+        # --------------------------------
+
+        if not email or not password:
+            return render(
+                request,
+                "club/parent_login.html",
+                {
+                    "error": "Please enter your email and password.",
+                    "email": email,
+                },
+            )
+
+        # --------------------------------
+        # FIND USER BY EMAIL
+        # --------------------------------
+
+        try:
+            user = User.objects.get(email__iexact=email)
+
+        except User.DoesNotExist:
+
+            return render(
+                request,
+                "club/parent_login.html",
+                {
+                    "error": "No parent account was found with this email address.",
+                    "email": email,
+                },
+            )
+
+        # --------------------------------
+        # AUTHENTICATE USER
+        # --------------------------------
+
+        authenticated_user = authenticate(
+            request,
+            username=user.username,
+            password=password,
+        )
+
+        # --------------------------------
+        # SUCCESSFUL LOGIN
+        # --------------------------------
+
+        if authenticated_user is not None:
+
+            login(request, authenticated_user)
+
+            messages.success(
+                request,
+                f"Welcome back, {user.first_name or 'Parent'}!"
+            )
+
+            # DIRECTLY TO HOME
+            return redirect("club:home")
+
+        # --------------------------------
+        # WRONG PASSWORD
+        # --------------------------------
+
+        return render(
+            request,
+            "club/parent_login.html",
+            {
+                "error": "Incorrect password. Please try again.",
+                "email": email,
+            },
+        )
+
+    # GET REQUEST
+    return render(request, "club/parent_login.html")
+
 
 
 from django.shortcuts import get_object_or_404, redirect
@@ -565,7 +822,7 @@ def studentregister(request):
         user.save()
 
         # 👇 ADD THIS REDIRECT AFTER SUCCESS
-        return redirect("student_login")
+        return redirect("club:student_login")
 
     return render(request, "club/studentregister.html")
 
@@ -885,28 +1142,45 @@ def like_post(request, post_id):
         "likes": post.likes.count()
     })
 
-@csrf_protect
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+@ensure_csrf_cookie
 def student_login(request):
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
 
         if not username or not password:
             return render(request, "club/student_login.html", {
-                "error": "All fields are required"
+                "error": "All fields are required.",
+                "username": username,
             })
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            return redirect("home")
+            return redirect("club:home")
         else:
             return render(request, "club/student_login.html", {
-                "error": "Invalid username or password"
+                "error": "Invalid username or password.",
+                "username": username,
             })
 
     return render(request, "club/student_login.html")
+
+
+# club/views.py
+from django.shortcuts import render
+
+def teacher_login(request):
+    return render(request, 'club/teacher_login.html')
+
+def parent_login(request):
+    return render(request, 'club/parent_login.html')
 
 from django.core.paginator import Paginator
 
@@ -1013,10 +1287,15 @@ def newpost(request):
     return render(request, 'club/newpost.html')
 
 @login_required(login_url='login')
+# CORRECT
 def mypost(request):
-    # posts = Post.objects.filter(author=request.user).order_by('-created_at')
-    posts = Post.objects.select_related('author', 'author__profile', 'author__school_profile').all()
+    # Remove 'profile' or replace it with valid attributes, e.g., 'author'
+    posts = Post.objects.filter(author=request.user).select_related('author')
     return render(request, 'club/mypost.html', {'posts': posts})
+# def mypost(request):
+#     # posts = Post.objects.filter(author=request.user).order_by('-created_at')
+#     posts = Post.objects.select_related('author', 'author__profile', 'author__school_profile').all()
+#     return render(request, 'club/mypost.html', {'posts': posts})
 
 def signout(request):
     logout(request)
@@ -1251,7 +1530,7 @@ def schoolregister(request):
             )
 
         # Registration successful
-        return redirect("school_login")
+        return redirect("club:school_login")
 
     return render(request, "club/schoolregister.html")
 

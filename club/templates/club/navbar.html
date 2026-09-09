@@ -444,7 +444,7 @@
                 </li>
 
                 
-                <!-- FINANCE LITERACY -->
+                <!-- STENCIL BOOKS -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'club:stencilbooks' %}">
                         Stencil Books
@@ -511,7 +511,7 @@
                             <span>{{ request.user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
-                            <li><a class="dropdown-item" href="{% url 'club:profile_view' %}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'club:profile_view' username=request.user.username %}">My Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="{% url 'club:signout' %}">Logout</a></li>
                         </ul>

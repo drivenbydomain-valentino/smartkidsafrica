@@ -3,101 +3,60 @@
 
 {% block content %}
 
-<link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <div class="container py-4">
-
     <div class="row justify-content-center">
-
         <div class="col-md-8 col-lg-6">
 
             <!-- ================= STUDENT LOGIN CARD ================= -->
-            <div class="card my-4 shadow-lg border-0 rounded-4"
-                 style="background-color: #fffdf5;">
+            <div class="card my-4 shadow-lg border-0 rounded-4" style="background-color: #fffdf5;">
 
-                <form method="POST"
-                      action="{% url 'club:student_login' %}"
-                      class="card-body p-4 p-lg-5">
-
+                <form method="POST" action="{% url 'club:student_login' %}" class="card-body p-4 p-lg-5">
                     {% csrf_token %}
-
 
                     <!-- ================= LOGO ================= -->
                     <div class="text-center mb-4">
-
                         <img src="{% static 'image/logo.png' %}"
                              alt="Student Logo"
                              class="img-fluid rounded-circle shadow-sm"
                              width="120"
                              height="120">
-
                     </div>
-
 
                     <!-- ================= TITLE ================= -->
                     <div class="text-center mb-4">
-
-                        <h2 class="fw-bold mb-2"
-                            style="color: #123c8c;">
-
+                        <h2 class="fw-bold mb-2" style="color: #123c8c;">
                             <i class="bi bi-person-circle me-2"></i>
                             Student Login
-
                         </h2>
-
                         <p class="text-muted mb-0">
-
                             Welcome back! Login to access your student account.
-
                         </p>
-
                     </div>
-
 
                     <!-- ================= SUCCESS MESSAGE ================= -->
                     {% if success %}
-
-                        <div class="alert alert-success text-center rounded-3"
-                             role="alert">
-
+                        <div class="alert alert-success text-center rounded-3" role="alert">
                             <i class="bi bi-check-circle-fill me-1"></i>
-
                             {{ success }}
-
                         </div>
-
                     {% endif %}
-
 
                     <!-- ================= ERROR MESSAGE ================= -->
                     {% if error %}
-
-                        <div class="alert alert-danger text-center rounded-3"
-                             role="alert">
-
+                        <div class="alert alert-danger text-center rounded-3" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-1"></i>
-
                             {{ error }}
-
                         </div>
-
                     {% endif %}
-
 
                     <!-- ================= USERNAME ================= -->
                     <div class="mb-4">
-
-                        <label for="username"
-                               class="form-label fw-semibold"
-                               style="color: #123c8c;">
-
+                        <label for="username" class="form-label fw-semibold" style="color: #123c8c;">
                             <i class="bi bi-person-fill me-1"></i>
-
                             Username
-
                         </label>
-
                         <input type="text"
                                id="username"
                                name="username"
@@ -106,25 +65,15 @@
                                value="{{ username|default:'' }}"
                                autocomplete="username"
                                required>
-
                     </div>
-
 
                     <!-- ================= PASSWORD ================= -->
                     <div class="mb-4">
-
-                        <label for="password"
-                               class="form-label fw-semibold"
-                               style="color: #123c8c;">
-
+                        <label for="password" class="form-label fw-semibold" style="color: #123c8c;">
                             <i class="bi bi-lock-fill me-1"></i>
-
                             Password
-
                         </label>
-
                         <div class="input-group">
-
                             <input type="password"
                                    id="password"
                                    name="password"
@@ -132,55 +81,35 @@
                                    placeholder="Enter password"
                                    autocomplete="current-password"
                                    required>
-
                             <button class="btn btn-outline-secondary bg-white"
                                     type="button"
                                     id="togglePassword"
                                     aria-label="Show or hide password">
-
-                                <i class="bi bi-eye-slash"
-                                   id="toggleIcon"></i>
-
+                                <i class="bi bi-eye-slash" id="toggleIcon"></i>
                             </button>
-
                         </div>
-
                     </div>
-
 
                     <!-- ================= LOGIN BUTTON ================= -->
                     <div class="d-grid mt-4">
-
                         <button type="submit"
                                 class="btn btn-lg fw-bold rounded-3 text-white"
                                 style="background-color: #123c8c;">
-
                             <i class="bi bi-box-arrow-in-right me-2"></i>
-
                             Login
-
                         </button>
-
                     </div>
-
 
                     <!-- ================= REGISTER LINK ================= -->
                     <div class="text-center mt-4">
-
                         <p class="mb-0 text-muted">
-
                             Don't have a student account?
-
                             <a href="{% url 'club:studentregister' %}"
                                class="fw-bold text-decoration-none"
                                style="color: #123c8c;">
-
                                 Create Account
-
                             </a>
-
                         </p>
-
                     </div>
 
                 </form>
@@ -188,56 +117,52 @@
             </div>
 
         </div>
-
     </div>
-
 </div>
-
 
 <!-- ================= PASSWORD TOGGLE ================= -->
 <script>
+    function getCsrfToken() {
+        // 1. Try reading directly from hidden input tag rendered by {% csrf_token %}
+        const tokenInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+        if (tokenInput && tokenInput.value) {
+            return tokenInput.value;
+        }
+        
+        // 2. Fallback to reading the 'csrftoken' cookie set by Django
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, 10) === 'csrftoken=') {
+                    cookieValue = decodeURIComponent(cookie.substring(10));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
-
-        const togglePassword =
-            document.getElementById("togglePassword");
-
-        const passwordInput =
-            document.getElementById("password");
-
-        const toggleIcon =
-            document.getElementById("toggleIcon");
-
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("password");
+        const toggleIcon = document.getElementById("toggleIcon");
 
         if (togglePassword && passwordInput && toggleIcon) {
-
             togglePassword.addEventListener("click", function () {
-
                 if (passwordInput.type === "password") {
-
                     passwordInput.type = "text";
-
                     toggleIcon.classList.remove("bi-eye-slash");
-
                     toggleIcon.classList.add("bi-eye");
-
                 } else {
-
                     passwordInput.type = "password";
-
                     toggleIcon.classList.remove("bi-eye");
-
                     toggleIcon.classList.add("bi-eye-slash");
-
                 }
-
             });
-
         }
-
     });
-
 </script>
 
 {% endblock %}
-

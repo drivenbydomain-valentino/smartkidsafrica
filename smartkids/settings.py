@@ -35,6 +35,13 @@ ALLOWED_HOSTS = [
 APPEND_SLASH = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# settings.py
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+]
+
 env_hosts = os.environ.get('ALLOWED_HOSTS')
 if env_hosts:
     ALLOWED_HOSTS.extend([host.strip() for host in env_hosts.split(',') if host.strip()])
