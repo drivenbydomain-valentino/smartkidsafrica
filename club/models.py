@@ -605,7 +605,6 @@ def create_user_profile(sender, instance, created, **kwargs):
         elif instance.user_type == 'school':
             SchoolProfile.objects.get_or_create(user=instance)
 
-
 # ✅ Integrated Social Media (works for both Profile & School)
 class SocialMedia(models.Model):
     PLATFORM_CHOICES = [
