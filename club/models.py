@@ -141,20 +141,6 @@ class ParentProfile(models.Model):
         return f"Parent: {self.full_name or self.user.username}"
 
 
-# ================= SIGNALS UPDATE ================= #
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        if instance.user_type == 'student':
-            StudentProfile.objects.get_or_create(user=instance)
-        elif instance.user_type == 'teacher':
-            TeacherProfile.objects.get_or_create(user=instance)
-        elif instance.user_type == 'parent':
-            ParentProfile.objects.get_or_create(user=instance)
-        elif instance.user_type == 'parent':
-            SchoolProfile.objects.get_or_create(user=instance)
-
 # ================= ADMIN ================= #
 
 class AdminProfile(models.Model):
@@ -605,12 +591,19 @@ class SchoolProfile(models.Model):
         return self.school_name
 
 
-# # ================= SIGNALS ================= #
+# ================= CONSOLIDATED PROFILE CREATION SIGNAL ================= #
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        StudentProfile.objects.get_or_create(user=instance)
+        if instance.user_type == 'student':
+            StudentProfile.objects.get_or_create(user=instance)
+        elif instance.user_type == 'teacher':
+            TeacherProfile.objects.get_or_create(user=instance)
+        elif instance.user_type == 'parent':
+            ParentProfile.objects.get_or_create(user=instance)
+        elif instance.user_type == 'school':
+            SchoolProfile.objects.get_or_create(user=instance)
 
 
 # ✅ Integrated Social Media (works for both Profile & School)
