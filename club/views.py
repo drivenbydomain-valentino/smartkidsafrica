@@ -806,9 +806,17 @@ def _debug_log(hypothesis_id, location, message, data):
         pass
     # endregion
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
+from django.contrib import messages
+from django.db import transaction
+
+User = get_user_model()
+
+@transaction.atomic
 def studentregister(request):
     if request.method == "POST":
-        username = request.POST.get("username")
+        username = request.POST.get("username", "").strip()
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
 
@@ -818,14 +826,15 @@ def studentregister(request):
         if User.objects.filter(username=username).exists():
             return render(request, "club/studentregister.html", {"error": "Username already exists"})
 
-        user = User.objects.create_user(username=username, password=password1)
-        user.save()
+        # Create user instance and assign user_type BEFORE saving
+        user = User(username=username, user_type='student')
+        user.set_password(password1)
+        user.save()  # Triggers post_save signal and creates StudentProfile safely
 
-        # 👇 ADD THIS REDIRECT AFTER SUCCESS
+        messages.success(request, "Account created successfully! Please log in.")
         return redirect("club:student_login")
 
     return render(request, "club/studentregister.html")
-
 
 @login_required(login_url="student_login")
 def student_dashboard(request):
