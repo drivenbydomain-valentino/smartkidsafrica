@@ -931,45 +931,64 @@ def get_profile_form_class(user):
     return None, None
 
 @login_required
-def profile_view(request, username=None):
-    # 1. If no username is provided in URL, load the logged-in user's profile
-    if username is None:
-        if not request.user.is_authenticated:
-            return redirect('login')  # Replace 'login' with your login view name
-        profile_user = request.user
+# def profile_view(request, username=None):
+#     # 1. If no username is provided in URL, load the logged-in user's profile
+#     if username is None:
+#         if not request.user.is_authenticated:
+#             return redirect('login')  # Replace 'login' with your login view name
+#         profile_user = request.user
+#     else:
+#         profile_user = get_object_or_404(User, username=username)
+
+#     # 2. Get correct profile instance (Student, School, or Admin)
+#     FormClass, profile_instance = get_profile_form_class(profile_user)
+
+#     # 3. Handle avatar/profile updates
+#     if request.method == 'POST' and request.user == profile_user:
+#         if 'avatar' in request.FILES and not FormClass:
+#             if profile_instance:
+#                 profile_instance.avatar = request.FILES['avatar']
+#                 profile_instance.save()
+#                 return redirect('club:profile_view', username=profile_user.username)
+
+#         if FormClass and profile_instance:
+#             form = FormClass(request.POST, request.FILES, instance=profile_instance)
+#             if form.is_valid():
+#                 form.save()
+#                 return redirect('club:profile_view', username=profile_user.username)
+#     else:
+#         form = FormClass(instance=profile_instance) if FormClass and profile_instance else None
+
+#     # 4. Fetch user posts
+#     posts = getattr(profile_user, 'posts', None)
+#     posts = posts.all() if posts else []
+
+#     context = {
+#         'profile_user': profile_user,
+#         'profile_instance': profile_instance,
+#         'form': form,
+#         'posts': posts,
+#     }
+#     return render(request, 'club/profile.html', context)
+
+def profile_view(request, username):
+    profile_user = get_object_or_404(User, username=username)
+
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile_user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect("club:profile_view", username=username)
     else:
-        profile_user = get_object_or_404(User, username=username)
-
-    # 2. Get correct profile instance (Student, School, or Admin)
-    FormClass, profile_instance = get_profile_form_class(profile_user)
-
-    # 3. Handle avatar/profile updates
-    if request.method == 'POST' and request.user == profile_user:
-        if 'avatar' in request.FILES and not FormClass:
-            if profile_instance:
-                profile_instance.avatar = request.FILES['avatar']
-                profile_instance.save()
-                return redirect('club:profile_view', username=profile_user.username)
-
-        if FormClass and profile_instance:
-            form = FormClass(request.POST, request.FILES, instance=profile_instance)
-            if form.is_valid():
-                form.save()
-                return redirect('club:profile_view', username=profile_user.username)
-    else:
-        form = FormClass(instance=profile_instance) if FormClass and profile_instance else None
-
-    # 4. Fetch user posts
-    posts = getattr(profile_user, 'posts', None)
-    posts = posts.all() if posts else []
+        # Prevents UnboundLocalError on GET requests
+        form = ProfileUpdateForm(instance=profile_user)
 
     context = {
-        'profile_user': profile_user,
-        'profile_instance': profile_instance,
-        'form': form,
-        'posts': posts,
+        "profile_user": profile_user,
+        "form": form,
     }
-    return render(request, 'club/profile.html', context)
+    return render(request, "club/profile.html", context)
 
 @login_required
 def share_post(request, post_id):
