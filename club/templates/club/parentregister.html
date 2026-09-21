@@ -398,6 +398,22 @@
                    required>
           </div>
 
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text"
+                   id="username"
+                   name="username"
+                   class="form-control"
+                   placeholder="Choose a unique username"
+                   value="{{ form_data.username|default:'' }}"
+                   autocomplete="username"
+                   required>
+            <div class="form-text">
+              You will use this username to log into your parent dashboard.
+            </div>
+          </div>
+
           <!-- Password -->
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>

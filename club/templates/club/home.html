@@ -267,23 +267,15 @@
                 <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center pt-3 px-3">
                     <div class="d-flex align-items-center">
                         <a href="{% url 'club:profile_view' post.author.username %}" class="text-decoration-none text-dark d-flex align-items-center">
-                            {% if post.author.studentprofile.avatar %}
-                                <img src="{{ post.author.studentprofile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                            {% elif post.author.school_profile.avatar %}
-                                <img src="{{ post.author.school_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                            {% elif post.author.teacher_profile.avatar %}
-                                <img src="{{ post.author.teacher_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                            {% elif post.author.parent_profile.avatar %}
-                                <img src="{{ post.author.parent_profile.avatar.url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                            {% else %}
-                                <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                            {% endif %}
+    
+    <!-- Unified Poster Avatar -->
+    <img src="{{ post.author.avatar_url }}" alt="{{ post.author.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
 
-                            <div>
-                                <h6 class="mb-0 fw-bold small">{{ post.author.get_full_name|default:post.author.username }}</h6>
-                                <span class="text-muted" style="font-size: 0.75rem;">{{ post.created_at|date:"F d, Y h:i A" }}</span>
-                            </div>
-                        </a>
+    <div>
+        <h6 class="mb-0 fw-bold small">{{ post.author.get_full_name|default:post.author.username }}</h6>
+        <span class="text-muted" style="font-size: 0.75rem;">{{ post.created_at|date:"F d, Y h:i A" }}</span>
+    </div>
+</a>
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
@@ -534,14 +526,15 @@
                         <a href="{% url 'club:student_login' %}" class="btn btn-portal-student btn-portal-common fw-bold d-flex align-items-center justify-content-center gap-2">
                             🎓 Student Login
                         </a>
-                        <a href="{% url 'club:teacher_login' %}" class="btn btn-portal-teacher btn-portal-common fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <a href="{% url 'club:teacher_login' %}" class="btn btn-portal-student btn-portal-common fw-bold d-flex align-items-center justify-content-center gap-2">
                             👨‍🏫 Teacher Login
                         </a>
-                        <a href="{% url 'club:parent_login' %}" class="btn btn-portal-parent btn-portal-common fw-semibold d-flex align-items-center justify-content-center gap-2">
-                            👨‍👩‍👧 Parent Login
-                        </a>
-                        <a href="{% url 'club:school_login' %}" class="btn btn-portal-school btn-portal-common fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        
+                        <a href="{% url 'club:school_login' %}" class="btn btn-portal-student btn-portal-common fw-bold d-flex align-items-center justify-content-center gap-2">
                             🏫 School Login
+                        </a>
+                        <a href="{% url 'club:parent_login' %}" class="btn btn-portal-student btn-portal-common fw-bold d-flex align-items-center justify-content-center gap-2">
+                            👨‍👩‍👧 Parent Login
                         </a>
                     </div>
                 </div>

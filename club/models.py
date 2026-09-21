@@ -14,6 +14,142 @@ from django.utils.text import slugify
 from django.utils.timezone import now
 
 
+# ================= PARENT PROFILE ================= #
+
+class ParentProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="parentprofile",
+    )
+
+    full_name = models.CharField(
+        max_length=255,
+        blank=True,
+    )
+
+    phone_number = models.CharField(
+        max_length=20,
+        blank=True,
+    )
+
+    whatsapp_number = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+    )
+
+    email = models.EmailField(
+        blank=True,
+        null=True,
+    )
+
+    address = models.TextField(
+        blank=True,
+    )
+
+    nearest_bus_stop = models.CharField(
+        max_length=255,
+        blank=True,
+    )
+
+    lga = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+
+    state = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+
+    country = models.CharField(
+        max_length=100,
+        default="Nigeria",
+    )
+
+    occupation = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+
+    avatar = models.ImageField(
+        upload_to="avatars/",
+        blank=True,
+        null=True,
+    )
+
+    bio = models.TextField(
+        blank=True,
+    )
+
+    created_at = models.DateTimeField(
+        default=now,
+        db_index=True,
+    )
+
+    slug = models.SlugField(
+        max_length=255,
+        unique=True,
+        blank=True,
+        null=True,
+    )
+
+    def save(self, *args, **kwargs):
+
+        if not self.slug and self.user.username:
+
+            base_slug = slugify(
+                self.user.username
+            )
+
+            slug = base_slug
+            counter = 1
+
+            while ParentProfile.objects.filter(
+                slug=slug
+            ).exclude(
+                id=self.id
+            ).exists():
+
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+
+        return reverse(
+            "club:profile_view",
+            kwargs={
+                "username": self.user.username
+            },
+        )
+
+    def __str__(self):
+
+        return (
+            f"Parent: "
+            f"{self.full_name or self.user.username}"
+        )
+
+
+
+
+import os
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+
+# This model assumes that Child Profile models (StudentProfile, SchoolProfile, etc)
+# exist and have a OneToOne link to User, such as:
+# user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='studentprofile')
+
 class User(AbstractUser):
     USER_TYPE_CHOICES = (
         ('student', 'Student'),
@@ -22,8 +158,10 @@ class User(AbstractUser):
         ('parent', 'Parent'),
         ('admin', 'Admin'),
     )
-    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='student')
+    # Important to set a blank user_type for users created in Admin to define later.
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, blank=True, null=True)
 
+    # These custom related_names are critical to avoid collisions with other apps or auth.User.
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
@@ -43,32 +181,68 @@ class User(AbstractUser):
 
     @property
     def profile(self):
-        """Returns the specific profile instance associated with this user."""
-        if hasattr(self, 'studentprofile'):
-            return self.studentprofile
-        elif hasattr(self, 'school_profile'):
-            return self.school_profile
-        elif hasattr(self, 'schoolprofile'):
-            return self.schoolprofile
-        elif hasattr(self, 'teacherprofile'):
-            return self.teacherprofile
-        elif hasattr(self, 'parentprofile'):
-            return self.parentprofile
-        elif hasattr(self, 'adminprofile'):
-            return self.adminprofile
+        """
+        Dynamically fetches the specific profile instance based on user_type.
+        """
+        if not self.user_type:
+            return None
+        
+        # Mapping user_type values to the related_name on the profile models.
+        # This handles the specific cases like 'school' having two possibilities.
+        profile_attr_map = {
+            'student': 'studentprofile',
+            'school': 'school_profile', # Checking this first based on your snippet
+            'teacher': 'teacherprofile',
+            'parent': 'parentprofile',
+            'admin': 'adminprofile',
+        }
+
+        # Try to get the profile based on the primary related_name mapping.
+        profile_attr = profile_attr_map.get(self.user_type)
+        if profile_attr:
+            profile = getattr(self, profile_attr, None)
+            if profile:
+                return profile
+            
+        # Specific fallback for 'school' if 'school_profile' was missing
+        if self.user_type == 'school':
+            return getattr(self, 'schoolprofile', None)
+
         return None
 
     @property
     def avatar_url(self):
-        """Returns the avatar URL regardless of profile type."""
+        """
+        Returns the specific profile avatar URL.
+        If no profile or no avatar exists, returns the default avatar placeholder.
+        """
         prof = self.profile
-        if prof and hasattr(prof, 'avatar') and prof.avatar:
-            try:
-                return prof.avatar.url
-            except ValueError:
-                return None
-        return None
+        
+        # Path to default avatar within your STATIC_URL
+        default_avatar_path = settings.STATIC_URL + 'image/default_avatar.png'
 
+        # Check if a specific profile exists
+        if not prof:
+            return default_avatar_path
+
+        # Check if the profile model has an avatar field
+        if not hasattr(prof, 'avatar'):
+            return default_avatar_path
+
+        # Check if the avatar field has an assigned file
+        if not prof.avatar:
+            return default_avatar_path
+
+        # Final check to verify the avatar file actually exists on storage.
+        # This prevents ValueError if the database has a path, but the file was deleted.
+        try:
+            # Note: Checking existence requires direct storage access or file system check.
+            # A simpler way often used (which avoids slow filesystem hits per request)
+            # is just to try access the url.
+            return prof.avatar.url
+        except (ValueError, FileNotFoundError):
+            # The file is defined in DB but does not exist on disk/storage.
+            return default_avatar_path
 
 class TeacherProfile(models.Model):
     user = models.OneToOneField(
@@ -106,39 +280,11 @@ class TeacherProfile(models.Model):
 
 
 # ================= PARENT PROFILE ================= #
-
 class ParentProfile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="parentprofile"
-    )
-    full_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=20)
-    whatsapp_number = models.CharField(max_length=20, blank=True, null=True)
-    occupation = models.CharField(max_length=150, blank=True, null=True)
-    number_of_children = models.PositiveIntegerField(default=1)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
-    
-    address = models.TextField(blank=True, null=True)
-    lga = models.CharField(max_length=100, blank=True, null=True)
-    state = models.CharField(max_length=100, blank=True, null=True)
-    country = models.CharField(max_length=100, default="Nigeria")
-
-    created_at = models.DateTimeField(default=now, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug and self.user.username:
-            base_slug = slugify(self.user.username)
-            slug = base_slug
-            counter = 1
-            while ParentProfile.objects.filter(slug=slug).exclude(id=self.id).exists():
-                slug = f"{base_slug}-{counter}"
-                counter += 1
-            self.slug = slug
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"Parent: {self.full_name or self.user.username}"
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
 
 
 # ================= ADMIN ================= #

@@ -1,0 +1,16 @@
+<!-- MUST include enctype="multipart/form-data" for file/image uploads -->
+<form method="POST" enctype="multipart/form-data" action="{% url 'club:edit_profile' %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="id_avatar" class="form-label">Profile Image</label>
+        {{ form.avatar }}
+        {% if form.avatar.errors %}
+            <div class="text-danger small mt-1">
+                {{ form.avatar.errors }}
+            </div>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

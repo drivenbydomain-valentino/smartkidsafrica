@@ -5,46 +5,27 @@
 
 <style>
   :root {
-    /* =========================================
-       SMARTKIDS PINK + BLUE THEME
-    ========================================== */
     --smart-blue-dark: #123c8c;
     --smart-blue: #1976d2;
     --smart-blue-light: #eaf5ff;
-
     --smart-pink: #e91e63;
     --smart-pink-dark: #c2185b;
     --smart-pink-light: #fff0f6;
-
     --smart-yellow: #ffd21f;
-
     --smart-bg: #f7fbff;
     --smart-card: #ffffff;
     --smart-border: #d8e7f5;
-
     --smart-text: #172554;
     --smart-muted: #5c6b82;
-
     --smart-shadow: rgba(25, 118, 210, 0.10);
   }
 
-  /* =========================================
-     PAGE
-  ========================================== */
   body {
-    background: linear-gradient(
-      135deg,
-      #f7fbff 0%,
-      #ffffff 50%,
-      #fff4f8 100%
-    );
+    background: linear-gradient(135deg, #f7fbff 0%, #ffffff 50%, #fff4f8 100%);
     color: var(--smart-text);
     font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
-  /* =========================================
-     PAGE HEADER
-  ========================================== */
   .oracle-contact-hero {
     border-bottom: 3px solid var(--smart-pink);
     padding: 2.5rem 0 1.5rem;
@@ -75,9 +56,6 @@
     font-size: 1rem;
   }
 
-  /* =========================================
-     MAIN REGISTRATION CARD
-  ========================================== */
   .oracle-contact-card {
     background: var(--smart-card);
     border: 1px solid var(--smart-border);
@@ -106,15 +84,8 @@
     z-index: 1;
   }
 
-  /* =========================================
-     INFORMATION CARD
-  ========================================== */
   .oracle-info-card {
-    background: linear-gradient(
-      145deg,
-      var(--smart-blue-dark),
-      var(--smart-blue)
-    );
+    background: linear-gradient(145deg, var(--smart-blue-dark), var(--smart-blue));
     color: #ffffff;
     border: none;
     border-radius: 12px;
@@ -152,9 +123,6 @@
     z-index: 1;
   }
 
-  /* =========================================
-     INFORMATION ITEMS
-  ========================================== */
   .oracle-info-item {
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
@@ -181,9 +149,6 @@
     line-height: 1.6;
   }
 
-  /* =========================================
-     FORM
-  ========================================== */
   .oracle-form .form-label {
     font-weight: 700;
     font-size: 0.875rem;
@@ -219,14 +184,6 @@
     resize: vertical;
   }
 
-  .oracle-form .form-text {
-    color: var(--smart-muted);
-    font-size: 0.8rem;
-  }
-
-  /* =========================================
-     LOGO
-  ========================================== */
   .school-register-logo {
     display: block;
     width: 105px;
@@ -240,15 +197,8 @@
     box-shadow: 0 5px 15px rgba(233, 30, 99, 0.15);
   }
 
-  /* =========================================
-     BUTTON
-  ========================================== */
   .btn-oracle {
-    background: linear-gradient(
-      90deg,
-      var(--smart-pink),
-      var(--smart-pink-dark)
-    );
+    background: linear-gradient(90deg, var(--smart-pink), var(--smart-pink-dark));
     color: #ffffff;
     font-weight: 700;
     border-radius: 7px;
@@ -259,19 +209,12 @@
   }
 
   .btn-oracle:hover {
-    background: linear-gradient(
-      90deg,
-      var(--smart-blue),
-      var(--smart-blue-dark)
-    );
+    background: linear-gradient(90deg, var(--smart-blue), var(--smart-blue-dark));
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 7px 16px rgba(25, 118, 210, 0.25);
   }
 
-  /* =========================================
-     LOGIN LINK
-  ========================================== */
   .oracle-login-link {
     color: var(--smart-pink);
     font-weight: 700;
@@ -283,9 +226,6 @@
     text-decoration: underline;
   }
 
-  /* =========================================
-     ALERT
-  ========================================== */
   .oracle-alert {
     border-radius: 7px;
     border: 1px solid #f0a8bd;
@@ -294,45 +234,18 @@
     font-size: 0.9rem;
   }
 
-  /* =========================================
-     SECTION TITLES
-  ========================================== */
-  .oracle-contact-card h3 {
-    color: var(--smart-blue-dark) !important;
-  }
-
-  .oracle-info-card h4 {
-    color: #ffffff !important;
-  }
-
-  /* =========================================
-     RESPONSIVE
-  ========================================== */
   @media (max-width: 768px) {
-    .oracle-contact-hero {
-      padding: 1.5rem 0 1rem;
-    }
-    .oracle-contact-hero h1 {
-      font-size: 1.8rem;
-    }
-    .oracle-contact-card {
-      padding: 1.5rem;
-    }
-    .oracle-info-card {
-      padding: 1.5rem;
-    }
-    .school-register-logo {
-      width: 90px;
-      height: 90px;
-    }
+    .oracle-contact-hero { padding: 1.5rem 0 1rem; }
+    .oracle-contact-hero h1 { font-size: 1.8rem; }
+    .oracle-contact-card { padding: 1.5rem; }
+    .oracle-info-card { padding: 1.5rem; }
+    .school-register-logo { width: 90px; height: 90px; }
   }
 </style>
 
 <div class="container my-5" style="max-width: 1100px;">
 
-  <!-- =========================================
-       PAGE HEADER
-  ========================================== -->
+  <!-- PAGE HEADER -->
   <div class="oracle-contact-hero">
     <h1>Register as a Teacher</h1>
     <p class="mb-0">
@@ -342,20 +255,14 @@
 
   <div class="row g-4">
 
-    <!-- =========================================
-          REGISTRATION FORM
-    ========================================== -->
+    <!-- REGISTRATION FORM -->
     <div class="col-lg-7">
       <div class="oracle-contact-card">
 
         <!-- Logo -->
-        <img src="{% static 'image/logo.png' %}"
-             alt="Smartkids Africa"
-             class="school-register-logo">
+        <img src="{% static 'image/logo.png' %}" alt="Smartkids Africa" class="school-register-logo">
 
-        <h3 class="h4 mb-4 fw-bold text-center">
-          Teacher Registration
-        </h3>
+        <h3 class="h4 mb-4 fw-bold text-center">Teacher Registration</h3>
 
         <!-- Form Validation Errors -->
         {% if form.non_field_errors %}
@@ -364,8 +271,22 @@
           </div>
         {% endif %}
 
-        <form method="POST" action="{% url 'club:teacherregister' %}" class="oracle-form">
+        <!-- Added enctype="multipart/form-data" for Image Upload -->
+        <form method="POST" action="{% url 'club:teacherregister' %}" enctype="multipart/form-data" class="oracle-form">
           {% csrf_token %}
+
+          <!-- AVATAR / PROFILE PICTURE -->
+          <div class="mb-3">
+            <label for="{{ form.avatar.id_for_label }}" class="form-label">
+              Profile Photo / Avatar
+            </label>
+            {{ form.avatar }}
+            {% if form.avatar.errors %}
+              <div class="text-danger small mt-1">
+                {{ form.avatar.errors }}
+              </div>
+            {% endif %}
+          </div>
 
           <!-- FULL NAME -->
           <div class="mb-3">
@@ -445,8 +366,8 @@
             {% endif %}
           </div>
 
-          <!-- PASSWORD -->
-          <div class="mb-3">
+          <!-- PASSWORD (Confirm Password field removed) -->
+          <div class="mb-4">
             <label for="{{ form.password.id_for_label }}" class="form-label">
               Password
             </label>
@@ -454,19 +375,6 @@
             {% if form.password.errors %}
               <div class="text-danger small mt-1">
                 {{ form.password.errors }}
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- CONFIRM PASSWORD -->
-          <div class="mb-4">
-            <label for="{{ form.confirm_password.id_for_label }}" class="form-label">
-              Confirm Password
-            </label>
-            {{ form.confirm_password }}
-            {% if form.confirm_password.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.confirm_password.errors }}
               </div>
             {% endif %}
           </div>
@@ -480,9 +388,7 @@
 
           <!-- LOGIN LINK -->
           <div class="mt-4 text-center">
-            <span class="text-muted">
-              Already registered?
-            </span>
+            <span class="text-muted">Already registered?</span>
             <a href="{% url 'club:teacher_login' %}" class="oracle-login-link">
               Login here
             </a>
@@ -493,46 +399,34 @@
       </div>
     </div>
 
-    <!-- =========================================
-          INFORMATION PANEL
-    ========================================== -->
+    <!-- INFORMATION PANEL -->
     <div class="col-lg-5">
       <div class="oracle-info-card">
-        <h4 class="h5 mb-4 fw-bold">
-          Smartkids Teacher Portal
-        </h4>
+        <h4 class="h5 mb-4 fw-bold">Smartkids Teacher Portal</h4>
 
         <div class="oracle-info-item">
-          <div class="oracle-info-label">
-            Registration
-          </div>
+          <div class="oracle-info-label">Registration</div>
           <div class="oracle-info-value">
             Register as an educator and connect with schools across the Smartkids Africa educational network.
           </div>
         </div>
 
         <div class="oracle-info-item">
-          <div class="oracle-info-label">
-            Specialization
-          </div>
+          <div class="oracle-info-label">Specialization</div>
           <div class="oracle-info-value">
             Highlight your subject specialization and experience to access customized teaching resources.
           </div>
         </div>
 
         <div class="oracle-info-item">
-          <div class="oracle-info-label">
-            School Linking
-          </div>
+          <div class="oracle-info-label">School Linking</div>
           <div class="oracle-info-value">
             Optionally specify your current institution to streamline classroom management and reporting.
           </div>
         </div>
 
         <div class="oracle-info-item mb-0">
-          <div class="oracle-info-label">
-            Need Assistance?
-          </div>
+          <div class="oracle-info-label">Need Assistance?</div>
           <div class="oracle-info-value">
             Contact the Smartkids Africa team if you need help with your registration or portal account.
           </div>

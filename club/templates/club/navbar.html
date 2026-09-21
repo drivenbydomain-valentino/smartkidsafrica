@@ -392,7 +392,7 @@
         ============================================== -->
 
         <a class="navbar-brand d-flex align-items-center" href="{% url 'club:home' %}">
-            <img src="{% static 'image/logo.png' %}" alt="SmartKids Africa Logo" class="navbar-logo">
+            <img src="{% static 'image/smartkids_logo.png' %}" alt="SmartKids Africa Logo" class="navbar-logo">
         </a>
 
 
@@ -496,18 +496,21 @@
                 </div>
             </form>
 
-            <!-- USER AVATAR / PROFILE DROPDOWN -->
+            <!-- =========================================
+                 USER AVATAR / PROFILE DROPDOWN
+                 (UPDATED FOR SYNC)
+            ========================================== -->
             {% if request.user.is_authenticated %}
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% if request.user.studentprofile and request.user.studentprofile.avatar and request.user.studentprofile.avatar.name %}
-                                <img src="{{ request.user.studentprofile.avatar.url }}" alt="{{ request.user.username }}" class="rounded-circle me-1" style="width: 32px; height: 32px; object-fit: cover;">
-                            {% elif request.user.school_profile and request.user.school_profile.avatar and request.user.school_profile.avatar.name %}
-                                <img src="{{ request.user.school_profile.avatar.url }}" alt="{{ request.user.username }}" class="rounded-circle me-1" style="width: 32px; height: 32px; object-fit: cover;">
-                            {% else %}
-                                <img src="{% static 'image/default_avatar.png' %}" alt="Default Avatar" class="rounded-circle me-1" style="width: 32px; height: 32px; object-fit: cover;">
-                            {% endif %}
+                            
+                            <!-- Unified Avatar Rendering using the new development property -->
+                            <img src="{{ request.user.avatar_url }}" 
+                                 alt="{{ request.user.username }}" 
+                                 class="rounded-circle me-1" 
+                                 style="width: 32px; height: 32px; object-fit: cover;">
+                            
                             <span>{{ request.user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
