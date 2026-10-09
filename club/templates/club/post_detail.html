@@ -145,7 +145,7 @@
                         </div>
 
                         <div class="d-flex align-items-center gap-2">
-                            <!-- EDIT BUTTON (TOGGLES INLINE EDIT) -->
+                            <!-- EDIT BUTTON -->
                             {% if request.user == post.author %}
                             <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none p-0" onclick="toggleInlineEdit({{ post.id }})">
                                 ✏️ Edit
@@ -224,12 +224,38 @@
                     <div id="shareBox-{{ post.id }}" class="p-3 bg-light border-top" style="display:none;">
                         <div class="fw-bold small mb-2">Share this post:</div>
                         <div class="d-flex flex-wrap gap-2">
-                            <button class="btn btn-light btn-sm" onclick="openShareModal({{ post.id }}, '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}')">🔗 Share</button>
-                            <button class="btn btn-primary btn-sm" onclick="shareToPlatform({{ post.id }}, 'facebook', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">Facebook</button>
-                            <button class="btn btn-dark btn-sm" onclick="shareToPlatform({{ post.id }}, 'x', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">X</button>
-                            <button class="btn btn-primary btn-sm" style="background-color: #0077b5;" onclick="shareToPlatform({{ post.id }}, 'linkedin', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">LinkedIn</button>
-                            <button class="btn btn-success btn-sm" onclick="shareToPlatform({{ post.id }}, 'whatsapp', '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}', '{{ post.title|default:post.content|truncatechars:100|escapejs }}')">WhatsApp</button>
-                            <button class="btn btn-outline-secondary btn-sm" onclick="copyPostLink({{ post.id }}, '{{ request.scheme }}://{{ request.get_host }}{% url 'club:post_detail' post.id %}')">📋 Copy Link</button>
+                            {% with post_path=request.path %}
+                            <!-- Facebook Dialog Share (Bypasses share_channel/# redirect issue) -->
+                            <a href="https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href={{ post_url|urlencode }}&redirect_uri={{ post_url|urlencode }}" 
+                               target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"
+                               onclick="recordShare({{ post.id }}, 'facebook')">
+                                Facebook
+                            </a>
+
+                            <!-- X / Twitter -->
+                            <a href="https://twitter.com/intent/tweet?text={{ post.title|default:post.content|truncatechars:80|urlencode }}&url={{ post_url|urlencode }}" 
+                               target="_blank" rel="noopener noreferrer" class="btn btn-dark btn-sm"
+                               onclick="recordShare({{ post.id }}, 'x')">
+                                X
+                            </a>
+
+                            <!-- LinkedIn -->
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ post_url|urlencode }}" 
+                               target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="background-color: #0077b5;"
+                               onclick="recordShare({{ post.id }}, 'linkedin')">
+                                LinkedIn
+                            </a>
+
+                            <!-- WhatsApp -->
+                            <a href="https://api.whatsapp.com/send?text={{ post.title|default:post.content|truncatechars:80|urlencode }}%20{{ post_url|urlencode }}" 
+                               target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm"
+                               onclick="recordShare({{ post.id }}, 'whatsapp')">
+                                WhatsApp
+                            </a>
+
+                            <!-- Copy Link -->
+                            <button class="btn btn-outline-secondary btn-sm" onclick="copyPostLink({{ post.id }}, '{{ post_url }}')">📋 Copy Link</button>
+                            {% endwith %}
                         </div>
                     </div>
 
@@ -286,36 +312,6 @@ function getCSRF() {
 function toggleShareBox(postId) {
     const box = document.getElementById(`shareBox-${postId}`);
     box.style.display = box.style.display === "none" ? "block" : "none";
-}
-
-function openShareModal(postId, url) {
-    copyPostLink(postId, url);
-}
-
-function shareToPlatform(postId, platform, postUrl, textContent) {
-    const encodedUrl = encodeURIComponent(postUrl);
-    const encodedText = encodeURIComponent(textContent || 'Check out this post!');
-    let shareUrl = "";
-
-    switch (platform) {
-        case 'facebook':
-            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-            break;
-        case 'x':
-            shareUrl = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
-            break;
-        case 'linkedin':
-            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-            break;
-        case 'whatsapp':
-            shareUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
-            break;
-    }
-
-    if (shareUrl) {
-        window.open(shareUrl, '_blank', 'width=600,height=500');
-        recordShare(postId, platform);
-    }
 }
 
 function copyPostLink(postId, url) {
@@ -404,9 +400,12 @@ function addComment(e, postId) {
         const emptyMsg = list.querySelector('.empty-msg');
         if (emptyMsg) emptyMsg.remove();
 
+        const authorName = data.user || data.author || 'Anonymous';
+        const commentText = data.text || data.content || '';
+
         list.insertAdjacentHTML('beforeend', `
             <div class="bg-white border p-2 rounded mb-1 shadow-sm">
-                <strong>${data.user}</strong>: ${data.text}
+                <strong>${authorName}</strong>: ${commentText}
             </div>
         `);
         input.value = "";

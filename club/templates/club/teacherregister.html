@@ -237,205 +237,183 @@
   @media (max-width: 768px) {
     .oracle-contact-hero { padding: 1.5rem 0 1rem; }
     .oracle-contact-hero h1 { font-size: 1.8rem; }
-    .oracle-contact-card { padding: 1.5rem; }
-    .oracle-info-card { padding: 1.5rem; }
+    .oracle-contact-card, .oracle-info-card { padding: 1.5rem; }
     .school-register-logo { width: 90px; height: 90px; }
   }
 </style>
 
 <div class="container my-5" style="max-width: 1100px;">
-
-  <!-- PAGE HEADER -->
   <div class="oracle-contact-hero">
     <h1>Register as a Teacher</h1>
-    <p class="mb-0">
-      Create your educator account and join the Smartkids Africa teaching network.
-    </p>
+    <p class="mb-0">Create your educator account and join the Smartkids Africa teaching network.</p>
   </div>
 
   <div class="row g-4">
-
-    <!-- REGISTRATION FORM -->
     <div class="col-lg-7">
       <div class="oracle-contact-card">
-
-        <!-- Logo -->
         <img src="{% static 'image/logo.png' %}" alt="Smartkids Africa" class="school-register-logo">
-
         <h3 class="h4 mb-4 fw-bold text-center">Teacher Registration</h3>
 
-        <!-- Form Validation Errors -->
         {% if form.non_field_errors %}
           <div class="alert oracle-alert text-center mb-4" role="alert">
             {{ form.non_field_errors }}
           </div>
         {% endif %}
 
-        <!-- Added enctype="multipart/form-data" for Image Upload -->
         <form method="POST" action="{% url 'club:teacherregister' %}" enctype="multipart/form-data" class="oracle-form">
           {% csrf_token %}
 
-          <!-- AVATAR / PROFILE PICTURE -->
           <div class="mb-3">
-            <label for="{{ form.avatar.id_for_label }}" class="form-label">
-              Profile Photo / Avatar
-            </label>
-            {{ form.avatar }}
-            {% if form.avatar.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.avatar.errors }}
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- FULL NAME -->
-          <div class="mb-3">
-            <label for="{{ form.full_name.id_for_label }}" class="form-label">
-              Full Name
-            </label>
+            <label for="{{ form.full_name.id_for_label }}" class="form-label">Full Name</label>
             {{ form.full_name }}
             {% if form.full_name.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.full_name.errors }}
-              </div>
+              <div class="text-danger small mt-1">{{ form.full_name.errors }}</div>
             {% endif %}
           </div>
 
-          <!-- USERNAME -->
           <div class="mb-3">
-            <label for="{{ form.username.id_for_label }}" class="form-label">
-              Username
-            </label>
+            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
             {{ form.username }}
             {% if form.username.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.username.errors }}
-              </div>
+              <div class="text-danger small mt-1">{{ form.username.errors }}</div>
             {% endif %}
           </div>
 
-          <!-- EMAIL ADDRESS -->
           <div class="mb-3">
-            <label for="{{ form.email.id_for_label }}" class="form-label">
-              Email Address
-            </label>
-            {{ form.email }}
-            {% if form.email.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.email.errors }}
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- PHONE NUMBER -->
-          <div class="mb-3">
-            <label for="{{ form.phone_number.id_for_label }}" class="form-label">
-              Phone Number
-            </label>
-            {{ form.phone_number }}
-            {% if form.phone_number.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.phone_number.errors }}
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- SUBJECT SPECIALIZATION -->
-          <div class="mb-3">
-            <label for="{{ form.subject_specialization.id_for_label }}" class="form-label">
-              Subject Specialization
-            </label>
-            {{ form.subject_specialization }}
-            {% if form.subject_specialization.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.subject_specialization.errors }}
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- CURRENT SCHOOL (OPTIONAL) -->
-          <div class="mb-3">
-            <label for="{{ form.school_name.id_for_label }}" class="form-label">
-              Current School (Optional)
-            </label>
-            {{ form.school_name }}
-            {% if form.school_name.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.school_name.errors }}
-              </div>
-            {% endif %}
-          </div>
-
-          <!-- PASSWORD (Confirm Password field removed) -->
-          <div class="mb-4">
-            <label for="{{ form.password.id_for_label }}" class="form-label">
-              Password
-            </label>
+            <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
             {{ form.password }}
             {% if form.password.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.password.errors }}
-              </div>
+              <div class="text-danger small mt-1">{{ form.password.errors }}</div>
             {% endif %}
           </div>
 
-          <!-- SUBMIT BUTTON -->
-          <div class="d-grid">
-            <button type="submit" class="btn btn-oracle">
-              Register as Teacher
-            </button>
+          <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+              <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+            {% endif %}
           </div>
 
-          <!-- LOGIN LINK -->
+          <div class="mb-3">
+            <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+            {{ form.phone_number }}
+            {% if form.phone_number.errors %}
+              <div class="text-danger small mt-1">{{ form.phone_number.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.whatsapp_number.id_for_label }}" class="form-label">WhatsApp Number</label>
+            {{ form.whatsapp_number }}
+            {% if form.whatsapp_number.errors %}
+              <div class="text-danger small mt-1">{{ form.whatsapp_number.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.subject_specialization.id_for_label }}" class="form-label">Subject Specialization</label>
+            {{ form.subject_specialization }}
+            {% if form.subject_specialization.errors %}
+              <div class="text-danger small mt-1">{{ form.subject_specialization.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.school_name.id_for_label }}" class="form-label">Current School (Optional)</label>
+            {{ form.school_name }}
+            {% if form.school_name.errors %}
+              <div class="text-danger small mt-1">{{ form.school_name.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.years_of_experience.id_for_label }}" class="form-label">Years of Experience</label>
+            {{ form.years_of_experience }}
+            {% if form.years_of_experience.errors %}
+              <div class="text-danger small mt-1">{{ form.years_of_experience.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="{{ form.state.id_for_label }}" class="form-label">State</label>
+              {{ form.state }}
+              {% if form.state.errors %}
+                <div class="text-danger small mt-1">{{ form.state.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="{{ form.lga.id_for_label }}" class="form-label">LGA</label>
+              {{ form.lga }}
+              {% if form.lga.errors %}
+                <div class="text-danger small mt-1">{{ form.lga.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.country.id_for_label }}" class="form-label">Country</label>
+            {{ form.country }}
+            {% if form.country.errors %}
+              <div class="text-danger small mt-1">{{ form.country.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
+            {{ form.bio }}
+            {% if form.bio.errors %}
+              <div class="text-danger small mt-1">{{ form.bio.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label for="{{ form.avatar.id_for_label }}" class="form-label">Profile Photo / Avatar</label>
+            {{ form.avatar }}
+            {% if form.avatar.errors %}
+              <div class="text-danger small mt-1">{{ form.avatar.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-oracle">Register as Teacher</button>
+          </div>
+
           <div class="mt-4 text-center">
             <span class="text-muted">Already registered?</span>
-            <a href="{% url 'club:teacher_login' %}" class="oracle-login-link">
-              Login here
-            </a>
+            <a href="{% url 'club:teacher_login' %}" class="oracle-login-link">Login here</a>
           </div>
-
         </form>
-
       </div>
     </div>
 
-    <!-- INFORMATION PANEL -->
     <div class="col-lg-5">
       <div class="oracle-info-card">
         <h4 class="h5 mb-4 fw-bold">Smartkids Teacher Portal</h4>
 
         <div class="oracle-info-item">
           <div class="oracle-info-label">Registration</div>
-          <div class="oracle-info-value">
-            Register as an educator and connect with schools across the Smartkids Africa educational network.
-          </div>
+          <div class="oracle-info-value">Register as an educator and connect with schools across the Smartkids Africa educational network.</div>
         </div>
 
         <div class="oracle-info-item">
           <div class="oracle-info-label">Specialization</div>
-          <div class="oracle-info-value">
-            Highlight your subject specialization and experience to access customized teaching resources.
-          </div>
+          <div class="oracle-info-value">Highlight your subject specialization and experience to access customized teaching resources.</div>
         </div>
 
         <div class="oracle-info-item">
           <div class="oracle-info-label">School Linking</div>
-          <div class="oracle-info-value">
-            Optionally specify your current institution to streamline classroom management and reporting.
-          </div>
+          <div class="oracle-info-value">Optionally specify your current institution to streamline classroom management and reporting.</div>
         </div>
 
         <div class="oracle-info-item mb-0">
           <div class="oracle-info-label">Need Assistance?</div>
-          <div class="oracle-info-value">
-            Contact the Smartkids Africa team if you need help with your registration or portal account.
-          </div>
+          <div class="oracle-info-value">Contact the Smartkids Africa team if you need help with your registration or portal account.</div>
         </div>
       </div>
     </div>
-
   </div>
-
 </div>
 
 {% endblock %}

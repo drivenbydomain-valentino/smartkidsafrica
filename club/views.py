@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from .forms import ParentProfileForm  # Adjust import based on your forms file
+# from .forms import ParentProfileForm  # Adjust import based on your forms file
 from .models import ParentProfile
 # ============================================================
 # SMART KIDS AFRICA - VIEWS
@@ -1344,125 +1344,79 @@ def is_admin(user):
 # STUDENT REGISTRATION
 # ============================================================
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login, logout, get_user_model
+from django.db import transaction
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+User = get_user_model()
+
 @transaction.atomic
 def studentregister(request):
-
     if request.user.is_authenticated:
         logout(request)
 
     if request.method == "POST":
-
-        form = StudentRegistrationForm(
-            request.POST,
-            request.FILES,
-        )
-
+        form = StudentRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
+            # 1. Extract cleaned data safely
+            data = form.cleaned_data
+            password = data.get("password") or data.get("password1")
 
+            # 2. Create base user instance
             user = User.objects.create_user(
-                username=form.cleaned_data["username"],
-                email=form.cleaned_data.get(
-                    "email",
-                    "",
-                ),
-                password=form.cleaned_data["password"],
+                username=data["username"],
+                email=data.get("email", ""),
+                password=password,
                 user_type="student",
             )
 
-            profile = StudentProfile.objects.filter(
-                user=user
-            ).first()
+            # 3. Retrieve existing profile (if created by post_save signal) or create one
+            profile, _ = StudentProfile.objects.get_or_create(user=user)
 
-            if profile is None:
-                profile = StudentProfile.objects.create(
-                    user=user
-                )
+            # 4. Populate profile fields
+            profile.full_name = data.get("full_name", "")
+            profile.parent_name = data.get("parent_name", "")
+            profile.parent_phone = data.get("parent_phone", "")
+            profile.parent_whatsapp = data.get("parent_whatsapp", "")
+            profile.age = data.get("age")
+            profile.user_class = data.get("user_class", "")
+            profile.school = data.get("school", "")
+            profile.bio = data.get("bio", "")
 
-            profile.full_name = form.cleaned_data.get(
-                "full_name",
-                "",
-            )
-
-            profile.parent_name = form.cleaned_data.get(
-                "parent_name",
-                "",
-            )
-
-            profile.parent_phone = form.cleaned_data.get(
-                "parent_phone",
-                "",
-            )
-
-            profile.parent_whatsapp = form.cleaned_data.get(
-                "parent_whatsapp",
-                "",
-            )
-
-            profile.age = form.cleaned_data.get(
-                "age"
-            )
-
-            profile.user_class = form.cleaned_data.get(
-                "user_class",
-                "",
-            )
-
-            profile.school = form.cleaned_data.get(
-                "school",
-                "",
-            )
-
-            profile.bio = form.cleaned_data.get(
-                "bio",
-                "",
-            )
-
-            avatar = request.FILES.get("avatar")
-
+            # Handled via form cleaned_data or request.FILES
+            avatar = data.get("avatar") or request.FILES.get("avatar")
             if avatar:
                 profile.avatar = avatar
 
             profile.save()
 
-            login(
-                request,
-                user,
-            )
-
-            messages.success(
-                request,
-                "Student account created successfully!",
-            )
-
+            # 5. Authenticate session and redirect
+            login(request, user)
+            messages.success(request, "Student account created successfully!")
             return redirect_after_login(user)
-
+        else:
+            # Flashes validation errors directly to django messages or template forms
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.capitalize()}: {error}")
     else:
-
         form = StudentRegistrationForm()
 
     return render(
         request,
         "club/studentregister.html",
-        {
-            "form": form,
-        },
+        {"form": form},
     )
 
 
-# ============================================================
-# STUDENT LOGIN
-# ============================================================
-
 @ensure_csrf_cookie
 def student_login(request):
-
     if request.user.is_authenticated:
-        return redirect_after_login(
-            request.user
-        )
+        return redirect_after_login(request.user)
 
     if request.method == "POST":
-
         form = UserLoginForm(
             request,
             user_type="student",
@@ -1470,23 +1424,13 @@ def student_login(request):
         )
 
         if form.is_valid():
-
             user = form.get_user()
-
-            login(
-                request,
-                user,
-            )
-
-            messages.success(
-                request,
-                f"Welcome back, {user.username}!",
-            )
-
+            login(request, user)
+            messages.success(request, f"Welcome back, {user.username}!")
             return redirect_after_login(user)
-
+        else:
+            messages.error(request, "Invalid username or password.")
     else:
-
         form = UserLoginForm(
             request,
             user_type="student",
@@ -1495,11 +1439,8 @@ def student_login(request):
     return render(
         request,
         "club/student_login.html",
-        {
-            "form": form,
-        },
+        {"form": form},
     )
-
 
 # ============================================================
 # STUDENT DASHBOARD
@@ -1537,6 +1478,23 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import ParentProfile, User  # Adjust imports if your User model is elsewhere
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate, get_user_model
+from django.db import transaction
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+User = get_user_model()
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate, get_user_model
+from django.db import transaction
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+User = get_user_model()
+
 
 @ensure_csrf_cookie
 def parentregister(request):
@@ -1548,14 +1506,18 @@ def parentregister(request):
         email = request.POST.get("email", "").strip()
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "").strip()
+        phone_number = request.POST.get("phone_number", "").strip()
         whatsapp_number = request.POST.get("whatsapp_number", "").strip()
         address = request.POST.get("address", "").strip()
-        country = request.POST.get("country", "").strip()
-        state = request.POST.get("state", "").strip()
+        nearest_bus_stop = request.POST.get("nearest_bus_stop", "").strip()
         lga = request.POST.get("lga", "").strip()
+        state = request.POST.get("state", "").strip()
+        country = request.POST.get("country", "").strip()
+        occupation = request.POST.get("occupation", "").strip()
+        bio = request.POST.get("bio", "").strip()
         avatar = request.FILES.get("avatar")
 
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username__iexact=username).exists():
             return render(
                 request,
                 "club/parentregister.html",
@@ -1565,7 +1527,7 @@ def parentregister(request):
                 },
             )
 
-        if User.objects.filter(email=email).exists():
+        if email and User.objects.filter(email__iexact=email).exists():
             return render(
                 request,
                 "club/parentregister.html",
@@ -1585,30 +1547,34 @@ def parentregister(request):
                     first_name=parent_name,
                 )
 
-                # Set user_type so edit_profile works properly
                 if hasattr(user, "user_type"):
                     user.user_type = "parent"
                     user.save(update_fields=["user_type"])
 
-                # 2. Create or fetch ParentProfile and attach uploaded avatar
+                # 2. Create or fetch ParentProfile
                 profile, _ = ParentProfile.objects.get_or_create(user=user)
+                profile.phone_number = phone_number
                 profile.whatsapp_number = whatsapp_number
                 profile.address = address
-                profile.country = country
-                profile.state = state
+                profile.nearest_bus_stop = nearest_bus_stop
                 profile.lga = lga
+                profile.state = state
+                profile.country = country or "Nigeria"
+                profile.occupation = occupation
+                profile.bio = bio
 
                 if avatar:
-                    profile.avatar = avatar  # Ensure field name in model is 'avatar'
+                    profile.avatar = avatar
 
                 profile.save()
 
-                # Store username in session for login pre-fill
+                # Save credentials in session for automatic auto-fill on redirect
                 request.session["registered_username"] = user.username
+                request.session["registered_password"] = password
 
                 messages.success(
                     request,
-                    "Account created successfully! Please log in below.",
+                    "Account created successfully! Your credentials have been pre-filled below.",
                 )
                 return redirect("club:parent_login")
 
@@ -1625,10 +1591,7 @@ def parentregister(request):
 
     return render(request, "club/parentregister.html")
 
-    
-# ============================================================
-# PARENT LOGIN
-# ============================================================
+
 @ensure_csrf_cookie
 def parent_login(request):
     if request.user.is_authenticated:
@@ -1641,12 +1604,8 @@ def parent_login(request):
             data=request.POST,
         )
         if form.is_valid():
-            # Retrieve the authenticated user from the form's user_cache or cleaned_data
-            user = getattr(form, "user_cache", None) or form.cleaned_data.get(
-                "user"
-            )
+            user = getattr(form, "user_cache", None) or form.cleaned_data.get("user")
 
-            # Fallback authentication if user isn't attached to form
             if not user:
                 username = form.cleaned_data.get("username")
                 password = form.cleaned_data.get("password")
@@ -1660,17 +1619,22 @@ def parent_login(request):
                 return redirect_after_login(user)
 
         filled_username = request.POST.get("username", "").strip()
+        filled_password = request.POST.get("password", "").strip()
 
     else:
         registered_username = request.session.pop("registered_username", "")
+        registered_password = request.session.pop("registered_password", "")
+
         filled_username = registered_username
+        filled_password = registered_password
 
         form = UserLoginForm(
             request,
             user_type="parent",
-            initial={"username": registered_username}
-            if registered_username
-            else {},
+            initial={
+                "username": registered_username,
+                "password": registered_password,
+            },
         )
 
     return render(
@@ -1679,40 +1643,85 @@ def parent_login(request):
         {
             "form": form,
             "registered_username": filled_username,
+            "registered_password": filled_password,
         },
     )
 
 # ============================================================
 # TEACHER REGISTRATION
 # ============================================================
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login, logout, get_user_model
+from django.db import transaction
+from django.views.decorators.csrf import ensure_csrf_cookie
 
+User = get_user_model()
+
+@transaction.atomic
 def teacherregister(request):
-    if request.method == 'POST':
-        form = TeacherRegistrationForm(request.POST, request.FILES) # Pass request.FILES for image upload
+    if request.user.is_authenticated:
+        logout(request)
+
+    if request.method == "POST":
+        form = TeacherRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Registration successful! Please log in to continue.")
-            return redirect('club:teacher_login') # Redirects to Login page first
+            data = form.cleaned_data
+
+            # 1. Create base User instance
+            user = User.objects.create_user(
+                username=data["username"],
+                email=data.get("email", ""),
+                password=data["password"],
+                user_type="teacher",
+            )
+
+            # 2. Retrieve existing profile (if created by post_save signal) or create one
+            profile, _ = TeacherProfile.objects.get_or_create(user=user)
+
+            # 3. Populate Teacher profile fields
+            profile.full_name = data.get("full_name", "")
+            profile.phone_number = data.get("phone_number", "")
+            profile.whatsapp_number = data.get("whatsapp_number", "")
+            profile.school_name = data.get("school_name", "")
+            profile.subject_specialization = data.get("subject_specialization", "")
+            profile.years_of_experience = data.get("years_of_experience")
+            profile.state = data.get("state", "")
+            profile.lga = data.get("lga", "")
+            profile.country = data.get("country", "Nigeria")
+            profile.bio = data.get("bio", "")
+
+            avatar = data.get("avatar") or request.FILES.get("avatar")
+            if avatar:
+                profile.avatar = avatar
+
+            profile.save()
+
+            messages.success(
+                request,
+                "Registration successful! Please log in to continue.",
+            )
+            return redirect("club:teacher_login")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.replace('_', ' ').capitalize()}: {error}")
     else:
         form = TeacherRegistrationForm()
-    
-    return render(request, 'club/teacher_register.html', {'form': form})
 
+    return render(
+        request,
+        "club/teacherregister.html",
+        {"form": form},
+    )
 
-# ============================================================
-# TEACHER LOGIN
-# ============================================================
 
 @ensure_csrf_cookie
 def teacher_login(request):
-
     if request.user.is_authenticated:
-        return redirect_after_login(
-            request.user
-        )
+        return redirect_after_login(request.user)
 
     if request.method == "POST":
-
         form = UserLoginForm(
             request,
             user_type="teacher",
@@ -1720,23 +1729,16 @@ def teacher_login(request):
         )
 
         if form.is_valid():
-
             user = form.get_user()
-
-            login(
-                request,
-                user,
-            )
-
+            login(request, user)
             messages.success(
                 request,
                 f"Welcome back, {user.username}!",
             )
-
             return redirect_after_login(user)
-
+        else:
+            messages.error(request, "Invalid username or password.")
     else:
-
         form = UserLoginForm(
             request,
             user_type="teacher",
@@ -1745,9 +1747,7 @@ def teacher_login(request):
     return render(
         request,
         "club/teacher_login.html",
-        {
-            "form": form,
-        },
+        {"form": form},
     )
 
 
@@ -1755,169 +1755,92 @@ def teacher_login(request):
 # SCHOOL REGISTRATION
 # ============================================================
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login, logout, get_user_model
+from django.db import transaction
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+User = get_user_model()
+
+
 @transaction.atomic
 def schoolregister(request):
-
     if request.user.is_authenticated:
         logout(request)
 
     if request.method == "POST":
-
-        form = SchoolRegistrationForm(
-            request.POST,
-            request.FILES,
-        )
-
+        form = SchoolRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
+            data = form.cleaned_data
+            school_name = data["school_name"]
 
-            school_name = form.cleaned_data[
-                "school_name"
-            ]
-
+            # 1. Create User instance (using school_name as username)
             user = User.objects.create_user(
                 username=school_name,
-                email=form.cleaned_data.get(
-                    "email",
-                    "",
-                ),
-                password=form.cleaned_data["password"],
+                email=data.get("email", ""),
+                password=data["password"],
                 user_type="school",
             )
 
-            profile = SchoolProfile.objects.filter(
-                user=user
-            ).first()
+            # 2. Get existing profile or create one safely (prevents signal race conditions)
+            profile, _ = SchoolProfile.objects.get_or_create(user=user)
 
-            if profile is None:
-                profile = SchoolProfile.objects.create(
-                    user=user
-                )
-
+            # 3. Populate SchoolProfile attributes
             profile.school_name = school_name
+            profile.director_name = data.get("director_name", "")
+            profile.email = data.get("email", "")
+            profile.whatsapp_number = data.get("whatsapp_number", "")
+            profile.contact_number = data.get("contact_number", "")
+            profile.registration_number = data.get("registration_number", "")
+            profile.address = data.get("address", "")
+            profile.nearest_bus_stop = data.get("nearest_bus_stop", "")
+            profile.lga = data.get("lga", "")
+            profile.state = data.get("state", "")
+            profile.country = data.get("country", "Nigeria")
+            profile.num_students = data.get("num_students") or 0
 
-            profile.director_name = form.cleaned_data.get(
-                "director_name",
-                "",
-            )
-
-            profile.email = form.cleaned_data.get(
-                "email",
-                "",
-            )
-
-            profile.whatsapp_number = form.cleaned_data.get(
-                "whatsapp_number",
-                "",
-            )
-
-            profile.contact_number = form.cleaned_data.get(
-                "contact_number",
-                "",
-            )
-
-            profile.registration_number = (
-                form.cleaned_data.get(
-                    "registration_number"
-                )
-            )
-
-            profile.address = form.cleaned_data.get(
-                "address",
-                "",
-            )
-
-            profile.nearest_bus_stop = form.cleaned_data.get(
-                "nearest_bus_stop",
-                "",
-            )
-
-            profile.lga = form.cleaned_data.get(
-                "lga",
-                "",
-            )
-
-            profile.state = form.cleaned_data.get(
-                "state",
-                "",
-            )
-
-            profile.country = form.cleaned_data.get(
-                "country",
-                "Nigeria",
-            )
-
-            profile.num_students = (
-                form.cleaned_data.get(
-                    "num_students"
-                )
-                or 0
-            )
-
-            # Supports either a normal field or a
-            # multiple-choice field.
-            school_type = form.cleaned_data.get(
-                "school_type",
-                "",
-            )
-
+            # Handle school_type scalar or list values cleanly
+            school_type = data.get("school_type", "")
             if isinstance(school_type, (list, tuple)):
-                school_type = ", ".join(
-                    str(item)
-                    for item in school_type
-                )
-
+                school_type = ", ".join(str(item) for item in school_type)
             profile.school_type = school_type
 
-            profile.website = form.cleaned_data.get(
-                "website"
-            )
+            profile.website = data.get("website")
 
-            avatar = request.FILES.get("avatar")
-
+            avatar = data.get("avatar") or request.FILES.get("avatar")
             if avatar:
                 profile.avatar = avatar
 
             profile.save()
 
-            login(
-                request,
-                user,
-            )
-
-            messages.success(
-                request,
-                "School account created successfully!",
-            )
-
+            # 4. Login session & redirect
+            login(request, user)
+            messages.success(request, "School account created successfully!")
             return redirect_after_login(user)
-
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(
+                        request,
+                        f"{field.replace('_', ' ').capitalize()}: {error}",
+                    )
     else:
-
         form = SchoolRegistrationForm()
 
     return render(
         request,
         "club/schoolregister.html",
-        {
-            "form": form,
-        },
+        {"form": form},
     )
 
 
-# ============================================================
-# SCHOOL LOGIN
-# ============================================================
-
 @ensure_csrf_cookie
 def school_login(request):
-
     if request.user.is_authenticated:
-        return redirect_after_login(
-            request.user
-        )
+        return redirect_after_login(request.user)
 
     if request.method == "POST":
-
         form = UserLoginForm(
             request,
             user_type="school",
@@ -1925,23 +1848,16 @@ def school_login(request):
         )
 
         if form.is_valid():
-
             user = form.get_user()
-
-            login(
-                request,
-                user,
-            )
-
+            login(request, user)
             messages.success(
                 request,
                 f"Welcome back, {user.username}!",
             )
-
             return redirect_after_login(user)
-
+        else:
+            messages.error(request, "Invalid school credentials provided.")
     else:
-
         form = UserLoginForm(
             request,
             user_type="school",
@@ -1950,12 +1866,8 @@ def school_login(request):
     return render(
         request,
         "club/school_login.html",
-        {
-            "form": form,
-        },
+        {"form": form},
     )
-
-
 # ============================================================
 # SCHOOL DASHBOARD
 # ============================================================
@@ -2377,7 +2289,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from .forms import ParentProfileForm
+# from .forms import ParentProfileForm
 from .models import ParentProfile, SchoolProfile, StudentProfile, TeacherProfile
 
 
@@ -2419,3 +2331,45 @@ def edit_profile(request):
     return render(
         request, "club/edit_profile.html", {"form": form, "profile": profile}
     )
+
+import json
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Post, Comment
+import json
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Post, Comment
+
+@login_required
+def add_comment(request, post_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        post = get_object_or_404(Post, id=post_id)
+        
+        # Support both 'text' and 'content' input keys from JS
+        comment_text = data.get("text") or data.get("content")
+        parent_id = data.get("parent_id")
+        parent = Comment.objects.get(id=parent_id) if parent_id else None
+        
+        comment = Comment.objects.create(
+            post=post,
+            user=request.user,
+            parent=parent,
+            text=comment_text
+        )
+        
+        user_name = request.user.get_full_name() or request.user.username
+        
+        # KEY STEP: These JSON keys MUST match what JS expects
+        return JsonResponse({
+            'success': True,
+            'comment': {
+                'id': comment.id,
+                'user': user_name,      # Matching data.comment.user
+                'text': comment.text,    # Matching data.comment.text
+                'created_at': 'Just now'
+            }
+        })

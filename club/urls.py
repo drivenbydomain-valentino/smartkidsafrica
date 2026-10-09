@@ -239,6 +239,11 @@ urlpatterns = [
         views.post_detail,
         name="post_detail",
     ),
+    path(
+        'post/<int:pk>/', 
+        views.post_detail, 
+        name='post_detail'
+    ),
 
     path(
         "post/<int:post_id>/edit/",
@@ -422,6 +427,7 @@ urlpatterns = [
         views.remove_from_cart,
         name="remove_from_cart",
     ),
+    
 
 
     # ========================================================
