@@ -1792,7 +1792,6 @@ def schoolregister(request):
             profile.email = data.get("email", "")
             profile.whatsapp_number = data.get("whatsapp_number", "")
             profile.contact_number = data.get("contact_number", "")
-            profile.registration_number = data.get("registration_number", "")
             profile.address = data.get("address", "")
             profile.nearest_bus_stop = data.get("nearest_bus_stop", "")
             profile.lga = data.get("lga", "")

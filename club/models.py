@@ -667,7 +667,7 @@ class SchoolProfile(models.Model):
     whatsapp_number = models.CharField(max_length=20)
     contact_number = models.CharField(max_length=20, blank=True, null=True)
 
-    registration_number = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    # registration_number = models.CharField(max_length=50, unique=True, blank=True, null=True)
 
     address = models.TextField()
     nearest_bus_stop = models.CharField(max_length=255)
