@@ -1,0 +1,1758 @@
+[
+{
+    "model": "sessions.session",
+    "pk": "6p43rv6ncsj322zo0lk4xqdmufalow9i",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAQRf-FtSHA8BCX7v0GMgNTqRqalHZl_HfbpAvd3nPOfYuE61LT2nlOYxEXYUCcfkfC_OS2k_LAdp9kntoyjyR3RR60y9tU-HU93L-Dir1utVVgrbHgISAyWzKBgdiVqMhSdnFQGoM_kzOAvEmk_KCc1oYiFePE5wv1bDe3:1xFA8L:h1_YHf-lLpIVezq6-wm4UrQMrXSWPwwVUG0noaWJEdQ",
+        "expire_date": "2026-10-23T12:55:33.414Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "m3o8d9p1i0w4sp3klynsefmo3rsgxtr0",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGlle7PhDSc8ZrPXuBgdQIsVJhbg7iZQC2pl5760yrkvNa5M5D6wuCoI6_cKC9JRxN_zA8T5pmsZlHoreE33Ypm8Ty-t6tH8HFVvd1ijOC0Ao3EdnrAgYSuy61AMzJiIC8sGjkDCcE9sQgSXaCGC6DarPFy3tOPg:1x8LF5:-1a4bEKtfds0tUc6hicPNdiHTvA47axa9S2vHx2zvLE",
+        "expire_date": "2026-10-04T17:22:19.857Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "o3h74hjgka3lbnujb3ergjnowip8xado",
+    "fields": {
+        "session_data": ".eJxVjEEOgjAQRe_StWnaMlMGl-45Q9PpjIIaSCisjHdXEha6_e-9_zIpb-uQtqpLGsWcjSdz-h05l4dOO5F7nm6zLfO0LiPbXbEHrbafRZ-Xw_07GHIdvjWLkOcQ2qixOPQayXUdRQBVj8F7B4CIockYoQEqLSO3JAKB-do58_4A4Es27A:1x8dER:NUC_WR-RWDmq19tZEhQ33ql3ax4Xkq4ntxcEmGUKU6w",
+        "expire_date": "2026-10-05T12:34:51.491Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "th6f1w1unxya2vld1vwpvohcg579olvo",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGlk4_lPScwZrd73GAeRIcVIh7k4ipYD2zcx7iwTrUtPaeU5jFhcxWHH6HRHoyW0n-QHtPkma2jKPKHdFHrTL25T5dT3cv4MKvW61KhxjIMiaFA4ctM-2qMyki_PBmaCi2RSHBMbiOYBRnkFHoyyaSEF8viHROFM:1xGZA6:cIEpRuG7jQW17b6uSNlNVckU1KpWT5Ede0ftP8NQC6w",
+        "expire_date": "2026-10-27T09:51:10.807Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "z1ffeiew3hxdjoifk1o3sr9f6ptqeidt",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2pAZpJS6dO8ZyDADUjU0Ke3KeHfbpAvd_vfef6tA61LC2tIcRlEXhaBOv2Mkfqa6E3lQvU-ap7rMY9S7og_a9G2S9Loe7t9BoVa22oodIDugDgUNdh4wMhKJ64HOlhOljAxpI9F54Ew-C5g-Dy5CNKw-XwKZOGo:1x7CPv:RYtWjs4p_jTbirApPZYM7IyxSC6aJFmj_BQR8Jg5vKA",
+        "expire_date": "2026-10-01T13:44:47.124Z"
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$u8WBpELZYzBmfjKriS6O1O$TvTPf/52Hpbh5b+KdFFmR0URfX9WJ+xMeDwJh+JGf/k=",
+        "last_login": "2026-09-16T17:09:47.915Z",
+        "is_superuser": false,
+        "username": "Smartkids Academy",
+        "first_name": "",
+        "last_name": "",
+        "email": "smartkids@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-06T12:45:24.334Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$wqT55x1mQ5JtZ9dBLSZfCF$KY64nZkcA4X+bwZ6cp2BXOYKPojkLHVfjWZ4UQ1Zl3c=",
+        "last_login": "2026-09-16T15:30:52.285Z",
+        "is_superuser": false,
+        "username": "School Test",
+        "first_name": "",
+        "last_name": "",
+        "email": "schooltest@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-06T12:54:13.459Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$RF0sOrcf4FNoxTrow3sMRf$1GM6ZE64jQU1BrsYWjgOWChiYRCQG2bIy63h90W0n/w=",
+        "last_login": "2026-09-08T17:07:40.414Z",
+        "is_superuser": false,
+        "username": "Student Val",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-08T16:03:22.642Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$OCbuJOuyHW01PyrZBOwElo$M1P3XsnBsSnMypLVO884onBhQqt7ItKfzJ7Aj+9mB2U=",
+        "last_login": "2026-09-09T08:45:25.802Z",
+        "is_superuser": false,
+        "username": "TeacherVal",
+        "first_name": "",
+        "last_name": "",
+        "email": "teacherval@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-09T08:45:23.874Z",
+        "user_type": "teacher",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$XnaK1eaeXbjEzUkM3yqG6q$Z21JaLV5VIHxnqoeMRsjtT686qy4TxezgTE+PXaoR74=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "valparent",
+        "first_name": "Parent",
+        "last_name": "Valentino Alfred",
+        "email": "valparent@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-09T10:05:51.742Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$A4aSLwd2lQgQmZyysMQ1Fd$qG7QpvYkMe6LFc7/BfOCmNzI75A2a6hJC6gyqoMawFo=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "parent",
+        "first_name": "parenttest",
+        "last_name": "",
+        "email": "parent@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-09T10:08:01.278Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$4NJbO2KPVeFvzjaMY9jDSk$rYSh1xbKUEWBjbgfxw8grO6qPTqavwMG3+BoNsj4kOQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "parenttest",
+        "first_name": "Parent",
+        "last_name": "Test",
+        "email": "parenttest@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-09T10:13:30.208Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$DBX7oFi4biq0TZQYt2Mp6X$0ZVYpPKI/+VNnOemNPgeJ0JPkBbIypFzFiJgbH0Cnzo=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "chiazor",
+        "first_name": "Chiazor",
+        "last_name": "Nkwocha",
+        "email": "chiazor@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-09T10:17:35.770Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$xIxtQNtI65BwPUVa97fqYv$zZYDLiesQUVfU8TEuKu8SQ0Zt8nrJquf6bUV/tsQUtQ=",
+        "last_login": "2026-09-09T11:19:44.307Z",
+        "is_superuser": false,
+        "username": "parent1",
+        "first_name": "Parent1",
+        "last_name": "",
+        "email": "parent1@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-09T11:19:40.653Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$ZY9gIIKctEdA98p0e8AJsq$Hi1WFghZK31cTQStqEF6WHUd4CJjB7VyuGDY1Wh8wFU=",
+        "last_login": "2026-09-17T13:44:47.090Z",
+        "is_superuser": false,
+        "username": "Student Test",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-16T13:17:02.766Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$nGgNIIRs10OEeGciehEm1s$V1YdVBneG0xJDmkALnjH1y2rUgbpmWUAK73/DT6r030=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "parent2",
+        "first_name": "Valentino Alfred Nkwocha",
+        "last_name": "",
+        "email": "parent2@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-16T14:44:37.992Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$EPL8QwLbI0dWL3Ov6I2E6U$aNxaLb7np1lI7QXdVpd9KCqnpSfhNoQBz5vavtn6fvo=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "parent3",
+        "first_name": "Valentino Alfred Nkwocha",
+        "last_name": "",
+        "email": "drivenbydomain4@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-16T15:43:47.862Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$aTmcPBh683lUrZLah6KSGR$OIFpDn5Mm3cVrC6/74PdCCtCEHINcA2PNZyob1OFysE=",
+        "last_login": "2026-09-16T17:02:54.554Z",
+        "is_superuser": false,
+        "username": "Student Test2",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-16T17:02:36.557Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$ocxVMg49vyclPtGLux1233$Oupzst7czM60q2OYBqp6fA0uRU445guaStUsN3A1udU=",
+        "last_login": "2026-09-16T17:05:27.704Z",
+        "is_superuser": false,
+        "username": "Teacher Test2",
+        "first_name": "",
+        "last_name": "",
+        "email": "drivenbydomain@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-16T17:05:25.779Z",
+        "user_type": "teacher",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$sH26tirq7NTwA3rAgVvNwy$uLIwyWNax/K7h/QOtOHCqMoFLoz8NaP7BO6IjD/JE6M=",
+        "last_login": "2026-09-20T15:15:00.325Z",
+        "is_superuser": false,
+        "username": "Teacher Uba",
+        "first_name": "",
+        "last_name": "",
+        "email": "uba@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-20T14:54:44.290Z",
+        "user_type": "teacher",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$aTdvQcy8BQqAY32iS3RPXf$5Srm3nnM3cV/VUlmKe/Ila0f9rt5xEnLd9w4uw8gsD8=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "mamapapa",
+        "first_name": "Mama Papa",
+        "last_name": "",
+        "email": "mama@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-20T16:47:29.327Z",
+        "user_type": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$xWNHLMWCtSYzWAewlbOqsq$2NI0XP3hmUoS81W8S3fFbbGGObORUt6McjojMgyyrwo=",
+        "last_login": "2026-09-21T12:29:01.011Z",
+        "is_superuser": false,
+        "username": "parent30",
+        "first_name": "Parent30",
+        "last_name": "",
+        "email": "parent3@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-20T17:08:47.449Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$zOAIBZezqAq0Zeu9IYqdPU$kLDuZnXpwYUoglcsww+uUL3B0Y/m/EEFShBm0lqWyiY=",
+        "last_login": "2026-09-21T12:34:51.456Z",
+        "is_superuser": false,
+        "username": "parentval",
+        "first_name": "Parent Valentino",
+        "last_name": "",
+        "email": "parentval@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-21T12:34:28.829Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$0uDuhUmGOPewCFGC4GmdP2$s49n4ozzFoc0xaBZjSXavpAVUPbIycZgvSLty8+irQ8=",
+        "last_login": "2026-10-09T11:38:14.744Z",
+        "is_superuser": false,
+        "username": "student101",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-09T11:38:04.568Z",
+        "user_type": "student",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$d6WpU1KoNBWntZwZAktG4a$Y9lxygspeW2LdWft72NslG+LQM4oPZdu/OYPRGoWc30=",
+        "last_login": "2026-10-09T11:54:26.604Z",
+        "is_superuser": false,
+        "username": "Educator Emeka",
+        "first_name": "",
+        "last_name": "",
+        "email": "emeka@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-09T11:51:40.130Z",
+        "user_type": "teacher",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$MiWc6MwhieOQW5Xu5sSfQc$evOSQvCcdylfSDaQ5T4QBvL177RTWuGAM2T7dWolA+I=",
+        "last_login": "2026-10-09T12:14:36.799Z",
+        "is_superuser": false,
+        "username": "Edena College",
+        "first_name": "",
+        "last_name": "",
+        "email": "edena@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-09T12:14:32.481Z",
+        "user_type": "school",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$sB6AcmWCYwIY1gTS54Y6pE$Ga9qAZkd7rC91umpVaMM9CA+5YO6IplU161KuymWQmU=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "val@gmail.com",
+        "first_name": "Valentino Alfred",
+        "last_name": "",
+        "email": "drivenbydomain33@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-09T12:30:58.025Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$qeqlETiSVEAkhXEJ6ok3e4$f0PRHyF2Unf2GhnL42gYeaXub+Yz3W8Gvx+WcY9pMHY=",
+        "last_login": "2026-10-09T12:55:33.393Z",
+        "is_superuser": false,
+        "username": "parentvally",
+        "first_name": "Valentino Alfred",
+        "last_name": "",
+        "email": "drivenbydomain333@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-09T12:55:18.550Z",
+        "user_type": "parent",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$gWUVdxawgs7UnICA9OHmc5$9xLmtXxPcrY4HA70ZeXr26p08pRw5TaU+jykYr62EG0=",
+        "last_login": "2026-10-13T09:12:48.829Z",
+        "is_superuser": false,
+        "username": "Destiny Builder Child Center",
+        "first_name": "",
+        "last_name": "",
+        "email": "destiny@destinybuilder.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-13T09:12:42.854Z",
+        "user_type": "school",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$LxYXFrGw0ScDmS9RXvsi8V$PJeOaJJk9koKI89IudCcfDWiaPFKYr8h4o02QNSxM2g=",
+        "last_login": "2026-10-13T09:51:10.784Z",
+        "is_superuser": false,
+        "username": "Dora Schools",
+        "first_name": "",
+        "last_name": "",
+        "email": "dora@doraschools.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-13T09:51:05.849Z",
+        "user_type": "school",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "club.teacherprofile",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "TeacherVal"
+        ],
+        "full_name": "TeacherTest",
+        "phone_number": "09051156338",
+        "whatsapp_number": null,
+        "school_name": "DD College",
+        "subject_specialization": "ICT",
+        "years_of_experience": 0,
+        "avatar": "",
+        "bio": "",
+        "state": null,
+        "lga": null,
+        "country": "Nigeria",
+        "created_at": "2026-09-09T08:45:25.705Z",
+        "slug": "teacherval"
+    }
+},
+{
+    "model": "club.teacherprofile",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "Teacher Test2"
+        ],
+        "full_name": "Valentino Alfred",
+        "phone_number": "09051156338",
+        "whatsapp_number": null,
+        "school_name": "Smartkids Academy",
+        "subject_specialization": "ICT",
+        "years_of_experience": 0,
+        "avatar": "media/avatars/anna_o6aldl",
+        "bio": "",
+        "state": null,
+        "lga": null,
+        "country": "Nigeria",
+        "created_at": "2026-09-16T17:05:27.639Z",
+        "slug": "teacher-test2"
+    }
+},
+{
+    "model": "club.teacherprofile",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "Teacher Uba"
+        ],
+        "full_name": "Lawrence Uba",
+        "phone_number": "09051156338",
+        "whatsapp_number": "",
+        "school_name": "Smartkids Academy",
+        "subject_specialization": "ICT",
+        "years_of_experience": 0,
+        "avatar": "media/avatars/bisola2_gcjop9",
+        "bio": "",
+        "state": "",
+        "lga": "",
+        "country": "",
+        "created_at": "2026-09-20T14:54:46.121Z",
+        "slug": "teacher-uba"
+    }
+},
+{
+    "model": "club.teacherprofile",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "Educator Emeka"
+        ],
+        "full_name": "Emaka Chendo",
+        "phone_number": "09051156338",
+        "whatsapp_number": "09051156338",
+        "school_name": "Smartkids Africa Academy",
+        "subject_specialization": "ICT",
+        "years_of_experience": 5,
+        "avatar": "media/avatars/image_2_n8pjbs",
+        "bio": "great one",
+        "state": "Lagos",
+        "lga": "Eti Osa",
+        "country": "Nigeria",
+        "created_at": "2026-10-09T11:51:42.095Z",
+        "slug": "educator-emeka"
+    }
+},
+{
+    "model": "club.post",
+    "pk": 1,
+    "fields": {
+        "author": [
+            "School Test"
+        ],
+        "content": "School Test Post School Test Post School Test Post School Test Post Scho ol Test Postvol Test Postol Test Post",
+        "image": "media/posts/3_extfcw",
+        "video": "",
+        "title": "School Test Post",
+        "created_at": "2026-09-06T14:32:48.305Z",
+        "updated_at": "2026-09-08T15:52:24.715Z",
+        "slug": "school-test-post",
+        "meta_description": "School Test Post School Test Post School Test Post",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 2,
+    "fields": {
+        "author": [
+            "School Test"
+        ],
+        "content": "test image top test image top test image top",
+        "image": "media/posts/9_fwtmr9",
+        "video": "",
+        "title": "test image top",
+        "created_at": "2026-09-08T15:28:46.063Z",
+        "updated_at": "2026-09-08T15:28:46.063Z",
+        "slug": "test-image-top",
+        "meta_description": "test image top test image top test image top",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 3,
+    "fields": {
+        "author": [
+            "School Test"
+        ],
+        "content": "testing another image top",
+        "image": "media/posts/09cc31aa-b0a7-44aa-b6e7-f53ae61b77b8_se7toy",
+        "video": "",
+        "title": "testing another image top",
+        "created_at": "2026-09-08T15:30:03.254Z",
+        "updated_at": "2026-09-08T15:59:48.188Z",
+        "slug": "testing-another-image-top",
+        "meta_description": "testing another image top",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 4,
+    "fields": {
+        "author": [
+            "Student Val"
+        ],
+        "content": "test valstudent test valstudent test valstudenttest valstudent test valstudent test valstudenttest valstudent test valstudent test valstudentvtest valstudent test valstudent test valstudent",
+        "image": "media/posts/6_l9qzp8",
+        "video": "",
+        "title": "test valstudent",
+        "created_at": "2026-09-08T17:11:36.826Z",
+        "updated_at": "2026-09-08T17:12:23.837Z",
+        "slug": "test-valstudent",
+        "meta_description": "test valstudent test valstudent test valstudent",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 5,
+    "fields": {
+        "author": [
+            "TeacherVal"
+        ],
+        "content": "TeachertestTeachertestTeachertestpostTeachertestTeachertestTeachertestpostTeachertestTeachertestTeachertestpostTeachertestTeachertestTeachertestpost",
+        "image": "media/posts/3_e2er2r",
+        "video": "",
+        "title": "Teachertest",
+        "created_at": "2026-09-09T08:46:41.623Z",
+        "updated_at": "2026-09-09T08:47:28.066Z",
+        "slug": "teachertest",
+        "meta_description": "TeachertestTeachertestTeachertestpost",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 6,
+    "fields": {
+        "author": [
+            "parent1"
+        ],
+        "content": "Parent1postParent1postParent1postParent1postParent1post",
+        "image": "media/posts/8_ocjmog",
+        "video": "",
+        "title": "Parent1post",
+        "created_at": "2026-09-09T11:22:02.906Z",
+        "updated_at": "2026-09-09T11:22:02.906Z",
+        "slug": "parent1post",
+        "meta_description": "Parent1postParent1postParent1postParent1postParent1post",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 7,
+    "fields": {
+        "author": [
+            "Student Test2"
+        ],
+        "content": "student poststudent poststudent post",
+        "image": "media/posts/cartoon_otmm7b",
+        "video": "",
+        "title": "student post",
+        "created_at": "2026-09-16T17:03:53.655Z",
+        "updated_at": "2026-09-16T17:03:53.655Z",
+        "slug": "student-post",
+        "meta_description": "student poststudent poststudent post",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 8,
+    "fields": {
+        "author": [
+            "Teacher Test2"
+        ],
+        "content": "teacherpostteacherpostteacherpost",
+        "image": "media/posts/anna_ntvdwf",
+        "video": "",
+        "title": "teacherpost",
+        "created_at": "2026-09-16T17:07:20.011Z",
+        "updated_at": "2026-09-16T17:07:20.011Z",
+        "slug": "teacherpost",
+        "meta_description": "teacherpostteacherpostteacherpost",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 9,
+    "fields": {
+        "author": [
+            "Teacher Uba"
+        ],
+        "content": "Teacher Uba PostsTeacher Uba PostsTeacher Uba Posts",
+        "image": "media/posts/bisola2_l7ob2x",
+        "video": "",
+        "title": "Teacher Uba Posts",
+        "created_at": "2026-09-20T15:17:00.862Z",
+        "updated_at": "2026-09-20T15:17:00.862Z",
+        "slug": "teacher-uba-posts",
+        "meta_description": "Teacher Uba PostsTeacher Uba PostsTeacher Uba Posts",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 10,
+    "fields": {
+        "author": [
+            "student101"
+        ],
+        "content": "Testing post",
+        "image": "media/posts/ceo_11_j8weoz",
+        "video": "",
+        "title": "Testing post",
+        "created_at": "2026-10-09T11:39:52.789Z",
+        "updated_at": "2026-10-09T11:39:52.789Z",
+        "slug": "testing-post",
+        "meta_description": "Testing post",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 11,
+    "fields": {
+        "author": [
+            "Educator Emeka"
+        ],
+        "content": "I love Smartkids",
+        "image": "media/posts/image_2_ltsgw6",
+        "video": "",
+        "title": "I love Smartkids",
+        "created_at": "2026-10-09T11:55:41.672Z",
+        "updated_at": "2026-10-09T11:55:41.672Z",
+        "slug": "i-love-smartkids",
+        "meta_description": "I love Smartkids",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 12,
+    "fields": {
+        "author": [
+            "Edena College"
+        ],
+        "content": "Edena College",
+        "image": "media/posts/bisola2_pevxfa",
+        "video": "",
+        "title": "Edena College",
+        "created_at": "2026-10-09T12:15:15.237Z",
+        "updated_at": "2026-10-09T12:15:15.237Z",
+        "slug": "edena-college",
+        "meta_description": "Edena College",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 13,
+    "fields": {
+        "author": [
+            "parentvally"
+        ],
+        "content": "ParentVal",
+        "image": "media/posts/promo1_nfbm2b",
+        "video": "",
+        "title": "ParentVal",
+        "created_at": "2026-10-09T12:56:36.907Z",
+        "updated_at": "2026-10-09T12:56:36.908Z",
+        "slug": "parentval",
+        "meta_description": "ParentVal",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.post",
+    "pk": 14,
+    "fields": {
+        "author": [
+            "Dora Schools"
+        ],
+        "content": "Join us now",
+        "image": "media/posts/Gemini_Generated_Image_p27ggp27ggp27ggp_lykbvj",
+        "video": "",
+        "title": "Join us now",
+        "created_at": "2026-10-13T09:52:17.972Z",
+        "updated_at": "2026-10-13T09:52:17.972Z",
+        "slug": "join-us-now",
+        "meta_description": "Join us now",
+        "meta_keywords": null,
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.share",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "post": 1,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "facebook",
+        "created_at": "2026-09-08T15:21:18.936Z"
+    }
+},
+{
+    "model": "club.share",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "post": 1,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "whatsapp",
+        "created_at": "2026-09-08T15:25:21.972Z"
+    }
+},
+{
+    "model": "club.share",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "post": 1,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "copy",
+        "created_at": "2026-09-08T15:26:00.420Z"
+    }
+},
+{
+    "model": "club.share",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "post": 1,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "x",
+        "created_at": "2026-09-08T15:26:07.527Z"
+    }
+},
+{
+    "model": "club.share",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "TeacherVal"
+        ],
+        "post": 5,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "facebook",
+        "created_at": "2026-09-09T08:49:56.139Z"
+    }
+},
+{
+    "model": "club.share",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "parentval"
+        ],
+        "post": 9,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "facebook",
+        "created_at": "2026-09-27T09:34:46.829Z"
+    }
+},
+{
+    "model": "club.share",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "parentval"
+        ],
+        "post": 9,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "copy",
+        "created_at": "2026-09-27T10:19:14.938Z"
+    }
+},
+{
+    "model": "club.share",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "parentval"
+        ],
+        "post": 8,
+        "share_type": "external",
+        "shared_with": null,
+        "platform": "copy",
+        "created_at": "2026-09-27T10:33:40.418Z"
+    }
+},
+{
+    "model": "club.like",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "post": 1,
+        "created_at": "2026-09-08T15:25:16.790Z"
+    }
+},
+{
+    "model": "club.like",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "post": 2,
+        "created_at": "2026-09-08T15:29:07.831Z"
+    }
+},
+{
+    "model": "club.like",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "parentval"
+        ],
+        "post": 9,
+        "created_at": "2026-09-27T10:12:11.439Z"
+    }
+},
+{
+    "model": "club.comment",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "post": 1,
+        "parent": null,
+        "text": "great",
+        "created_at": "2026-09-08T15:21:11.030Z"
+    }
+},
+{
+    "model": "club.comment",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "Student Val"
+        ],
+        "post": 4,
+        "parent": null,
+        "text": "great",
+        "created_at": "2026-09-08T17:12:55.479Z"
+    }
+},
+{
+    "model": "club.comment",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "parentval"
+        ],
+        "post": 9,
+        "parent": null,
+        "text": "great",
+        "created_at": "2026-09-27T10:11:54.545Z"
+    }
+},
+{
+    "model": "club.comment",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "parentval"
+        ],
+        "post": 8,
+        "parent": null,
+        "text": "nice",
+        "created_at": "2026-09-27T10:12:41.788Z"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "Smartkids Academy"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-06T12:45:26.070Z",
+        "slug": "smartkids-academy"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-06T12:54:15.748Z",
+        "slug": "school-test"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "Student Val"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "media/avatars/6_ev54ch",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-08T16:03:24.510Z",
+        "slug": "student-val"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "TeacherVal"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "media/avatars/11_v9lrb6",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-09T08:45:25.736Z",
+        "slug": "teacherval"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "valparent"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-09T10:05:53.576Z",
+        "slug": "valparent"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "parent"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-09T10:08:02.968Z",
+        "slug": "parent"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "parenttest"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-09T10:13:32.044Z",
+        "slug": "parenttest"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "chiazor"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-09T10:17:37.459Z",
+        "slug": "chiazor"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 9,
+    "fields": {
+        "user": [
+            "parent1"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "media/avatars/8_ljqefk",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-09T11:19:42.517Z",
+        "slug": "parent1"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "Student Test"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "media/avatars/blackshopper3_dmuksr",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-16T13:17:06.006Z",
+        "slug": "student-test"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "parent2"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-16T14:44:40.164Z",
+        "slug": "parent2"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "parent3"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-16T15:43:50.099Z",
+        "slug": "parent3"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 13,
+    "fields": {
+        "user": [
+            "Student Test2"
+        ],
+        "user_type": null,
+        "parent_name": null,
+        "parent_phone": null,
+        "parent_whatsapp": null,
+        "avatar": "media/avatars/cartoon_fx9e4g",
+        "bio": "",
+        "age": null,
+        "user_class": "",
+        "school": "",
+        "created_at": "2026-09-16T17:02:38.305Z",
+        "slug": "student-test2"
+    }
+},
+{
+    "model": "club.studentprofile",
+    "pk": 14,
+    "fields": {
+        "user": [
+            "student101"
+        ],
+        "user_type": null,
+        "parent_name": "Valentino Alfred",
+        "parent_phone": "09051156338",
+        "parent_whatsapp": "09051156338",
+        "avatar": "media/avatars/ceo_11_zfxhl1",
+        "bio": "good bye",
+        "age": 10,
+        "user_class": "jss1",
+        "school": "Smartkids Africa Academy",
+        "created_at": "2026-10-09T11:38:06.596Z",
+        "slug": "student101"
+    }
+},
+{
+    "model": "club.schoolprofile",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "Smartkids Academy"
+        ],
+        "school_name": "Smartkids Academy",
+        "director_name": "Murphy Rich",
+        "email": "smartkids@gmail.com",
+        "avatar": "media/avatars/09cc31aa-b0a7-44aa-b6e7-f53ae61b77b8_pkcgkh",
+        "whatsapp_number": "+2347049000171",
+        "contact_number": null,
+        "address": "3 Osuntuyi",
+        "nearest_bus_stop": "Sunny Villa",
+        "lga": "Eti Osa",
+        "state": "Lagos",
+        "country": "Nigeria",
+        "num_students": 200,
+        "school_type": "Nursery, Primary, Secondary",
+        "website": null,
+        "created_at": "2026-09-06T12:45:26.077Z",
+        "slug": "smartkids-academy-lagos-eti-osa",
+        "meta_description": "Smartkids Academy in Eti Osa, Lagos, Nigeria. Top rated Nursery, Primary, Secondary on Smart Kids Africa.",
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.schoolprofile",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "school_name": "School Test",
+        "director_name": "Valentino",
+        "email": "schooltest@gmail.com",
+        "avatar": "media/avatars/3_wlfvv5",
+        "whatsapp_number": "+2349051156338",
+        "contact_number": null,
+        "address": "3 Osuntuyi",
+        "nearest_bus_stop": "Sunny Villa",
+        "lga": "Eti Osa",
+        "state": "Lagos",
+        "country": "Nigeria",
+        "num_students": 200,
+        "school_type": "Nursery, Primary, Secondary",
+        "website": null,
+        "created_at": "2026-09-06T12:54:15.756Z",
+        "slug": "school-test-lagos-eti-osa",
+        "meta_description": "School Test in Eti Osa, Lagos, Nigeria. Top rated Nursery, Primary, Secondary on Smart Kids Africa.",
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.schoolprofile",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "Edena College"
+        ],
+        "school_name": "Edena College",
+        "director_name": "Valentino Alfred",
+        "email": "edena@gmail.com",
+        "avatar": "media/avatars/bisola2_udgujq",
+        "whatsapp_number": "09051156338",
+        "contact_number": "09051156338",
+        "address": "3 Osuntuyi",
+        "nearest_bus_stop": "",
+        "lga": "",
+        "state": "Lagos",
+        "country": "Nigeria",
+        "num_students": 230,
+        "school_type": "Nur/Pry/Secondary",
+        "website": "",
+        "created_at": "2026-10-09T12:14:34.158Z",
+        "slug": "edena-college-lagos",
+        "meta_description": " in , , . Top rated  on Smart Kids Africa.",
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.schoolprofile",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "Destiny Builder Child Center"
+        ],
+        "school_name": "Destiny Builder Child Center",
+        "director_name": "Valentino Anna",
+        "email": "destiny@destinybuilder.com",
+        "avatar": "media/avatars/bisola_tb2tkx",
+        "whatsapp_number": "09051156338",
+        "contact_number": "09051156338",
+        "address": "3 Osuntuyi",
+        "nearest_bus_stop": "langbasa",
+        "lga": "",
+        "state": "Lagos",
+        "country": "Nigeria",
+        "num_students": 100,
+        "school_type": "Nursery",
+        "website": "",
+        "created_at": "2026-10-13T09:12:44.707Z",
+        "slug": "destiny-builder-child-center-lagos",
+        "meta_description": " in , , . Top rated  on Smart Kids Africa.",
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.schoolprofile",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "Dora Schools"
+        ],
+        "school_name": "Dora Schools",
+        "director_name": "Dora Okonkwo",
+        "email": "dora@doraschools.com",
+        "avatar": "media/avatars/bisola_bbk0ps",
+        "whatsapp_number": "09051156338",
+        "contact_number": "09051156338",
+        "address": "3 Osuntuyi",
+        "nearest_bus_stop": "Sunny Villa",
+        "lga": "",
+        "state": "Lagos",
+        "country": "Nigeria",
+        "num_students": 200,
+        "school_type": "Nur/Pry/Secondary",
+        "website": "",
+        "created_at": "2026-10-13T09:51:07.953Z",
+        "slug": "dora-schools-lagos",
+        "meta_description": " in , , . Top rated  on Smart Kids Africa.",
+        "is_indexable": true
+    }
+},
+{
+    "model": "club.book",
+    "pk": 1,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title-7",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.book",
+    "pk": 2,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title-6",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.book",
+    "pk": 3,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title-5",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.book",
+    "pk": 4,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title-4",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.book",
+    "pk": 5,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title-3",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.book",
+    "pk": 6,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title-2",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.book",
+    "pk": 7,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title-1",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.book",
+    "pk": 8,
+    "fields": {
+        "title": "Your Book Title",
+        "slug": "your-book-title",
+        "author": "",
+        "description": "",
+        "cover_image": "",
+        "rrp_price": "0.00",
+        "meta_description": null,
+        "is_indexable": true,
+        "marketers": []
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "valparent"
+        ],
+        "avatar": "",
+        "phone_number": "+2349051156338",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "parent"
+        ],
+        "avatar": "",
+        "phone_number": "+2349051156338",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "parenttest"
+        ],
+        "avatar": "",
+        "phone_number": "+2349051156338",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "chiazor"
+        ],
+        "avatar": "",
+        "phone_number": "+2349051156338",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "parent2"
+        ],
+        "avatar": "media/avatars/blackshopper3_ubf1x3",
+        "phone_number": "",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "parent3"
+        ],
+        "avatar": "media/avatars/cartoon_oy6nwr",
+        "phone_number": "",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "Smartkids Academy"
+        ],
+        "avatar": "",
+        "phone_number": "0000000000",
+        "address": ""
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "School Test"
+        ],
+        "avatar": "",
+        "phone_number": "0000000000",
+        "address": ""
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 9,
+    "fields": {
+        "user": [
+            "Student Val"
+        ],
+        "avatar": "",
+        "phone_number": "0000000000",
+        "address": ""
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "TeacherVal"
+        ],
+        "avatar": "",
+        "phone_number": "0000000000",
+        "address": ""
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "parent1"
+        ],
+        "avatar": "",
+        "phone_number": "0000000000",
+        "address": ""
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "Student Test"
+        ],
+        "avatar": "",
+        "phone_number": "0000000000",
+        "address": ""
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 13,
+    "fields": {
+        "user": [
+            "parentval"
+        ],
+        "avatar": "media/avatars/6_nzsnan",
+        "phone_number": "",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 14,
+    "fields": {
+        "user": [
+            "val@gmail.com"
+        ],
+        "avatar": "media/avatars/WhatsApp_Image_2026-08-25_at_18.21.25_dzgdzm",
+        "phone_number": "09051156338",
+        "address": "3 Osuntuyi"
+    }
+},
+{
+    "model": "club.parentprofile",
+    "pk": 15,
+    "fields": {
+        "user": [
+            "parentvally"
+        ],
+        "avatar": "media/avatars/WhatsApp_Image_2026-08-25_at_18.21.27_oavbpd",
+        "phone_number": "+2349051156338",
+        "address": "3 Osuntuyi"
+    }
+}
+]

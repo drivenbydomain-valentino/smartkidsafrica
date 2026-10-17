@@ -60,12 +60,14 @@ from django.utils.text import slugify
 # HOME
 # ============================================================
 
+from django.shortcuts import render
+from .models import Post
+
+
 def home(request):
     """
     Main Smart Kids Africa home/feed page.
-
-    Keeps posts available for the social feed while avoiding
-    errors if there are no posts.
+    Retrieves posts and passes them to the existing social feed template.
     """
 
     posts = (
@@ -75,13 +77,35 @@ def home(request):
         .order_by("-created_at")
     )
 
-    return render(
-        request,
-        "club/home.html",
-        {
-            "posts": posts,
-        },
-    )
+    context = {
+        "posts": posts,
+    }
+
+    return render(request, "club/home.html", context)
+
+
+# def home(request):
+#     """
+#     Main Smart Kids Africa home/feed page.
+
+#     Keeps posts available for the social feed while avoiding
+#     errors if there are no posts.
+#     """
+
+#     posts = (
+#         Post.objects
+#         .select_related("author")
+#         .prefetch_related("likes", "comments", "shares")
+#         .order_by("-created_at")
+#     )
+
+#     return render(
+#         request,
+#         "club/home.html",
+#         {
+#             "posts": posts,
+#         },
+#     )
 
 
 # ============================================================

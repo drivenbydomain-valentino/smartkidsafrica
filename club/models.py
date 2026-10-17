@@ -279,14 +279,6 @@ class TeacherProfile(models.Model):
         return f"Teacher: {self.full_name or self.user.username}"
 
 
-# ================= PARENT PROFILE ================= #
-class ParentProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
-    phone_number = models.CharField(max_length=20, blank=True)
-    address = models.TextField(blank=True)
-
-
 # ================= ADMIN ================= #
 
 class AdminProfile(models.Model):
@@ -666,8 +658,6 @@ class SchoolProfile(models.Model):
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     whatsapp_number = models.CharField(max_length=20)
     contact_number = models.CharField(max_length=20, blank=True, null=True)
-
-    # registration_number = models.CharField(max_length=50, unique=True, blank=True, null=True)
 
     address = models.TextField()
     nearest_bus_stop = models.CharField(max_length=255)
