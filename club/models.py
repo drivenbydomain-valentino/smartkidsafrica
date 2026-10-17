@@ -652,7 +652,8 @@ class SchoolProfile(models.Model):
     school_name = models.CharField(max_length=255, db_index=True)
     director_name = models.CharField(max_length=255)
 
-    email = models.EmailField(unique=True, db_index=True)
+    # In club/models.py
+    email = models.EmailField(unique=True, blank=True, null=True)
 
     # CORRECT: Allow null/blank and let the template render a static fallback
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
