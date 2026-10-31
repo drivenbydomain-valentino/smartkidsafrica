@@ -1,6 +1,6 @@
 import json
 from django.core.management.base import BaseCommand
-from your_app.models import Post  # Replace with your actual model
+from .models import Post  # Replace with your actual model
 
 class Command(BaseCommand):
     help = 'Imports posts from data.json into the database'
