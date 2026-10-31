@@ -9,7 +9,6 @@ class Command(BaseCommand):
     help = "Imports posts from data.json into the database"
 
     def handle(self, *args, **options):
-        # Path to data.json located in your project root directory (next to manage.py)
         json_path = os.path.join(settings.BASE_DIR, "data.json")
 
         if not os.path.exists(json_path):
@@ -21,13 +20,12 @@ class Command(BaseCommand):
 
         count = 0
         for item in posts_data:
+            # Only use fields that exist in your Post model
             post, created = Post.objects.update_or_create(
                 slug=item.get("slug"),
                 defaults={
                     "title": item.get("title", ""),
                     "content": item.get("content", ""),
-                    "snippet": item.get("snippet", ""),
-                    "is_published": item.get("is_published", True),
                 },
             )
             count += 1
