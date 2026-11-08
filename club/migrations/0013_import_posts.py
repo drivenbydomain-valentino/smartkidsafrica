@@ -3,11 +3,24 @@ import os
 from django.db import migrations
 from django.conf import settings
 from django.utils.text import slugify
+from django.db.models import Q
 
 
-def import_posts_from_json(apps, schema_editor):
+def import_and_clean_posts(apps, schema_editor):
     Post = apps.get_model("club", "Post")
     
+    # 1. Automatically delete empty or dummy posts first
+    empty_posts = Post.objects.filter(
+        Q(content__isnull=True) | 
+        Q(content="") | 
+        Q(content="No content provided.") | 
+        Q(title__icontains="Untitled") |
+        Q(title="")
+    )
+    deleted_count, _ = empty_posts.delete()
+    print(f"\n[Migration 0013] Successfully cleaned up {deleted_count} empty/dummy posts.")
+
+    # 2. Setup user author reference
     try:
         User = apps.get_model("club", "User")
     except LookupError:
@@ -19,17 +32,14 @@ def import_posts_from_json(apps, schema_editor):
 
     author = User.objects.first()
 
+    # 3. Load and import 14 genuine posts from data.json
     json_path = os.path.join(settings.BASE_DIR, "data.json")
-    print(f"\n[Migration 0013 Force Import] Looking for data.json at: {json_path}")
-
     if not os.path.exists(json_path):
-        print(f"[Migration 0013 Force Import] ERROR: data.json NOT found at {json_path}!")
+        print(f"[Migration 0013] ERROR: data.json NOT found at {json_path}!")
         return
 
     with open(json_path, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
-
-    print(f"[Migration 0013 Force Import] Loaded {len(raw_data)} total items from fixture dump.")
 
     count = 0
     for item in raw_data:
@@ -64,10 +74,10 @@ def import_posts_from_json(apps, schema_editor):
             defaults=defaults,
         )
         action = "Created" if created else "Updated"
-        print(f"[Migration 0013 Force Import] {action} Post: '{title}' (slug: {slug})")
+        print(f"[Migration 0013] {action} Post: '{title}' (slug: {slug})")
         count += 1
 
-    print(f"[Migration 0013 Force Import] Successfully restored/imported {count} genuine blog posts!\n")
+    print(f"[Migration 0013] Successfully restored {count} genuine blog posts!\n")
 
 
 def reverse_import(apps, schema_editor):
@@ -82,7 +92,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(
-            code=import_posts_from_json,
+            code=import_and_clean_posts,
             reverse_code=reverse_import,
         ),
     ]
