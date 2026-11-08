@@ -3,27 +3,27 @@ import os
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.utils.text import slugify
-from django.db.models import Q
 
 
 class Command(BaseCommand):
-    help = "Imports genuine posts from data.json and cleans up empty posts"
+    help = "Import genuine posts with correct authors and purge empty posts"
 
     def handle(self, *args, **options):
         from club.models import Post
 
-        # 1. Clean up empty/dummy posts
-        empty_posts = Post.objects.filter(
-            Q(content__isnull=True) | 
-            Q(content="") | 
-            Q(content="No content provided.") | 
-            Q(title__icontains="Untitled") |
-            Q(title="")
-        )
-        deleted_count, _ = empty_posts.delete()
-        self.stdout.write(f"Cleaned up {deleted_count} empty/dummy posts.")
+        # 1. Purge all posts with empty/short content (less than 10 characters)
+        all_posts = Post.objects.all()
+        deleted_count = 0
+        for post in all_posts:
+            content_str = str(post.content or "").strip()
+            title_str = str(post.title or "").strip()
+            if len(content_str) < 10 or title_str.lower() in ["untitled", "test", ""] or not title_str:
+                post.delete()
+                deleted_count += 1
+                
+        self.stdout.write(self.style.SUCCESS(f"Cleaned up {deleted_count} empty/dummy posts."))
 
-        # 2. Get author
+        # 2. Get User model
         try:
             from club.models import User
         except ImportError:
@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 from django.contrib.auth import get_user_model
                 User = get_user_model()
 
-        author = User.objects.first()
+        fallback_author = User.objects.first()
 
         # 3. Load data.json
         json_path = os.path.join(settings.BASE_DIR, "data.json")
@@ -57,27 +57,39 @@ class Command(BaseCommand):
             content = fields.get("content") or fields.get("body") or fields.get("text")
             slug = fields.get("slug") or (slugify(title) if title else f"post-{pk}")
 
-            if not title or not content:
+            if not title or not content or len(str(content).strip()) < 10:
                 continue
 
             defaults = {
                 "title": title,
                 "content": content,
             }
+
+            # Map author directly from fixture PK if present
+            author_id = fields.get("author") or fields.get("user")
+            assigned_author = None
+            if author_id:
+                assigned_author = User.objects.filter(pk=author_id).first()
+            
+            defaults["author"] = assigned_author or fallback_author
             
             for field_name in ["image", "thumbnail", "featured_image", "is_published", "status", "created_at"]:
                 if field_name in fields:
                     defaults[field_name] = fields[field_name]
 
-            if author and "author" in [f.name for f in Post._meta.get_fields()]:
-                defaults["author"] = author
-
             post, created = Post.objects.update_or_create(
                 slug=slug,
                 defaults=defaults,
             )
+            
+            # Re-assign author explicitly in case update_or_create skipped default
+            if assigned_author:
+                post.author = assigned_author
+                post.save()
+
             action = "Created" if created else "Updated"
-            self.stdout.write(f"{action} Post: '{title}'")
+            author_name = getattr(post.author, "username", str(post.author))
+            self.stdout.write(f"{action} Post: '{title}' -> Author: {author_name}")
             count += 1
 
-        self.stdout.write(self.style.SUCCESS(f"Successfully imported {count} genuine blog posts!"))
+        self.stdout.write(self.style.SUCCESS(f"Successfully processed {count} genuine blog posts!"))
