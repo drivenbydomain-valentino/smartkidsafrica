@@ -20,71 +20,57 @@ def import_posts_from_json(apps, schema_editor):
     author = User.objects.first()
 
     json_path = os.path.join(settings.BASE_DIR, "data.json")
-    print(f"\n[Migration 0012 Debug] Looking for data.json at: {json_path}")
+    print(f"\n[Fixture Import] Looking for data.json at: {json_path}")
 
     if not os.path.exists(json_path):
-        print(f"[Migration 0012 Debug] ERROR: data.json NOT found at {json_path}!")
+        print(f"[Fixture Import] ERROR: data.json NOT found at {json_path}!")
         return
 
     with open(json_path, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
 
-    print(f"[Migration 0012 Debug] Loaded {len(raw_data)} items from data.json.")
-
-    if len(raw_data) > 0:
-        print(f"[Migration 0012 Debug] Sample first item structure: {raw_data[0]}")
-
-    valid_model_fields = [f.name for f in Post._meta.get_fields()]
+    print(f"[Fixture Import] Loaded {len(raw_data)} total items from fixture dump.")
 
     count = 0
-    for idx, item in enumerate(raw_data):
-        fields = item.get("fields", item) if isinstance(item, dict) else {}
+    for item in raw_data:
+        # CRITICAL: Only process items that belong to your Post model
+        model_name = item.get("model", "").lower()
+        if not ("post" in model_name or model_name.endswith(".post")):
+            continue
+
+        pk = item.get("pk")
+        fields = item.get("fields", {})
+
+        title = fields.get("title")
+        content = fields.get("content") or fields.get("body") or fields.get("text")
+        slug = fields.get("slug") or (slugify(title) if title else f"post-{pk}")
+
+        if not title or not content:
+            continue
+
+        defaults = {
+            "title": title,
+            "content": content,
+        }
         
-        if isinstance(item, dict):
-            for k, v in item.items():
-                if k not in fields and k not in ['model', 'pk']:
-                    fields[k] = v
+        # Map any other standard post fields if present in your fixture
+        for field_name in ["image", "thumbnail", "featured_image", "is_published", "status", "created_at"]:
+            if field_name in fields:
+                defaults[field_name] = fields[field_name]
 
-        defaults = {}
-        for key, value in fields.items():
-            if key in valid_model_fields and key not in ['id', 'slug', 'author']:
-                defaults[key] = value
-
-        title = (
-            fields.get("title") 
-            or fields.get("heading") 
-            or fields.get("name") 
-            or fields.get("headline")
-            or f"Post #{idx+1}"
-        )
-        defaults["title"] = title
-
-        raw_content = (
-            fields.get("content") 
-            or fields.get("body") 
-            or fields.get("text") 
-            or fields.get("description") 
-            or ""
-        )
-        defaults["content"] = str(raw_content) if raw_content is not None else ""
-
-        if author:
-            if "author" in valid_model_fields:
-                defaults["author"] = author
-            elif "author_id" in valid_model_fields:
-                defaults["author_id"] = author.id
-
-        slug = fields.get("slug") or slugify(title) or f"post-{idx+1}"
+        if author and "author" in [f.name for f in Post._meta.get_fields()]:
+            # If fixture has author reference, try to map it, otherwise use first author
+            defaults["author"] = author
 
         post, created = Post.objects.update_or_create(
             slug=slug,
             defaults=defaults,
         )
         action = "Created" if created else "Updated"
-        print(f"[Migration 0012 Debug] {action}: '{title}' (slug: {slug})")
+        print(f"[Fixture Import] {action} Post: '{title}' (slug: {slug})")
         count += 1
 
-    print(f"[Migration 0012 Debug] Successfully processed {count} posts!\n")
+    print(f"[Fixture Import] Successfully restored/imported {count} genuine blog posts!\n")
 
 
 def reverse_import(apps, schema_editor):
