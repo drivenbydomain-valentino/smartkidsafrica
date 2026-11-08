@@ -6,12 +6,12 @@ from django.utils.text import slugify
 
 
 class Command(BaseCommand):
-    help = "Import genuine posts with correct authors and purge empty posts"
+    help = "Import genuine posts with correct author mapping and purge empty posts"
 
     def handle(self, *args, **options):
         from club.models import Post
 
-        # 1. Purge all posts with empty/short content (less than 10 characters)
+        # 1. Purge all posts with empty/short content
         all_posts = Post.objects.all()
         deleted_count = 0
         for post in all_posts:
@@ -65,11 +65,20 @@ class Command(BaseCommand):
                 "content": content,
             }
 
-            # Map author directly from fixture PK if present
+            # Safely extract and resolve author_id whether it's a list, string, or int
             author_id = fields.get("author") or fields.get("user")
             assigned_author = None
             if author_id:
-                assigned_author = User.objects.filter(pk=author_id).first()
+                if isinstance(author_id, list):
+                    author_id = author_id[0] if author_id else None
+                if author_id is not None:
+                    try:
+                        if str(author_id).isdigit():
+                            assigned_author = User.objects.filter(pk=int(author_id)).first()
+                        else:
+                            assigned_author = User.objects.filter(username=str(author_id)).first()
+                    except Exception:
+                        pass
             
             defaults["author"] = assigned_author or fallback_author
             
@@ -82,7 +91,6 @@ class Command(BaseCommand):
                 defaults=defaults,
             )
             
-            # Re-assign author explicitly in case update_or_create skipped default
             if assigned_author:
                 post.author = assigned_author
                 post.save()
