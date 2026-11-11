@@ -445,16 +445,10 @@ urlpatterns = [
         views.partner_application,
         name="partner_application",
     ),
-
-
-    # ========================================================
-    # API
-    # ========================================================
-
     path(
-        "api/tutor-chat/",
-        views.tutor_chat_api,
-        name="tutor_chat_api",
+        'school/<int:pk>/', 
+        views.school_detail, 
+        name='school_detail'
     ),
 ]
 

@@ -356,7 +356,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         # Change 'post_detail' to 'club:post_detail'
-        return reverse('club:post_detail', kwargs={'pk': self.pk})
+        return reverse('club:school_detail', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         if not self.slug and self.title:
@@ -703,9 +703,6 @@ class SchoolProfile(models.Model):
             self.meta_description = f"{self.school_name} in {self.lga}, {self.state}, {self.country}. Top rated {self.school_type} on Smart Kids Africa."
 
         super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse('school_detail', kwargs={'slug': self.slug or self.id})
 
     @property
     def seo_title(self):
