@@ -21,7 +21,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ym4$awhvr8!si9jfxuya7
 
 AUTH_USER_MODEL = 'club.User'
 
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'false'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
 
 # Allowed Hosts
 ALLOWED_HOSTS = [
