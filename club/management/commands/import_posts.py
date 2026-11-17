@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 
 class Command(BaseCommand):
-    help = "Strictly import only genuine club posts from data.json"
+    help = "Import only valid posts with real titles and authors from data.json"
 
     def handle(self, *args, **options):
         from club.models import Post
@@ -22,13 +22,13 @@ class Command(BaseCommand):
 
         json_path = os.path.join(settings.BASE_DIR, "data.json")
         if not os.path.exists(json_path):
-            self.stdout.write(self.style.WARNING(f"data.json not found at {json_path}. Skipping."))
+            self.stdout.write(self.style.WARNING("data.json not found. Skipping."))
             return
 
         with open(json_path, "r", encoding="utf-8") as f:
             raw_data = json.load(f)
 
-        # 1. Guarantee a fallback author exists
+        # 1. Guarantee fallback author exists
         fallback_author = User.objects.first()
         if not fallback_author:
             fallback_author = User.objects.create_superuser(
@@ -37,11 +37,11 @@ class Command(BaseCommand):
                 password="ChangeMe123!"
             )
 
-        # 2. Sync Users first
+        # 2. Sync Users
         user_pk_map = {}
         for item in raw_data:
             model_name = item.get("model", "").lower()
-            if model_name in ["club.user", "club.customuser", "auth.user"] or model_name.endswith(".user"):
+            if "user" in model_name:
                 pk = item.get("pk")
                 fields = item.get("fields", {})
                 username = fields.get("username")
@@ -60,21 +60,19 @@ class Command(BaseCommand):
                     )
                     if pk is not None:
                         user_pk_map[str(pk)] = user_obj
-                        user_pk_map[pk] = user_obj
 
-        # 3. Import ONLY genuine club.post items
+        # 3. Import ONLY genuine club.post items with explicit titles
         count = 0
         for item in raw_data:
-            model_name = item.get("model", "").lower()
-            if model_name != "club.post":
+            if item.get("model", "").lower() != "club.post":
                 continue
 
             fields = item.get("fields", {})
             title = fields.get("title")
             content = fields.get("content") or fields.get("body") or fields.get("text")
 
-            # STRICT validation: Skip sessions, empty records, or placeholder strings
-            if not title or not content or str(title).strip() == "" or str(title).startswith("Imported Post #"):
+            # CRITICAL: Skip any record without a real title or content. Never generate placeholders.
+            if not title or not content or str(title).startswith("Imported Post #"):
                 continue
 
             slug = fields.get("slug") or slugify(title)
@@ -82,7 +80,7 @@ class Command(BaseCommand):
             
             assigned_author = None
             if author_id is not None:
-                assigned_author = user_pk_map.get(str(author_id)) or user_pk_map.get(author_id)
+                assigned_author = user_pk_map.get(str(author_id))
                 if not assigned_author:
                     try:
                         assigned_author = User.objects.filter(pk=int(author_id)).first()
@@ -101,4 +99,4 @@ class Command(BaseCommand):
             )
             count += 1
 
-        self.stdout.write(self.style.SUCCESS(f"Successfully processed {count} genuine posts."))
+        self.stdout.write(self.style.SUCCESS(f"Successfully processed {count} valid posts."))
