@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 
 class Command(BaseCommand):
-    help = "Safely import users and genuine posts from data.json on a fresh or existing DB"
+    help = "Safely import genuine posts and users from data.json"
 
     def handle(self, *args, **options):
         from club.models import Post
@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 from django.contrib.auth import get_user_model
                 User = get_user_model()
 
-        # 1. Clean up any accidental session/empty posts
+        # Clean up any previously created garbage imported posts
         deleted_count, _ = Post.objects.filter(title__startswith="Imported Post #").delete()
         if deleted_count:
             self.stdout.write(self.style.WARNING(f"Removed {deleted_count} invalid imported posts."))
@@ -34,10 +34,9 @@ class Command(BaseCommand):
             raw_data = json.load(f)
 
         # -------------------------------------------------------------
-        # PASS 1: Sync all User accounts from data.json
+        # PASS 1: Sync Users
         # -------------------------------------------------------------
         user_pk_map = {}
-        user_count = 0
         for item in raw_data:
             model_name = item.get("model", "").lower()
             if model_name in ["club.user", "club.customuser", "auth.user"] or model_name.endswith(".user"):
@@ -63,11 +62,8 @@ class Command(BaseCommand):
                             user_pk_map[int(pk)] = user_obj
                         except (ValueError, TypeError):
                             pass
-                    user_count += 1
 
-        self.stdout.write(self.style.SUCCESS(f"Synced {user_count} user accounts from fixture."))
-
-        # Guarantee a non-null fallback author exists even on a brand-new empty DB
+        # Guarantee a fallback author exists
         fallback_author = User.objects.first()
         if not fallback_author:
             fallback_author = User.objects.create_superuser(
@@ -77,11 +73,12 @@ class Command(BaseCommand):
             )
 
         # -------------------------------------------------------------
-        # PASS 2: Strictly import club.post records only
+        # PASS 2: Import ONLY genuine club.post records
         # -------------------------------------------------------------
         count = 0
         for item in raw_data:
             model_name = item.get("model", "").lower()
+            # STRICT CHECK: Ignore sessions, auth tokens, or anything that isn't a club.post
             if model_name != "club.post":
                 continue
 
@@ -90,10 +87,12 @@ class Command(BaseCommand):
 
             title = fields.get("title")
             content = fields.get("content") or fields.get("body") or fields.get("text")
-            slug = fields.get("slug") or (slugify(title) if title else f"post-{pk}")
-
-            if not title or not content or len(str(content).strip()) < 10:
+            
+            # Skip items without a real title or content (like session tokens)
+            if not title or not content or str(title).startswith("Imported Post #") or len(str(content).strip()) < 10:
                 continue
+
+            slug = fields.get("slug") or slugify(title)
 
             author_id = fields.get("author") or fields.get("user")
             assigned_author = None
@@ -101,12 +100,12 @@ class Command(BaseCommand):
                 if isinstance(author_id, list):
                     author_id = author_id[0] if author_id else None
                 if author_id is not None:
-                    assigned_author = user_pk_map.get(author_id) or user_pk_map.get(str(author_id))
+                    assigned_author = user_pk_map.get(str(author_id)) or user_pk_map.get(author_id)
                     if not assigned_author:
                         try:
                             assigned_author = User.objects.filter(pk=int(author_id)).first()
                         except Exception:
-                            assigned_author = User.objects.filter(username=str(author_id)).first()
+                            pass
 
             final_author = assigned_author or fallback_author
 
@@ -120,14 +119,10 @@ class Command(BaseCommand):
                 if field_name in fields:
                     defaults[field_name] = fields[field_name]
 
-            post, created = Post.objects.update_or_create(
+            Post.objects.update_or_create(
                 slug=slug,
                 defaults=defaults,
             )
-
-            action = "Created" if created else "Updated"
-            author_name = getattr(post.author, "username", str(post.author))
-            self.stdout.write(f"{action} Post: '{title}' -> Author: {author_name}")
             count += 1
 
         self.stdout.write(self.style.SUCCESS(f"Successfully processed {count} genuine posts!"))
