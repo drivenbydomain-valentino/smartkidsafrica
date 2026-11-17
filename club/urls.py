@@ -445,11 +445,6 @@ urlpatterns = [
         views.partner_application,
         name="partner_application",
     ),
-    path(
-        'school/<int:pk>/', 
-        views.school_detail, 
-        name='school_detail'
-    ),
 ]
 
 

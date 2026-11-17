@@ -178,7 +178,7 @@ STORAGES = {
     },
     # Handles static files (CSS/JS) safely
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 

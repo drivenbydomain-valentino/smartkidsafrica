@@ -63,10 +63,6 @@ from django.utils.text import slugify
 from django.shortcuts import render
 from .models import Post
 
-def school_detail(request, pk):
-    school = get_object_or_404(SchoolProfile, pk=pk)
-    return render(request, 'club/school_detail.html', {'school': school})
-
 def home(request):
     """
     Main Smart Kids Africa home/feed page.
