@@ -97,7 +97,7 @@ def reverse_import(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("club", "0010_import_posts"), # or club, 0011_import_posts depending on your latest
+        ('club', '0009_alter_schoolprofile_email'), # or club, 0011_import_posts depending on your latest
     ]
 
     operations = [
