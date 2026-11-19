@@ -19,14 +19,14 @@
         {% if post.image %}
             <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}" />
         {% else %}
-            <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/logo.png' %}" />
+            <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/smartkids_logo.png' %}" />
         {% endif %}
     {% else %}
         <meta property="og:title" content="Smartkids Africa - School Login Portal" />
         <meta property="og:description" content="Access your personalized learning dashboard, assignments, and school resources on Smartkids Africa." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}" />
-        <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/logo.png' %}" />
+        <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'image/smartkids_logo.png' %}" />
     {% endif %}
     {% endblock %}
 
@@ -53,6 +53,10 @@
             overflow-x: hidden;
         }
 
+        body {
+            padding-top: 90px;
+        }
+
         .partners-wrapper {
             margin-top: 20px !important;
             padding-top: 2px !important;
@@ -74,23 +78,45 @@
             padding: 0 !important;
         }
 
+        .partners-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+        }
+
+        .partners-track img {
+            width: auto;
+            max-width: 220px;
+            height: 72px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
         main.custom-container {
             margin-top: 0 !important;
             margin-bottom: 1%;
             padding-top: 0 !important;
-            padding-bottom: 1 !important;
+            padding-bottom: 16px !important;
         }
 
         @media (max-width: 991px) {
+            body {
+                padding-top: 84px;
+            }
+
             .partners-wrapper {
-                margin-top: 76px !important;
+                margin-top: 20px !important;
                 padding-top: 2px !important;
             }
         }
 
         @media (max-width: 580px) {
+            body {
+                padding-top: 78px;
+            }
+
             .partners-wrapper {
-                margin-top: 70px !important;
+                margin-top: 16px !important;
                 padding-top: 2px !important;
                 padding-bottom: 6px !important;
             }
@@ -98,6 +124,11 @@
             .partners-title {
                 font-size: 1.05rem;
                 margin-bottom: 6px !important;
+            }
+
+            .partners-track img {
+                max-width: 160px;
+                height: 54px;
             }
         }
     </style>
@@ -115,7 +146,7 @@
             <h4 class="text-center fw-bold partners-title">Our Trusted Brands</h4>
             <div class="partners-slider">
                 <div class="partners-track">
-                    <img src="{% static 'image/smarttech_logo.png' %}" alt="SmartTech" width="50" height="50">
+                    <img src="{% static 'image/smarttech_logo.png' %}" alt="SmartTech">
                     <img src="{% static 'image/teenafrique_logo.png' %}" alt="Teen Afrique">
                     <img src="{% static 'image/stencil_book.png' %}" alt="Stencil Book">
                     <img src="{% static 'image/smarttech_logo.png' %}" alt="SmartTech">

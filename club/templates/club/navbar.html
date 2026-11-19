@@ -24,7 +24,7 @@
     box-shadow:
         0 3px 12px rgba(0, 0, 0, 0.15);
 
-    position: relative;
+    position: fixed;
 
     z-index: 1050;
 }
@@ -435,7 +435,7 @@
                     </a>
                 </li>
 
-                
+
                 <!-- FINANCE LITERACY -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'club:financeliteracy' %}">
@@ -443,7 +443,7 @@
                     </a>
                 </li>
 
-                
+
                 <!-- STENCIL BOOKS -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'club:stencilbooks' %}">
@@ -504,13 +504,13 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            
+
                             <!-- Unified Avatar Rendering using the new development property -->
-                            <img src="{{ request.user.avatar_url }}" 
-                                 alt="{{ request.user.username }}" 
-                                 class="rounded-circle me-1" 
-                                 style="width: 32px; height: 32px; object-fit: cover;">
-                            
+                            <img src="{{ request.user.avatar_url|default:'/static/image/smartkids_logo.png' }}"
+                                 alt="{{ request.user.username }}"
+                                 class="rounded-circle me-1"
+                                 style="width: 32px; height: 32px; object-fit: cover; background: #ffffff;">
+
                             <span>{{ request.user.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
