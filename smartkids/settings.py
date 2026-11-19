@@ -69,9 +69,8 @@ else:
 # Application Definition & Middleware
 # -----------------------------------------------------------------------------
 INSTALLED_APPS = [
-    # 1. Third-party app overrides
+    # 1. WhiteNoise runserver override (must precede django.contrib.staticfiles)
     'whitenoise.runserver_nostatic',
-    'cloudinary_storage',
 
     # 2. Django core apps
     'django.contrib.admin',
@@ -81,8 +80,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 3. Third-party integrations
+    # 3. Third-party integrations (cloudinary_storage after staticfiles so collectstatic isn't hijacked)
     'cloudinary',
+    'cloudinary_storage',
     'channels',
 
     # 4. Local apps
@@ -159,13 +159,11 @@ LOGIN_REDIRECT_URL = 'club:home'
 # -----------------------------------------------------------------------------
 # Static & Media Files (Cloudinary & WhiteNoise)
 # -----------------------------------------------------------------------------
-STATIC_URL = '/static/'
-
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / "static",
 ]
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Explicit finders configuration to prevent duplicate path collision failures
 STATICFILES_FINDERS = [
