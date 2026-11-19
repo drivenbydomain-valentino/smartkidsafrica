@@ -17,8 +17,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Load SECRET_KEY safely from environment variable with local fallback
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ym4$awhvr8!si9jfxuya7)g7xk5_fv$r(=ydzmxz_&-2lo=p-&')
 
-# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
 AUTH_USER_MODEL = 'club.User'
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
@@ -73,6 +71,7 @@ INSTALLED_APPS = [
     # 1. Third-party app overrides
     'whitenoise.runserver_nostatic',
     'cloudinary_storage',
+    'django_extensions',
 
     # 2. Django core apps
     'django.contrib.admin',
@@ -128,9 +127,13 @@ DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=60,
-        ssl_require=not DEBUG  # Enforces SSL on production Postgres connections
+        ssl_require=not DEBUG
     )
 }
+
+# Prevent SQLite from crashing on Postgres-specific parameters like sslmode
+if DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
+    DATABASES['default'].pop('OPTIONS', None)
 
 # -----------------------------------------------------------------------------
 # Password Validation & Localization
@@ -154,14 +157,21 @@ LOGIN_REDIRECT_URL = 'club:home'
 # Static & Media Files (Cloudinary & WhiteNoise)
 # -----------------------------------------------------------------------------
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'static',
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Explicit finders configuration to prevent duplicate path collision failures
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 CLOUDINARY_STORAGE = {
     'SECURE': True,
@@ -171,11 +181,9 @@ CLOUDINARY_STORAGE = {
 }
 
 STORAGES = {
-    # Handles media files (user uploads) via Cloudinary
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    # Standard static files storage without aggressive background compression
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
@@ -183,6 +191,7 @@ STORAGES = {
 
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 # -----------------------------------------------------------------------------
 # Channels & Redis
 # -----------------------------------------------------------------------------
