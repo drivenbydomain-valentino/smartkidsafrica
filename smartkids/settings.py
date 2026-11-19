@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'club.apps.ClubConfig',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
