@@ -1,3 +1,4 @@
+import importlib.util
 import os
 import tempfile
 from pathlib import Path
@@ -71,7 +72,6 @@ INSTALLED_APPS = [
     # 1. Third-party app overrides
     'whitenoise.runserver_nostatic',
     'cloudinary_storage',
-    'django_extensions',
 
     # 2. Django core apps
     'django.contrib.admin',
@@ -89,6 +89,8 @@ INSTALLED_APPS = [
     'club.apps.ClubConfig',
 ]
 
+if importlib.util.find_spec('django_extensions') and 'django_extensions' not in INSTALLED_APPS:
+    INSTALLED_APPS.append('django_extensions')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -178,7 +180,7 @@ CLOUDINARY_STORAGE = {
     'SECURE': True,
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'sywzvlna'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '862548548812594'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'lklFKOIkxMjLO_B530_yukmAe70'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
 }
 
 STORAGES = {
@@ -186,11 +188,11 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # -----------------------------------------------------------------------------
@@ -222,6 +224,6 @@ EMAIL_HOST = 'smtp.hostinger.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
-EMAIL_HOST_USER = 'mgt@smartkidsafrica.com'
-EMAIL_HOST_PASSWORD = 'Sire@1983'
-DEFAULT_FROM_EMAIL = 'mgt@smartkidsafrica.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'mgt@smartkidsafrica.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'mgt@smartkidsafrica.com')
